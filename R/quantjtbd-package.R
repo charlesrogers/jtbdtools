@@ -170,11 +170,11 @@ change_labeles_to_factors <- function(df){
 #' Calculate JTBD scores
 #'
 #' @param your_data_frame A data frame containing importance and satisfaction data
-#' @param segment_var The segmentation variable
+#' @param col_suffix The segmentation variable
 #'
 #' @return A data frame with calculated JTBD scores
 #' @export
-get_jtbd_scores <- function(your_data_frame, segment_var){
+get_jtbd_scores <- function(your_data_frame, col_suffix = "all"){
   opportunity_columns_group_1 <- find_imp_sat_columns(your_data_frame)
   opportunity_score_group_1 <- calculate_pop_pct_score(opportunity_columns_group_1)
   opportunity_score_group_1 <- split_imp_sat_columns(opportunity_score_group_1)
@@ -182,7 +182,7 @@ get_jtbd_scores <- function(your_data_frame, segment_var){
   opportunity_score_group_1 <- opportunity_score_group_1 %>%
     mutate(opp = if_else(imp < sat, imp, imp + imp - sat)) %>%
     arrange(desc(opp)) %>%
-    mutate(segment_name = segment_var,
+    mutate(segment_name = ifelse(col_suffix == "all", "all", col_suffix),
            rank = rank(desc(opp)))
   opportunity_score_group_1 <- opportunity_score_group_1 %>%
     mutate(opp_index = round(opp / median(opp), 2))
