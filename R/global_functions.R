@@ -1,3 +1,6 @@
+#' @import ggplot2
+#' 
+
 #### Summary Stats ####
 
 get_count <- function(data_frame,col_name){
