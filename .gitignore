@@ -49,4 +49,4 @@ po/*~
 rsconnect/
 
 # Add .cursurroles to the list of ignored files
-.cursurroles
+.cursorrules
