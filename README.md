@@ -1,14 +1,14 @@
-# quantjtbd: Jobs to be Done (JTBD) Analysis Tools
+# jtbdtools: Jobs to be Done (JTBD) Analysis Tools
 
 ## Overview
 
-`quantjtbd` is an R package that provides a comprehensive set of tools for analyzing Jobs to be Done (JTBD) data. It includes functions for calculating opportunity scores, performing segmentation analysis, visualizing JTBD data, and more.
+`jtbdtools` is an R package that provides a comprehensive set of tools for analyzing Jobs to be Done (JTBD) data. It includes functions for calculating opportunity scores, performing segmentation analysis, visualizing JTBD data, and more.
 
 ## Installation
 
-You can install the development version of quantjtbd from GitHub with:
+You can install the development version of jtbdtools from GitHub with:
 
-devtools::install_github("yourusername/quantjtbd")
+devtools::install_github("[yourusername/quantjtbd](https://github.com/charlesrogers/jtbdtools)")
 
 ## Main Functions
 
@@ -21,10 +21,10 @@ devtools::install_github("yourusername/quantjtbd")
 
 ## Usage
 
-Here's a basic example of how to use the `quantjtbd` package:
+Here's a basic example of how to use the `jtbdtools` package:
 
 
-library(quantjtbd)
+library(jtbdtools)
 
 # Load your JTBD data
 ``` r
@@ -63,7 +63,7 @@ print(batch_scores)
 
 ## Contributing
 
-Contributions to `quantjtbd` are welcome. Please feel free to submit a Pull Request.
+Contributions to `jtbdtools` are welcome. Please feel free to submit a Pull Request.
 
 ## License
 
