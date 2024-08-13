@@ -1,4 +1,4 @@
-#' quantjtbd: A package for Jobs to be Done (JTBD) analysis
+#' jtbdtools: A package for Jobs to be Done (JTBD) analysis
 #'
 #' This package provides functions for analyzing Jobs to be Done (JTBD) data,
 #' including opportunity scoring, segmentation, and visualization.
@@ -14,7 +14,7 @@
 #' }
 #'
 #' @docType package
-#' @name quantjtbd
+#' @name jtbdtools
 #' @import ggplot2
 #' @importFrom dplyr mutate group_by count select filter rename %>%
 #' @importFrom tidyr pivot_wider pivot_longer separate

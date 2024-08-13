@@ -8,7 +8,7 @@
 
 You can install the development version of jtbdtools from GitHub with:
 
-devtools::install_github("[yourusername/quantjtbd](https://github.com/charlesrogers/jtbdtools)")
+devtools::install_github("[charlesrogers/jtbdtools](https://github.com/charlesrogers/jtbdtools)")
 
 ## Main Functions
 
