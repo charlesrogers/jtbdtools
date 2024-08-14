@@ -4,12 +4,12 @@
 \alias{get_jtbd_scores}
 \title{Calculate JTBD scores}
 \usage{
-get_jtbd_scores(your_data_frame, segment_var)
+get_jtbd_scores(your_data_frame, col_suffix = "all")
 }
 \arguments{
 \item{your_data_frame}{A data frame containing importance and satisfaction data}
 
-\item{segment_var}{The segmentation variable}
+\item{col_suffix}{The segmentation variable}
 }
 \value{
 A data frame with calculated JTBD scores
