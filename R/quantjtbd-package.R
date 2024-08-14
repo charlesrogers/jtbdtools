@@ -295,26 +295,6 @@ get_jtbd_var_values.list <- function(data_frame, segmentation_column){
   return(list.cut)
 }
 
-#' Get JTBD variable values list (300+ occurrences)
-#'
-#' @param data_frame A data frame containing the segmentation column
-#' @param segmentation_column The name of the segmentation column
-#'
-#' @return A list of unique values from the segmentation column with more than 300 occurrences
-#' @export
-get_jtbd_var_values.list.300 <- function(data_frame, segmentation_column){
-  list <- data_frame %>%
-    group_by(!!as.name(segmentation_column)) %>%
-    count() %>%
-    filter(n > 300) %>%
-    filter(!is.na(!!as.name(segmentation_column))) %>%
-    select(!!as.name(segmentation_column)) %>%
-    unique() %>% deframe()
-  print(list[1])
-  list.cut <- list[-1]
-  return(list.cut)
-}
-
 #' Calculate JTBD scores for multiple segments
 #'
 #' @param master_table The main data frame to update
@@ -343,6 +323,40 @@ get_jtbd_scores.batch <- function(master_table, data_frame, merged_df_and_segmen
       left_join(truncated_list)
   }
   return(master_table)
+}
+
+#' Calculate JTBD scores for comparison
+#'
+#' This function combines the functionality of get_jtbd_var_values.list and get_jtbd_scores
+#' to simplify the process of calculating JTBD scores for comparison.
+#'
+#' @param data_frame The data frame containing JTBD data
+#' @param segmentation_column The name of the column used for segmentation
+#'
+#' @return An updated master table with JTBD scores for each segment
+#' @export
+get_jtbd_scores.comparison <- function(data_frame, segmentation_column) {
+  # Get the list of unique segments
+  segments_list <- get_jtbd_var_values.list(data_frame, segmentation_column)
+  
+  # Get the static segment (first item in the list)
+  static_segment <- data_frame %>%
+    pull(!!as.name(segmentation_column)) %>%
+    unique() %>%
+    .[1]
+  
+  # Calculate scores for all segments
+  result <- get_jtbd_scores(data_frame, col_suffix = "all")
+  
+  # Calculate scores for each segment
+  for (segment in segments_list) {
+    segment_data <- data_frame %>% filter(!!as.name(segmentation_column) == segment)
+    segment_scores <- get_jtbd_scores(segment_data, col_suffix = segment)
+    result <- result %>% 
+      left_join(segment_scores %>% select(-starts_with("all")), by = c("job_step", "objective"))
+  }
+  
+  return(result)
 }
 
 #' Calculate JTBD scores for a pair of segments
