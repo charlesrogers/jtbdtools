@@ -25,3 +25,7 @@ Imports:
   stringr (>= 1.4.0),
   tidyr (>= 1.1.0),
   purrr (>= 0.3.0)
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr

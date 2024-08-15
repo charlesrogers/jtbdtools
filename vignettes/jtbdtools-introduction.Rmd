@@ -1,0 +1,65 @@
+---
+title: "Introduction to JTBDtools"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to JTBDtools}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+
+## Introduction
+
+JTBDtools is an R package designed to facilitate Jobs to be Done (JTBD) analysis. This vignette will guide you through the main functions of the package and demonstrate how to use them effectively.
+
+## Installation
+
+You can install the development version of JTBDtools from GitHub with:
+
+```
+{r, eval = FALSE}
+install.packages("devtools")
+devtools::install_github("charlesrogers/jtbdtools")
+```
+
+## Loading the Package
+
+Once installed, you can load the package:
+
+## Usage
+
+```{r setup}
+library(jtbdtools)
+```
+
+
+## Main Functions
+
+### get_jtbd_scores()
+
+This function calculates JTBD scores for a single segment.
+
+```{r, eval = FALSE}
+scores <- get_jtbd_scores(your_data_frame, "segment_column")
+```
+
+### get_jtbd_scores.comparison()
+
+This function simplifies the process of calculating JTBD scores for multiple segments.
+
+```{r, eval = FALSE}
+comparison_scores <- get_jtbd_scores.comparison(your_data_frame, "segmentation_column")
+```
+
+## Conclusion
+
+JTBDtools provides a comprehensive set of functions for JTBD analysis. By following this guide, you should be able to perform basic analyses and visualizations of your JTBD data.
+
+For more detailed information on each function, please refer to the function documentation by using `?function_name` in the R console.

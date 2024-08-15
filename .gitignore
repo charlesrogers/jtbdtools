@@ -50,3 +50,7 @@ rsconnect/
 
 # Add .cursurroles to the list of ignored files
 .cursorrules
+
+# Add .cursurroles to the list of ignored files
+.helper
+inst/doc
