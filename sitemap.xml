@@ -16,6 +16,7 @@
 <url><loc>https://charlesrogers.github.io/jtbdtools/reference/convert_labels_to_row_names.html</loc></url>
 <url><loc>https://charlesrogers.github.io/jtbdtools/reference/create.job_step.table.html</loc></url>
 <url><loc>https://charlesrogers.github.io/jtbdtools/reference/create.pct.table.html</loc></url>
+<url><loc>https://charlesrogers.github.io/jtbdtools/reference/detect_imp_sat.html</loc></url>
 <url><loc>https://charlesrogers.github.io/jtbdtools/reference/find_imp_sat_columns.html</loc></url>
 <url><loc>https://charlesrogers.github.io/jtbdtools/reference/get.normalized_scores.html</loc></url>
 <url><loc>https://charlesrogers.github.io/jtbdtools/reference/get.percent_of_max.html</loc></url>
@@ -46,12 +47,17 @@
 <url><loc>https://charlesrogers.github.io/jtbdtools/reference/plot_this.group.plotable.html</loc></url>
 <url><loc>https://charlesrogers.github.io/jtbdtools/reference/plot_this.pairwise.plotable.html</loc></url>
 <url><loc>https://charlesrogers.github.io/jtbdtools/reference/prep_data.html</loc></url>
+<url><loc>https://charlesrogers.github.io/jtbdtools/reference/prep_qualtrics.html</loc></url>
+<url><loc>https://charlesrogers.github.io/jtbdtools/reference/prep_survey.html</loc></url>
+<url><loc>https://charlesrogers.github.io/jtbdtools/reference/read_qualtrics.html</loc></url>
 <url><loc>https://charlesrogers.github.io/jtbdtools/reference/remove_data_prefix.html</loc></url>
 <url><loc>https://charlesrogers.github.io/jtbdtools/reference/remove_data_suffix.html</loc></url>
 <url><loc>https://charlesrogers.github.io/jtbdtools/reference/remove_weird_text_formatting.jtbd.html</loc></url>
 <url><loc>https://charlesrogers.github.io/jtbdtools/reference/replace_spaces_with_underscores.html</loc></url>
 <url><loc>https://charlesrogers.github.io/jtbdtools/reference/split_imp_sat_columns.html</loc></url>
+<url><loc>https://charlesrogers.github.io/jtbdtools/reference/test_segment_significance.html</loc></url>
 <url><loc>https://charlesrogers.github.io/jtbdtools/reference/theme.job_step.html</loc></url>
 <url><loc>https://charlesrogers.github.io/jtbdtools/reference/theme_jtbd.html</loc></url>
+<url><loc>https://charlesrogers.github.io/jtbdtools/reference/validate_jtbd_data.html</loc></url>
 </urlset>
 

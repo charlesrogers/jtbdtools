@@ -59,10 +59,20 @@ Publication-ready gt tables
 - [`create.pct.table()`](https://charlesrogers.github.io/jtbdtools/reference/create.pct.table.md)
   : Create percentage table
 
-## Data Preparation
+## Import & Data Prep
 
-Prepare survey data for analysis
+Import survey data and prepare for analysis
 
+- [`prep_qualtrics()`](https://charlesrogers.github.io/jtbdtools/reference/prep_qualtrics.md)
+  : Prepare Qualtrics survey data for JTBD analysis
+- [`prep_survey()`](https://charlesrogers.github.io/jtbdtools/reference/prep_survey.md)
+  : Prepare survey data for JTBD analysis
+- [`read_qualtrics()`](https://charlesrogers.github.io/jtbdtools/reference/read_qualtrics.md)
+  : Read a Qualtrics CSV export
+- [`detect_imp_sat()`](https://charlesrogers.github.io/jtbdtools/reference/detect_imp_sat.md)
+  : Detect importance and satisfaction columns
+- [`validate_jtbd_data()`](https://charlesrogers.github.io/jtbdtools/reference/validate_jtbd_data.md)
+  : Validate JTBD data format
 - [`prep_data()`](https://charlesrogers.github.io/jtbdtools/reference/prep_data.md)
   : Prepare data for analysis
 - [`build_imp_column_names()`](https://charlesrogers.github.io/jtbdtools/reference/build_imp_column_names.md)
@@ -80,12 +90,14 @@ Prepare survey data for analysis
 - [`change_labeles_to_factors()`](https://charlesrogers.github.io/jtbdtools/reference/change_labeles_to_factors.md)
   : Change labelled data to factors
 
-## Segmentation
+## Segmentation & Significance
 
-Compare scores across segments
+Compare scores across segments with statistical testing
 
 - [`get_jtbd_var_values.list()`](https://charlesrogers.github.io/jtbdtools/reference/get_jtbd_var_values.list.md)
   : Get unique segment values
+- [`test_segment_significance()`](https://charlesrogers.github.io/jtbdtools/reference/test_segment_significance.md)
+  : Test statistical significance between two segments
 - [`get_jtbd_segment.comp.ordinal()`](https://charlesrogers.github.io/jtbdtools/reference/get_jtbd_segment.comp.ordinal.md)
   : Get JTBD segment comparison: ordinal
 - [`get_jtbd_segment.comp_and_plot()`](https://charlesrogers.github.io/jtbdtools/reference/get_jtbd_segment.comp_and_plot.md)

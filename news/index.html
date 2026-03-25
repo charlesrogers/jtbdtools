@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">jtbdtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,6 +33,26 @@
       <small>Source: <a href="https://github.com/charlesrogers/jtbdtools/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.2.0" id="jtbdtools-020">jtbdtools 0.2.0<a class="anchor" aria-label="anchor" href="#jtbdtools-020"></a></h2>
+<div class="section level3">
+<h3 id="statistical-significance-0-2-0">Statistical Significance<a class="anchor" aria-label="anchor" href="#statistical-significance-0-2-0"></a></h3>
+<ul><li>New <code><a href="../reference/test_segment_significance.html">test_segment_significance()</a></code>: Wilcoxon rank-sum (Mann-Whitney U) test between segments on raw Likert responses</li>
+<li>
+<code><a href="../reference/get_jtbd_scores.comparison.html">get_jtbd_scores.comparison()</a></code> gains <code>test_sig</code> parameter: adds p-value columns per segment when TRUE</li>
+<li>Warns on small sample sizes (n &lt; 5)</li>
+</ul></div>
+<div class="section level3">
+<h3 id="qualtrics-import--data-prep-0-2-0">Qualtrics Import &amp; Data Prep<a class="anchor" aria-label="anchor" href="#qualtrics-import--data-prep-0-2-0"></a></h3>
+<ul><li>New <code><a href="../reference/prep_qualtrics.html">prep_qualtrics()</a></code>: one-line import from Qualtrics CSV to analysis-ready data frame</li>
+<li>New <code><a href="../reference/read_qualtrics.html">read_qualtrics()</a></code>: handles Qualtrics 3-row header format, strips metadata columns</li>
+<li>New <code><a href="../reference/detect_imp_sat.html">detect_imp_sat()</a></code>: auto-detects importance/satisfaction columns from question text patterns</li>
+<li>New <code><a href="../reference/prep_survey.html">prep_survey()</a></code>: universal data prep for any survey source (CSV, Google Forms, etc.)</li>
+<li>New <code><a href="../reference/validate_jtbd_data.html">validate_jtbd_data()</a></code>: checks format before scoring with diagnostic messages</li>
+<li>Sample Qualtrics CSV included at <code>inst/extdata/sample_qualtrics.csv</code>
+</li>
+</ul><hr></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.0" id="jtbdtools-010">jtbdtools 0.1.0<a class="anchor" aria-label="anchor" href="#jtbdtools-010"></a></h2>
 <p>Initial public release.</p>

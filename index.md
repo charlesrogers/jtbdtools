@@ -91,37 +91,61 @@ data(jtbd_sample)
 # Calculate opportunity scores
 scores <- get_jtbd_scores(jtbd_sample)
 
-# Compare across segments
-comparison <- get_jtbd_scores.comparison(jtbd_sample, "segment")
+# Compare across segments with statistical significance
+comparison <- get_jtbd_scores.comparison(jtbd_sample, "segment", test_sig = TRUE)
 
 # Visualize
 plot_opportunity_matrix(scores, show_zones = TRUE)
 ```
 
+### From Qualtrics to Insights in 3 Lines
+
+``` r
+# Import directly from Qualtrics CSV
+ready <- prep_qualtrics("my_survey.csv",
+  job_steps = list(researching = 1:4, purchasing = 5:8),
+  segment_col = "Q_segment"
+)
+
+# Score with significance testing
+scores <- get_jtbd_scores(ready)
+comparison <- get_jtbd_scores.comparison(ready, "Q_segment", test_sig = TRUE)
+```
+
+Also works with any CSV via
+[`prep_survey()`](https://charlesrogers.github.io/jtbdtools/reference/prep_survey.md)
+— just point it at your importance and satisfaction columns.
+
 ## Functions
 
-| Category          | Function                                                                                                                  | Description                                  |
-|-------------------|---------------------------------------------------------------------------------------------------------------------------|----------------------------------------------|
-| **Scoring**       | [`get_jtbd_scores()`](https://charlesrogers.github.io/jtbdtools/reference/get_jtbd_scores.md)                             | Calculate imp/sat/opp scores for a dataset   |
-|                   | [`get_jtbd_scores.comparison()`](https://charlesrogers.github.io/jtbdtools/reference/get_jtbd_scores.comparison.md)       | Compare scores across segments               |
-|                   | [`get_jtbd_scores.pairwise()`](https://charlesrogers.github.io/jtbdtools/reference/get_jtbd_scores.pairwise.md)           | Head-to-head comparison of two segments      |
-|                   | [`calculate_opportunity_score()`](https://charlesrogers.github.io/jtbdtools/reference/calculate_opportunity_score.md)     | Core ODI formula                             |
-| **Visualization** | [`plot_opportunity_matrix()`](https://charlesrogers.github.io/jtbdtools/reference/plot_opportunity_matrix.md)             | Importance x Satisfaction scatter with zones |
-|                   | [`plot_cleveland()`](https://charlesrogers.github.io/jtbdtools/reference/plot_cleveland.md)                               | Lollipop chart for segment comparison        |
-|                   | [`plot_this.graph.rel_score()`](https://charlesrogers.github.io/jtbdtools/reference/plot_this.graph.rel_score.md)         | Relative score bump chart                    |
-|                   | [`plot_this.graph.abs_score()`](https://charlesrogers.github.io/jtbdtools/reference/plot_this.graph.abs_score.md)         | Absolute score bump chart                    |
-|                   | [`theme_jtbd()`](https://charlesrogers.github.io/jtbdtools/reference/theme_jtbd.md)                                       | Consistent ggplot2 theme for all charts      |
-|                   | [`jtbd_colors()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_colors.md)                                     | Named color palette                          |
-| **Tables**        | [`gt_theme_jtbd()`](https://charlesrogers.github.io/jtbdtools/reference/gt_theme_jtbd.md)                                 | Branded gt table theme with heat mapping     |
-|                   | [`theme.job_step()`](https://charlesrogers.github.io/jtbdtools/reference/theme.job_step.md)                               | Publication-ready gt table                   |
-|                   | [`create.job_step.table()`](https://charlesrogers.github.io/jtbdtools/reference/create.job_step.table.md)                 | Filter + format + save as PNG                |
-|                   | [`create.pct.table()`](https://charlesrogers.github.io/jtbdtools/reference/create.pct.table.md)                           | Frequency table with bar charts              |
-| **Data Prep**     | [`prep_data()`](https://charlesrogers.github.io/jtbdtools/reference/prep_data.md)                                         | Full SPSS data cleaning pipeline             |
-|                   | [`build_imp_column_names()`](https://charlesrogers.github.io/jtbdtools/reference/build_imp_column_names.md)               | Rename columns to `imp__step.objective`      |
-|                   | [`build_sat_column_names()`](https://charlesrogers.github.io/jtbdtools/reference/build_sat_column_names.md)               | Rename columns to `sat__step.objective`      |
-| **Analysis**      | [`get.normalized_scores()`](https://charlesrogers.github.io/jtbdtools/reference/get.normalized_scores.md)                 | Min-max normalize within segments            |
-|                   | [`get.percent_of_max()`](https://charlesrogers.github.io/jtbdtools/reference/get.percent_of_max.md)                       | Percent-of-segment-max scoring               |
-|                   | [`get_jtbd_segment.comp.ordinal()`](https://charlesrogers.github.io/jtbdtools/reference/get_jtbd_segment.comp.ordinal.md) | Rank-based segment comparison                |
+| Category             | Function                                                                                                                  | Description                                  |
+|----------------------|---------------------------------------------------------------------------------------------------------------------------|----------------------------------------------|
+| **Scoring**          | [`get_jtbd_scores()`](https://charlesrogers.github.io/jtbdtools/reference/get_jtbd_scores.md)                             | Calculate imp/sat/opp scores for a dataset   |
+|                      | [`get_jtbd_scores.comparison()`](https://charlesrogers.github.io/jtbdtools/reference/get_jtbd_scores.comparison.md)       | Compare scores across segments               |
+|                      | [`get_jtbd_scores.pairwise()`](https://charlesrogers.github.io/jtbdtools/reference/get_jtbd_scores.pairwise.md)           | Head-to-head comparison of two segments      |
+|                      | [`calculate_opportunity_score()`](https://charlesrogers.github.io/jtbdtools/reference/calculate_opportunity_score.md)     | Core ODI formula                             |
+| **Visualization**    | [`plot_opportunity_matrix()`](https://charlesrogers.github.io/jtbdtools/reference/plot_opportunity_matrix.md)             | Importance x Satisfaction scatter with zones |
+|                      | [`plot_cleveland()`](https://charlesrogers.github.io/jtbdtools/reference/plot_cleveland.md)                               | Lollipop chart for segment comparison        |
+|                      | [`plot_this.graph.rel_score()`](https://charlesrogers.github.io/jtbdtools/reference/plot_this.graph.rel_score.md)         | Relative score bump chart                    |
+|                      | [`plot_this.graph.abs_score()`](https://charlesrogers.github.io/jtbdtools/reference/plot_this.graph.abs_score.md)         | Absolute score bump chart                    |
+|                      | [`theme_jtbd()`](https://charlesrogers.github.io/jtbdtools/reference/theme_jtbd.md)                                       | Consistent ggplot2 theme for all charts      |
+|                      | [`jtbd_colors()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_colors.md)                                     | Named color palette                          |
+| **Tables**           | [`gt_theme_jtbd()`](https://charlesrogers.github.io/jtbdtools/reference/gt_theme_jtbd.md)                                 | Branded gt table theme with heat mapping     |
+|                      | [`theme.job_step()`](https://charlesrogers.github.io/jtbdtools/reference/theme.job_step.md)                               | Publication-ready gt table                   |
+|                      | [`create.job_step.table()`](https://charlesrogers.github.io/jtbdtools/reference/create.job_step.table.md)                 | Filter + format + save as PNG                |
+|                      | [`create.pct.table()`](https://charlesrogers.github.io/jtbdtools/reference/create.pct.table.md)                           | Frequency table with bar charts              |
+| **Import**           | [`prep_qualtrics()`](https://charlesrogers.github.io/jtbdtools/reference/prep_qualtrics.md)                               | Qualtrics CSV to analysis-ready in one call  |
+|                      | [`prep_survey()`](https://charlesrogers.github.io/jtbdtools/reference/prep_survey.md)                                     | Universal data prep for any source           |
+|                      | [`read_qualtrics()`](https://charlesrogers.github.io/jtbdtools/reference/read_qualtrics.md)                               | Read Qualtrics CSV (handles metadata rows)   |
+|                      | [`detect_imp_sat()`](https://charlesrogers.github.io/jtbdtools/reference/detect_imp_sat.md)                               | Auto-detect importance/satisfaction columns  |
+|                      | [`validate_jtbd_data()`](https://charlesrogers.github.io/jtbdtools/reference/validate_jtbd_data.md)                       | Check data format before scoring             |
+| **Stat Sig**         | [`test_segment_significance()`](https://charlesrogers.github.io/jtbdtools/reference/test_segment_significance.md)         | Wilcoxon rank-sum test between segments      |
+| **Legacy Data Prep** | [`prep_data()`](https://charlesrogers.github.io/jtbdtools/reference/prep_data.md)                                         | SPSS data cleaning pipeline                  |
+|                      | [`build_imp_column_names()`](https://charlesrogers.github.io/jtbdtools/reference/build_imp_column_names.md)               | Rename columns to `imp__step.objective`      |
+|                      | [`build_sat_column_names()`](https://charlesrogers.github.io/jtbdtools/reference/build_sat_column_names.md)               | Rename columns to `sat__step.objective`      |
+| **Analysis**         | [`get.normalized_scores()`](https://charlesrogers.github.io/jtbdtools/reference/get.normalized_scores.md)                 | Min-max normalize within segments            |
+|                      | [`get.percent_of_max()`](https://charlesrogers.github.io/jtbdtools/reference/get.percent_of_max.md)                       | Percent-of-segment-max scoring               |
+|                      | [`get_jtbd_segment.comp.ordinal()`](https://charlesrogers.github.io/jtbdtools/reference/get_jtbd_segment.comp.ordinal.md) | Rank-based segment comparison                |
 
 ## Data Format
 

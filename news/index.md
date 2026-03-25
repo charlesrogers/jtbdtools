@@ -1,5 +1,39 @@
 # Changelog
 
+## jtbdtools 0.2.0
+
+### Statistical Significance
+
+- New
+  [`test_segment_significance()`](https://charlesrogers.github.io/jtbdtools/reference/test_segment_significance.md):
+  Wilcoxon rank-sum (Mann-Whitney U) test between segments on raw Likert
+  responses
+- [`get_jtbd_scores.comparison()`](https://charlesrogers.github.io/jtbdtools/reference/get_jtbd_scores.comparison.md)
+  gains `test_sig` parameter: adds p-value columns per segment when TRUE
+- Warns on small sample sizes (n \< 5)
+
+### Qualtrics Import & Data Prep
+
+- New
+  [`prep_qualtrics()`](https://charlesrogers.github.io/jtbdtools/reference/prep_qualtrics.md):
+  one-line import from Qualtrics CSV to analysis-ready data frame
+- New
+  [`read_qualtrics()`](https://charlesrogers.github.io/jtbdtools/reference/read_qualtrics.md):
+  handles Qualtrics 3-row header format, strips metadata columns
+- New
+  [`detect_imp_sat()`](https://charlesrogers.github.io/jtbdtools/reference/detect_imp_sat.md):
+  auto-detects importance/satisfaction columns from question text
+  patterns
+- New
+  [`prep_survey()`](https://charlesrogers.github.io/jtbdtools/reference/prep_survey.md):
+  universal data prep for any survey source (CSV, Google Forms, etc.)
+- New
+  [`validate_jtbd_data()`](https://charlesrogers.github.io/jtbdtools/reference/validate_jtbd_data.md):
+  checks format before scoring with diagnostic messages
+- Sample Qualtrics CSV included at `inst/extdata/sample_qualtrics.csv`
+
+------------------------------------------------------------------------
+
 ## jtbdtools 0.1.0
 
 Initial public release.
