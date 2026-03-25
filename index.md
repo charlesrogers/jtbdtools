@@ -83,36 +83,52 @@ decks:
 
 Discover segments from the data itself — groups of people with shared
 unmet needs that don’t map to demographics. This is the core of
-Outcome-Driven Innovation.
+[Outcome-Driven
+Innovation](https://redlandroad.com/outcome-driven-innovation/).
 
-### Respondent Clusters in PCA Space
+``` r
+result <- jtbd_segment(jtbd_sample, n_clusters = 3)
+```
 
-PCA reduces objectives to themes, then K-Means finds natural groupings:
+### Step 1: Find Outcome Themes (PCA)
+
+PCA finds combinations of objectives that vary together, revealing
+broader customer themes. Kaiser rule retains components with eigenvalue
+\> 1:
+
+![PCA scree plot](reference/figures/readme-pca-scree.png)
+
+The loadings show which objectives define each theme — Component 1 is
+driven by “Avoid Unexpected Costs” and “Evaluate Options”:
+
+![PCA component loadings](reference/figures/readme-pca-loadings.png)
+
+### Step 2: Find the Right Number of Clusters
+
+Evaluate multiple cluster solutions. Silhouette score measures
+separation quality, WCSS measures tightness:
+
+![Elbow and silhouette plot](reference/figures/readme-elbow.png)
+
+### Step 3: Discover Segments
+
+K-Means clusters respondents in PCA space. Each color is a discovered
+segment with distinct unmet needs:
 
 ![PCA biplot with clusters](reference/figures/readme-pca-biplot.png)
 
-### Cluster Opportunity Heatmap
+### Step 4: Profile the Segments
 
-Compare opportunity scores across discovered segments. Segment 3 has
-extreme unmet needs on purchasing objectives (18.3) while Segment 1 is
-relatively satisfied:
+The payoff — opportunity scores per discovered segment with statistical
+significance. Segment 3 has extreme unmet needs on purchasing (18.3)
+while Segment 1 is relatively satisfied (4.8):
 
 ![Cluster opportunity
 heatmap](reference/figures/readme-cluster-heatmap.png)
 
-### PCA Scree Plot
-
-Kaiser rule selects components with eigenvalue \> 1 to determine how
-many outcome themes exist:
-
-![PCA scree plot](reference/figures/readme-pca-scree.png)
-
-``` r
-# Discover segments in 3 lines
-data(jtbd_sample)
-result <- jtbd_segment(jtbd_sample, n_clusters = 3)
-plot_cluster_heatmap(result$profile)
-```
+These discovered segments plug directly into all existing comparison
+functions — Cleveland plots, divergence charts, gt tables, and
+significance testing all work automatically.
 
 ------------------------------------------------------------------------
 

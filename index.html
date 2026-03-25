@@ -116,29 +116,35 @@
 <div class="section level2">
 <h2 id="outcome-based-segmentation-pca--k-means">Outcome-Based Segmentation (PCA + K-Means)<a class="anchor" aria-label="anchor" href="#outcome-based-segmentation-pca--k-means"></a>
 </h2>
-<p>Discover segments from the data itself — groups of people with shared unmet needs that don’t map to demographics. This is the core of Outcome-Driven Innovation.</p>
+<p>Discover segments from the data itself — groups of people with shared unmet needs that don’t map to demographics. This is the core of <a href="https://redlandroad.com/outcome-driven-innovation/" class="external-link">Outcome-Driven Innovation</a>.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/jtbd_segment.html">jtbd_segment</a></span><span class="op">(</span><span class="va">jtbd_sample</span>, n_clusters <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
-<h3 id="respondent-clusters-in-pca-space">Respondent Clusters in PCA Space<a class="anchor" aria-label="anchor" href="#respondent-clusters-in-pca-space"></a>
+<h3 id="step-1-find-outcome-themes-pca">Step 1: Find Outcome Themes (PCA)<a class="anchor" aria-label="anchor" href="#step-1-find-outcome-themes-pca"></a>
 </h3>
-<p>PCA reduces objectives to themes, then K-Means finds natural groupings:</p>
+<p>PCA finds combinations of objectives that vary together, revealing broader customer themes. Kaiser rule retains components with eigenvalue &gt; 1:</p>
+<p><img src="reference/figures/readme-pca-scree.png" width="650" alt="PCA scree plot"></p>
+<p>The loadings show which objectives define each theme — Component 1 is driven by “Avoid Unexpected Costs” and “Evaluate Options”:</p>
+<p><img src="reference/figures/readme-pca-loadings.png" width="650" alt="PCA component loadings"></p>
+</div>
+<div class="section level3">
+<h3 id="step-2-find-the-right-number-of-clusters">Step 2: Find the Right Number of Clusters<a class="anchor" aria-label="anchor" href="#step-2-find-the-right-number-of-clusters"></a>
+</h3>
+<p>Evaluate multiple cluster solutions. Silhouette score measures separation quality, WCSS measures tightness:</p>
+<p><img src="reference/figures/readme-elbow.png" width="650" alt="Elbow and silhouette plot"></p>
+</div>
+<div class="section level3">
+<h3 id="step-3-discover-segments">Step 3: Discover Segments<a class="anchor" aria-label="anchor" href="#step-3-discover-segments"></a>
+</h3>
+<p>K-Means clusters respondents in PCA space. Each color is a discovered segment with distinct unmet needs:</p>
 <p><img src="reference/figures/readme-pca-biplot.png" width="600" alt="PCA biplot with clusters"></p>
 </div>
 <div class="section level3">
-<h3 id="cluster-opportunity-heatmap">Cluster Opportunity Heatmap<a class="anchor" aria-label="anchor" href="#cluster-opportunity-heatmap"></a>
+<h3 id="step-4-profile-the-segments">Step 4: Profile the Segments<a class="anchor" aria-label="anchor" href="#step-4-profile-the-segments"></a>
 </h3>
-<p>Compare opportunity scores across discovered segments. Segment 3 has extreme unmet needs on purchasing objectives (18.3) while Segment 1 is relatively satisfied:</p>
+<p>The payoff — opportunity scores per discovered segment with statistical significance. Segment 3 has extreme unmet needs on purchasing (18.3) while Segment 1 is relatively satisfied (4.8):</p>
 <p><img src="reference/figures/readme-cluster-heatmap.png" width="650" alt="Cluster opportunity heatmap"></p>
-</div>
-<div class="section level3">
-<h3 id="pca-scree-plot">PCA Scree Plot<a class="anchor" aria-label="anchor" href="#pca-scree-plot"></a>
-</h3>
-<p>Kaiser rule selects components with eigenvalue &gt; 1 to determine how many outcome themes exist:</p>
-<p><img src="reference/figures/readme-pca-scree.png" width="650" alt="PCA scree plot"></p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Discover segments in 3 lines</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">jtbd_sample</span><span class="op">)</span></span>
-<span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/jtbd_segment.html">jtbd_segment</a></span><span class="op">(</span><span class="va">jtbd_sample</span>, n_clusters <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
-<span><span class="fu"><a href="reference/plot_cluster_heatmap.html">plot_cluster_heatmap</a></span><span class="op">(</span><span class="va">result</span><span class="op">$</span><span class="va">profile</span><span class="op">)</span></span></code></pre></div>
+<p>These discovered segments plug directly into all existing comparison functions — Cleveland plots, divergence charts, gt tables, and significance testing all work automatically.</p>
 <hr>
 </div>
 </div>
