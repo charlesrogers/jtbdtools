@@ -56,30 +56,61 @@
 <div class="section level2">
 <h2 id="the-formula">The Formula<a class="anchor" aria-label="anchor" href="#the-formula"></a>
 </h2>
-<p>The ODI opportunity score measures unmet customer needs:</p>
 <pre><code><span><span class="va">opportunity</span> <span class="op">=</span> <span class="va">importance</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fl">0</span>, <span class="va">importance</span> <span class="op">-</span> <span class="va">satisfaction</span><span class="op">)</span></span></code></pre>
 <p>When importance exceeds satisfaction, the gap amplifies the score. When users are already satisfied, opportunity equals importance (the floor). Scores range 0-20; anything above 10 is a high-opportunity outcome.</p>
+<hr>
 </div>
 <div class="section level2">
 <h2 id="what-you-get">What You Get<a class="anchor" aria-label="anchor" href="#what-you-get"></a>
 </h2>
 <div class="section level3">
-<h3 id="segment-comparison-tables">Segment comparison tables<a class="anchor" aria-label="anchor" href="#segment-comparison-tables"></a>
+<h3 id="strategic-priority-quadrant">Strategic Priority Quadrant<a class="anchor" aria-label="anchor" href="#strategic-priority-quadrant"></a>
 </h3>
-<p>Compare opportunity scores across user segments to find where specific groups are underserved:</p>
-<p><img src="reference/figures/readme-segment-table.png" width="600" alt="Segment comparison table"></p>
+<p>Where should you focus? High importance + low satisfaction = act now.</p>
+<p><img src="reference/figures/readme-quadrant.png" width="700" alt="Strategic priority quadrant"></p>
 </div>
 <div class="section level3">
-<h3 id="opportunity-matrix">Opportunity matrix<a class="anchor" aria-label="anchor" href="#opportunity-matrix"></a>
+<h3 id="the-opportunity-gap">The Opportunity Gap<a class="anchor" aria-label="anchor" href="#the-opportunity-gap"></a>
 </h3>
-<p>The classic ODI scatter plot with zone annotations. High importance + low satisfaction = high opportunity (red). Use <code>show_zones = TRUE</code> to add Under-Served / Appropriately-Served / Over-Served reference lines:</p>
+<p>See the gap between what users need and what they have. Wider gap = bigger opportunity.</p>
+<p><img src="reference/figures/readme-gap-chart.png" width="700" alt="Importance vs satisfaction gap chart"></p>
+</div>
+<div class="section level3">
+<h3 id="opportunity-heatmap-by-segment">Opportunity Heatmap by Segment<a class="anchor" aria-label="anchor" href="#opportunity-heatmap-by-segment"></a>
+</h3>
+<p>Spot segment-specific pain at a glance. Power users are underserved on “Avoid Unexpected Costs” (18.1) while casuals barely feel it (8.5).</p>
+<p><img src="reference/figures/readme-heatmap.png" width="650" alt="Opportunity heatmap across segments"></p>
+</div>
+<div class="section level3">
+<h3 id="opportunity-matrix-with-zone-annotations">Opportunity Matrix with Zone Annotations<a class="anchor" aria-label="anchor" href="#opportunity-matrix-with-zone-annotations"></a>
+</h3>
+<p>The classic ODI scatter plot with Under-Served, Appropriately-Served, Over-Served, and Table Stakes zones:</p>
 <p><img src="reference/figures/readme-opportunity-matrix-zones.png" width="700" alt="Opportunity score matrix with zones"></p>
 </div>
 <div class="section level3">
-<h3 id="ranked-opportunity-scores">Ranked opportunity scores<a class="anchor" aria-label="anchor" href="#ranked-opportunity-scores"></a>
+<h3 id="priority-ranking">Priority Ranking<a class="anchor" aria-label="anchor" href="#priority-ranking"></a>
 </h3>
-<p>Instantly see which outcomes have the highest unmet need:</p>
-<p><img src="reference/figures/readme-top-opportunities.png" width="600" alt="Top opportunity scores"></p>
+<p>All objectives ranked by opportunity score, color-coded by priority tier:</p>
+<p><img src="reference/figures/readme-ranked.png" width="700" alt="Ranked opportunity scores by priority"></p>
+</div>
+<div class="section level3">
+<h3 id="segment-head-to-head-cleveland-dot-plot">Segment Head-to-Head (Cleveland Dot Plot)<a class="anchor" aria-label="anchor" href="#segment-head-to-head-cleveland-dot-plot"></a>
+</h3>
+<p>Compare two segments side by side. Where do casual users and power users diverge?</p>
+<p><img src="reference/figures/readme-cleveland.png" width="700" alt="Cleveland dot plot comparing segments"></p>
+</div>
+<div class="section level3">
+<h3 id="segment-divergence">Segment Divergence<a class="anchor" aria-label="anchor" href="#segment-divergence"></a>
+</h3>
+<p>How does each segment differ from the overall population? Instantly spot who’s over- and under-served:</p>
+<p><img src="reference/figures/readme-segment-divergence.png" width="700" alt="Segment divergence from overall"></p>
+</div>
+<div class="section level3">
+<h3 id="publication-ready-tables">Publication-Ready Tables<a class="anchor" aria-label="anchor" href="#publication-ready-tables"></a>
+</h3>
+<p>Formatted gt tables with heat-mapped scores, ready for stakeholder decks:</p>
+<p><img src="reference/figures/readme-segment-table.png" width="550" alt="Segment comparison table"></p>
+<hr>
 </div>
 </div>
 <div class="section level2">
@@ -99,7 +130,7 @@
 <span><span class="va">comparison</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_jtbd_scores.comparison.html">get_jtbd_scores.comparison</a></span><span class="op">(</span><span class="va">jtbd_sample</span>, <span class="st">"segment"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Visualize</span></span>
-<span><span class="fu"><a href="reference/plot_opportunity_matrix.html">plot_opportunity_matrix</a></span><span class="op">(</span><span class="va">scores</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="reference/plot_opportunity_matrix.html">plot_opportunity_matrix</a></span><span class="op">(</span><span class="va">scores</span>, show_zones <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="functions">Functions<a class="anchor" aria-label="anchor" href="#functions"></a>
@@ -139,7 +170,7 @@
 <tr class="odd">
 <td><strong>Visualization</strong></td>
 <td><code><a href="reference/plot_opportunity_matrix.html">plot_opportunity_matrix()</a></code></td>
-<td>Importance x Satisfaction scatter</td>
+<td>Importance x Satisfaction scatter with zones</td>
 </tr>
 <tr class="even">
 <td></td>
@@ -157,9 +188,19 @@
 <td>Absolute score bump chart</td>
 </tr>
 <tr class="odd">
+<td></td>
+<td><code><a href="reference/theme_jtbd.html">theme_jtbd()</a></code></td>
+<td>Consistent ggplot2 theme for all charts</td>
+</tr>
+<tr class="even">
+<td></td>
+<td><code><a href="reference/jtbd_colors.html">jtbd_colors()</a></code></td>
+<td>Named color palette</td>
+</tr>
+<tr class="odd">
 <td><strong>Tables</strong></td>
 <td><code><a href="reference/gt_theme_jtbd.html">gt_theme_jtbd()</a></code></td>
-<td>Branded gt table theme</td>
+<td>Branded gt table theme with heat mapping</td>
 </tr>
 <tr class="even">
 <td></td>
