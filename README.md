@@ -72,32 +72,41 @@ Formatted gt tables with heat-mapped scores, ready for stakeholder decks:
 
 ## Outcome-Based Segmentation (PCA + K-Means)
 
-Discover segments from the data itself — groups of people with shared unmet needs that don't map to demographics. This is the core of Outcome-Driven Innovation.
+Discover segments from the data itself — groups of people with shared unmet needs that don't map to demographics. This is the core of [Outcome-Driven Innovation](https://redlandroad.com/outcome-driven-innovation/).
 
-### Respondent Clusters in PCA Space
+```r
+result <- jtbd_segment(jtbd_sample, n_clusters = 3)
+```
 
-PCA reduces objectives to themes, then K-Means finds natural groupings:
+### Step 1: Find Outcome Themes (PCA)
 
-<img src="man/figures/readme-pca-biplot.png" width="600" alt="PCA biplot with clusters" />
-
-### Cluster Opportunity Heatmap
-
-Compare opportunity scores across discovered segments. Segment 3 has extreme unmet needs on purchasing objectives (18.3) while Segment 1 is relatively satisfied:
-
-<img src="man/figures/readme-cluster-heatmap.png" width="650" alt="Cluster opportunity heatmap" />
-
-### PCA Scree Plot
-
-Kaiser rule selects components with eigenvalue > 1 to determine how many outcome themes exist:
+PCA finds combinations of objectives that vary together, revealing broader customer themes. Kaiser rule retains components with eigenvalue > 1:
 
 <img src="man/figures/readme-pca-scree.png" width="650" alt="PCA scree plot" />
 
-```r
-# Discover segments in 3 lines
-data(jtbd_sample)
-result <- jtbd_segment(jtbd_sample, n_clusters = 3)
-plot_cluster_heatmap(result$profile)
-```
+The loadings show which objectives define each theme — Component 1 is driven by "Avoid Unexpected Costs" and "Evaluate Options":
+
+<img src="man/figures/readme-pca-loadings.png" width="650" alt="PCA component loadings" />
+
+### Step 2: Find the Right Number of Clusters
+
+Evaluate multiple cluster solutions. Silhouette score measures separation quality, WCSS measures tightness:
+
+<img src="man/figures/readme-elbow.png" width="650" alt="Elbow and silhouette plot" />
+
+### Step 3: Discover Segments
+
+K-Means clusters respondents in PCA space. Each color is a discovered segment with distinct unmet needs:
+
+<img src="man/figures/readme-pca-biplot.png" width="600" alt="PCA biplot with clusters" />
+
+### Step 4: Profile the Segments
+
+The payoff — opportunity scores per discovered segment with statistical significance. Segment 3 has extreme unmet needs on purchasing (18.3) while Segment 1 is relatively satisfied (4.8):
+
+<img src="man/figures/readme-cluster-heatmap.png" width="650" alt="Cluster opportunity heatmap" />
+
+These discovered segments plug directly into all existing comparison functions — Cleveland plots, divergence charts, gt tables, and significance testing all work automatically.
 
 ---
 
