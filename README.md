@@ -10,33 +10,65 @@
 
 ## The Formula
 
-The ODI opportunity score measures unmet customer needs:
-
 ```
 opportunity = importance + max(0, importance - satisfaction)
 ```
 
 When importance exceeds satisfaction, the gap amplifies the score. When users are already satisfied, opportunity equals importance (the floor). Scores range 0-20; anything above 10 is a high-opportunity outcome.
 
+---
+
 ## What You Get
 
-### Segment comparison tables
+### Strategic Priority Quadrant
 
-Compare opportunity scores across user segments to find where specific groups are underserved:
+Where should you focus? High importance + low satisfaction = act now.
 
-<img src="man/figures/readme-segment-table.png" width="600" alt="Segment comparison table" />
+<img src="man/figures/readme-quadrant.png" width="700" alt="Strategic priority quadrant" />
 
-### Opportunity matrix
+### The Opportunity Gap
 
-The classic ODI scatter plot with zone annotations. High importance + low satisfaction = high opportunity (red). Use `show_zones = TRUE` to add Under-Served / Appropriately-Served / Over-Served reference lines:
+See the gap between what users need and what they have. Wider gap = bigger opportunity.
+
+<img src="man/figures/readme-gap-chart.png" width="700" alt="Importance vs satisfaction gap chart" />
+
+### Opportunity Heatmap by Segment
+
+Spot segment-specific pain at a glance. Power users are underserved on "Avoid Unexpected Costs" (18.1) while casuals barely feel it (8.5).
+
+<img src="man/figures/readme-heatmap.png" width="650" alt="Opportunity heatmap across segments" />
+
+### Opportunity Matrix with Zone Annotations
+
+The classic ODI scatter plot with Under-Served, Appropriately-Served, Over-Served, and Table Stakes zones:
 
 <img src="man/figures/readme-opportunity-matrix-zones.png" width="700" alt="Opportunity score matrix with zones" />
 
-### Ranked opportunity scores
+### Priority Ranking
 
-Instantly see which outcomes have the highest unmet need:
+All objectives ranked by opportunity score, color-coded by priority tier:
 
-<img src="man/figures/readme-top-opportunities.png" width="600" alt="Top opportunity scores" />
+<img src="man/figures/readme-ranked.png" width="700" alt="Ranked opportunity scores by priority" />
+
+### Segment Head-to-Head (Cleveland Dot Plot)
+
+Compare two segments side by side. Where do casual users and power users diverge?
+
+<img src="man/figures/readme-cleveland.png" width="700" alt="Cleveland dot plot comparing segments" />
+
+### Segment Divergence
+
+How does each segment differ from the overall population? Instantly spot who's over- and under-served:
+
+<img src="man/figures/readme-segment-divergence.png" width="700" alt="Segment divergence from overall" />
+
+### Publication-Ready Tables
+
+Formatted gt tables with heat-mapped scores, ready for stakeholder decks:
+
+<img src="man/figures/readme-segment-table.png" width="550" alt="Segment comparison table" />
+
+---
 
 ## Quick Start
 
@@ -54,7 +86,7 @@ scores <- get_jtbd_scores(jtbd_sample)
 comparison <- get_jtbd_scores.comparison(jtbd_sample, "segment")
 
 # Visualize
-plot_opportunity_matrix(scores)
+plot_opportunity_matrix(scores, show_zones = TRUE)
 ```
 
 ## Functions
@@ -65,11 +97,13 @@ plot_opportunity_matrix(scores)
 | | `get_jtbd_scores.comparison()` | Compare scores across segments |
 | | `get_jtbd_scores.pairwise()` | Head-to-head comparison of two segments |
 | | `calculate_opportunity_score()` | Core ODI formula |
-| **Visualization** | `plot_opportunity_matrix()` | Importance x Satisfaction scatter |
+| **Visualization** | `plot_opportunity_matrix()` | Importance x Satisfaction scatter with zones |
 | | `plot_cleveland()` | Lollipop chart for segment comparison |
 | | `plot_this.graph.rel_score()` | Relative score bump chart |
 | | `plot_this.graph.abs_score()` | Absolute score bump chart |
-| **Tables** | `gt_theme_jtbd()` | Branded gt table theme |
+| | `theme_jtbd()` | Consistent ggplot2 theme for all charts |
+| | `jtbd_colors()` | Named color palette |
+| **Tables** | `gt_theme_jtbd()` | Branded gt table theme with heat mapping |
 | | `theme.job_step()` | Publication-ready gt table |
 | | `create.job_step.table()` | Filter + format + save as PNG |
 | | `create.pct.table()` | Frequency table with bar charts |
