@@ -157,7 +157,7 @@ plot_opportunity_matrix <- function(scores, title = "Opportunity Score Matrix",
 
   # Add zone annotations if requested
   if (show_zones) {
-    zone_color <- "#8E9EAB"
+    zone_color <- "#B0BEC5"
     p <- p +
       # Diagonal: sat = imp (appropriately served line)
       annotate("segment", x = 0, xend = 10, y = 0, yend = 10,
@@ -168,15 +168,19 @@ plot_opportunity_matrix <- function(scores, title = "Opportunity Score Matrix",
       # Table stakes line (high sat horizontal)
       annotate("segment", x = 0, xend = 10, y = 7.5, yend = 7.5,
                color = zone_color, linetype = "dotted", linewidth = 0.3) +
-      # Zone labels
-      annotate("text", x = 8, y = 1.5, label = "Under-Served",
-               color = zone_color, size = 3, fontface = "italic") +
-      annotate("text", x = 3.5, y = 1.5, label = "Appropriately\nServed",
-               color = zone_color, size = 3, fontface = "italic") +
-      annotate("text", x = 1, y = 4, label = "Over-\nServed",
-               color = zone_color, size = 3, fontface = "italic") +
-      annotate("text", x = 1, y = 8, label = "Table\nStakes",
-               color = zone_color, size = 2.5, fontface = "italic")
+      # Zone labels — placed in corners where data points won't be
+      annotate("label", x = 9.5, y = 0.5, label = "UNDER-\nSERVED",
+               color = zone_color, size = 2.8, fontface = "bold.italic",
+               fill = "white", label.size = 0, alpha = 0.85, hjust = 1, vjust = 0) +
+      annotate("label", x = 0.5, y = 0.5, label = "APPROPRIATELY\nSERVED",
+               color = zone_color, size = 2.8, fontface = "bold.italic",
+               fill = "white", label.size = 0, alpha = 0.85, hjust = 0, vjust = 0) +
+      annotate("label", x = 0.5, y = 6.8, label = "OVER-\nSERVED",
+               color = zone_color, size = 2.8, fontface = "bold.italic",
+               fill = "white", label.size = 0, alpha = 0.85, hjust = 0) +
+      annotate("label", x = 0.5, y = 9.5, label = "TABLE STAKES",
+               color = zone_color, size = 2.5, fontface = "bold.italic",
+               fill = "white", label.size = 0, alpha = 0.85, hjust = 0, vjust = 1)
   }
 
   p <- p +
@@ -184,7 +188,8 @@ plot_opportunity_matrix <- function(scores, title = "Opportunity Score Matrix",
     geom_text_repel(
       data = . %>% filter(.high_opp == "High Opportunity"),
       aes(label = stringr::str_wrap(gsub("_", " ", objective), 20)),
-      size = 3, nudge_y = 0.2
+      size = 3, nudge_y = 0.3, box.padding = 0.6, point.padding = 0.4,
+      min.segment.length = 0.3, max.overlaps = 20, seed = 42
     ) +
     scale_color_manual(values = c("High Opportunity" = "#E74C3C", "Other" = "#95A5A6")) +
     labs(title = title, subtitle = subtitle,

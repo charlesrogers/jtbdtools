@@ -107,7 +107,16 @@ cat("3. Heatmap saved\n")
 pair_df <- comparison %>%
   select(job_step, objective, opp.casual, opp.power_user) %>%
   mutate(label = clean_obj(as.character(objective)),
-         gap = opp.power_user - opp.casual) %>%
+         gap = opp.power_user - opp.casual,
+         # Always place labels outside the bar: left of min, right of max
+         x_left = pmin(opp.casual, opp.power_user),
+         x_right = pmax(opp.casual, opp.power_user),
+         left_color = ifelse(opp.casual < opp.power_user, "#3498DB", "#2ECC71"),
+         right_color = ifelse(opp.casual < opp.power_user, "#2ECC71", "#3498DB"),
+         left_label = ifelse(opp.casual < opp.power_user,
+                             round(opp.casual, 1), round(opp.power_user, 1)),
+         right_label = ifelse(opp.casual < opp.power_user,
+                              round(opp.power_user, 1), round(opp.casual, 1))) %>%
   arrange(gap) %>%
   mutate(label = factor(label, levels = label))
 
@@ -116,15 +125,16 @@ p_cleveland <- ggplot(pair_df) +
                color = "#BDC3C7", linewidth = 1.5) +
   geom_point(aes(x = opp.casual, y = label), color = "#3498DB", size = 4) +
   geom_point(aes(x = opp.power_user, y = label), color = "#2ECC71", size = 4) +
-  geom_text(aes(x = opp.casual, y = label, label = round(opp.casual, 1)),
-            nudge_x = -0.6, size = 3, color = "#3498DB") +
-  geom_text(aes(x = opp.power_user, y = label, label = round(opp.power_user, 1)),
-            nudge_x = 0.6, size = 3, color = "#2ECC71") +
-  annotate("text", x = 3, y = 12.5, label = "Casual", color = "#3498DB",
-           size = 4, fontface = "bold") +
-  annotate("text", x = 19, y = 12.5, label = "Power User", color = "#2ECC71",
-           size = 4, fontface = "bold") +
-  scale_x_continuous(limits = c(0, 21)) +
+  # Labels always outside the bar — left of min, right of max
+  geom_text(aes(x = x_left, y = label, label = left_label),
+            nudge_x = -0.7, size = 3, color = pair_df$left_color) +
+  geom_text(aes(x = x_right, y = label, label = right_label),
+            nudge_x = 0.7, size = 3, color = pair_df$right_color) +
+  annotate("text", x = 1, y = 12.5, label = "Casual", color = "#3498DB",
+           size = 4, fontface = "bold", hjust = 0) +
+  annotate("text", x = 20, y = 12.5, label = "Power User", color = "#2ECC71",
+           size = 4, fontface = "bold", hjust = 1) +
+  scale_x_continuous(limits = c(-1, 21)) +
   labs(title = "Casual vs Power User: Where Do They Diverge?",
        subtitle = "Connected dots show how the same objective scores differently across segments",
        x = "Opportunity Score", y = "") +
