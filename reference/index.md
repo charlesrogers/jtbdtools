@@ -105,6 +105,33 @@ Compare scores across segments with statistical testing
 - [`get_seg_comp.build.linear()`](https://charlesrogers.github.io/jtbdtools/reference/get_seg_comp.build.linear.md)
   : Build linear segment comparison
 
+## Clustering & Segmentation Discovery
+
+Discover outcome-based segments using PCA + K-Means
+
+- [`jtbd_segment()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_segment.md)
+  : Run the full ODI segmentation pipeline
+- [`jtbd_cluster()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_cluster.md)
+  : K-Means clustering on JTBD opportunity data
+- [`jtbd_pca()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_pca.md)
+  : Run PCA on JTBD opportunity data
+- [`jtbd_find_k()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_find_k.md)
+  : Evaluate multiple cluster solutions
+- [`jtbd_cluster_profile()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_cluster_profile.md)
+  : Profile discovered clusters using T2B scoring
+- [`jtbd_feature_matrix()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_feature_matrix.md)
+  : Build respondent x objective feature matrix
+- [`plot_pca_biplot()`](https://charlesrogers.github.io/jtbdtools/reference/plot_pca_biplot.md)
+  : PCA biplot
+- [`plot_cluster_heatmap()`](https://charlesrogers.github.io/jtbdtools/reference/plot_cluster_heatmap.md)
+  : Cluster opportunity heatmap
+- [`plot_pca_scree()`](https://charlesrogers.github.io/jtbdtools/reference/plot_pca_scree.md)
+  : PCA scree plot
+- [`plot_pca_loadings()`](https://charlesrogers.github.io/jtbdtools/reference/plot_pca_loadings.md)
+  : PCA loadings bar chart
+- [`plot_elbow()`](https://charlesrogers.github.io/jtbdtools/reference/plot_elbow.md)
+  : Elbow plot for cluster evaluation
+
 ## Utilities
 
 - [`get_count()`](https://charlesrogers.github.io/jtbdtools/reference/get_count.md)

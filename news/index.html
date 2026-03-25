@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">jtbdtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,6 +33,24 @@
       <small>Source: <a href="https://github.com/charlesrogers/jtbdtools/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.3.0" id="jtbdtools-030">jtbdtools 0.3.0<a class="anchor" aria-label="anchor" href="#jtbdtools-030"></a></h2>
+<div class="section level3">
+<h3 id="outcome-based-segmentation-pca--k-means-0-3-0">Outcome-Based Segmentation (PCA + K-Means)<a class="anchor" aria-label="anchor" href="#outcome-based-segmentation-pca--k-means-0-3-0"></a></h3>
+<ul><li>New <code><a href="../reference/jtbd_segment.html">jtbd_segment()</a></code>: one-call ODI segmentation pipeline — PCA → K-Means → T2B profiling</li>
+<li>New <code><a href="../reference/jtbd_cluster.html">jtbd_cluster()</a></code>: K-Means clustering on per-respondent opportunity scores</li>
+<li>New <code><a href="../reference/jtbd_pca.html">jtbd_pca()</a></code>: PCA with Kaiser rule component selection</li>
+<li>New <code><a href="../reference/jtbd_find_k.html">jtbd_find_k()</a></code>: evaluate 2-6 cluster solutions with elbow + silhouette</li>
+<li>New <code><a href="../reference/jtbd_cluster_profile.html">jtbd_cluster_profile()</a></code>: T2B scoring per discovered cluster with significance testing</li>
+<li>New <code><a href="../reference/jtbd_feature_matrix.html">jtbd_feature_matrix()</a></code>: respondent × objective opportunity matrix</li>
+<li>New visualizations: <code><a href="../reference/plot_pca_biplot.html">plot_pca_biplot()</a></code>, <code><a href="../reference/plot_cluster_heatmap.html">plot_cluster_heatmap()</a></code>, <code><a href="../reference/plot_pca_scree.html">plot_pca_scree()</a></code>, <code><a href="../reference/plot_pca_loadings.html">plot_pca_loadings()</a></code>, <code><a href="../reference/plot_elbow.html">plot_elbow()</a></code>
+</li>
+</ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-0-3-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-3-0"></a></h3>
+<ul><li>Fixed broken <code><a href="../reference/get_jtbd_scores.individual.html">get_jtbd_scores.individual()</a></code> (replaced deprecated <code>mutate_if</code> with explicit type conversion)</li>
+</ul><hr></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.0" id="jtbdtools-020">jtbdtools 0.2.0<a class="anchor" aria-label="anchor" href="#jtbdtools-020"></a></h2>
 <div class="section level3">

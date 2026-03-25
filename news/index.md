@@ -1,5 +1,42 @@
 # Changelog
 
+## jtbdtools 0.3.0
+
+### Outcome-Based Segmentation (PCA + K-Means)
+
+- New
+  [`jtbd_segment()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_segment.md):
+  one-call ODI segmentation pipeline — PCA → K-Means → T2B profiling
+- New
+  [`jtbd_cluster()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_cluster.md):
+  K-Means clustering on per-respondent opportunity scores
+- New
+  [`jtbd_pca()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_pca.md):
+  PCA with Kaiser rule component selection
+- New
+  [`jtbd_find_k()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_find_k.md):
+  evaluate 2-6 cluster solutions with elbow + silhouette
+- New
+  [`jtbd_cluster_profile()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_cluster_profile.md):
+  T2B scoring per discovered cluster with significance testing
+- New
+  [`jtbd_feature_matrix()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_feature_matrix.md):
+  respondent × objective opportunity matrix
+- New visualizations:
+  [`plot_pca_biplot()`](https://charlesrogers.github.io/jtbdtools/reference/plot_pca_biplot.md),
+  [`plot_cluster_heatmap()`](https://charlesrogers.github.io/jtbdtools/reference/plot_cluster_heatmap.md),
+  [`plot_pca_scree()`](https://charlesrogers.github.io/jtbdtools/reference/plot_pca_scree.md),
+  [`plot_pca_loadings()`](https://charlesrogers.github.io/jtbdtools/reference/plot_pca_loadings.md),
+  [`plot_elbow()`](https://charlesrogers.github.io/jtbdtools/reference/plot_elbow.md)
+
+### Bug Fixes
+
+- Fixed broken
+  [`get_jtbd_scores.individual()`](https://charlesrogers.github.io/jtbdtools/reference/get_jtbd_scores.individual.md)
+  (replaced deprecated `mutate_if` with explicit type conversion)
+
+------------------------------------------------------------------------
+
 ## jtbdtools 0.2.0
 
 ### Statistical Significance

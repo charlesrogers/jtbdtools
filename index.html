@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">jtbdtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -114,9 +114,38 @@
 </div>
 </div>
 <div class="section level2">
+<h2 id="outcome-based-segmentation-pca--k-means">Outcome-Based Segmentation (PCA + K-Means)<a class="anchor" aria-label="anchor" href="#outcome-based-segmentation-pca--k-means"></a>
+</h2>
+<p>Discover segments from the data itself — groups of people with shared unmet needs that don’t map to demographics. This is the core of Outcome-Driven Innovation.</p>
+<div class="section level3">
+<h3 id="respondent-clusters-in-pca-space">Respondent Clusters in PCA Space<a class="anchor" aria-label="anchor" href="#respondent-clusters-in-pca-space"></a>
+</h3>
+<p>PCA reduces objectives to themes, then K-Means finds natural groupings:</p>
+<p><img src="reference/figures/readme-pca-biplot.png" width="600" alt="PCA biplot with clusters"></p>
+</div>
+<div class="section level3">
+<h3 id="cluster-opportunity-heatmap">Cluster Opportunity Heatmap<a class="anchor" aria-label="anchor" href="#cluster-opportunity-heatmap"></a>
+</h3>
+<p>Compare opportunity scores across discovered segments. Segment 3 has extreme unmet needs on purchasing objectives (18.3) while Segment 1 is relatively satisfied:</p>
+<p><img src="reference/figures/readme-cluster-heatmap.png" width="650" alt="Cluster opportunity heatmap"></p>
+</div>
+<div class="section level3">
+<h3 id="pca-scree-plot">PCA Scree Plot<a class="anchor" aria-label="anchor" href="#pca-scree-plot"></a>
+</h3>
+<p>Kaiser rule selects components with eigenvalue &gt; 1 to determine how many outcome themes exist:</p>
+<p><img src="reference/figures/readme-pca-scree.png" width="650" alt="PCA scree plot"></p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Discover segments in 3 lines</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">jtbd_sample</span><span class="op">)</span></span>
+<span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/jtbd_segment.html">jtbd_segment</a></span><span class="op">(</span><span class="va">jtbd_sample</span>, n_clusters <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/plot_cluster_heatmap.html">plot_cluster_heatmap</a></span><span class="op">(</span><span class="va">result</span><span class="op">$</span><span class="va">profile</span><span class="op">)</span></span></code></pre></div>
+<hr>
+</div>
+</div>
+<div class="section level2">
 <h2 id="quick-start">Quick Start<a class="anchor" aria-label="anchor" href="#quick-start"></a>
 </h2>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("pak")</span></span>
 <span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"charlesrogers/jtbdtools"</span><span class="op">)</span></span>
 <span></span>
@@ -134,7 +163,7 @@
 <div class="section level3">
 <h3 id="from-qualtrics-to-insights-in-3-lines">From Qualtrics to Insights in 3 Lines<a class="anchor" aria-label="anchor" href="#from-qualtrics-to-insights-in-3-lines"></a>
 </h3>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Import directly from Qualtrics CSV</span></span>
 <span><span class="va">ready</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/prep_qualtrics.html">prep_qualtrics</a></span><span class="op">(</span><span class="st">"my_survey.csv"</span>,</span>
 <span>  job_steps <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>researching <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, purchasing <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">8</span><span class="op">)</span>,</span>
@@ -258,38 +287,93 @@
 <td>Check data format before scoring</td>
 </tr>
 <tr class="even">
+<td><strong>Segmentation</strong></td>
+<td><code><a href="reference/jtbd_segment.html">jtbd_segment()</a></code></td>
+<td>Full ODI segmentation pipeline (one call)</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td><code><a href="reference/jtbd_cluster.html">jtbd_cluster()</a></code></td>
+<td>K-Means clustering on opportunity data</td>
+</tr>
+<tr class="even">
+<td></td>
+<td><code><a href="reference/jtbd_pca.html">jtbd_pca()</a></code></td>
+<td>PCA with Kaiser rule component selection</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td><code><a href="reference/jtbd_find_k.html">jtbd_find_k()</a></code></td>
+<td>Evaluate 2-6 cluster solutions (elbow + silhouette)</td>
+</tr>
+<tr class="even">
+<td></td>
+<td><code><a href="reference/jtbd_cluster_profile.html">jtbd_cluster_profile()</a></code></td>
+<td>T2B scores per discovered cluster</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td><code><a href="reference/jtbd_feature_matrix.html">jtbd_feature_matrix()</a></code></td>
+<td>Respondent x objective opportunity matrix</td>
+</tr>
+<tr class="even">
+<td><strong>Cluster Viz</strong></td>
+<td><code><a href="reference/plot_pca_biplot.html">plot_pca_biplot()</a></code></td>
+<td>Respondents in PCA space, colored by cluster</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td><code><a href="reference/plot_cluster_heatmap.html">plot_cluster_heatmap()</a></code></td>
+<td>Opportunity heatmap across clusters</td>
+</tr>
+<tr class="even">
+<td></td>
+<td><code><a href="reference/plot_pca_scree.html">plot_pca_scree()</a></code></td>
+<td>Scree plot with Kaiser line</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td><code><a href="reference/plot_pca_loadings.html">plot_pca_loadings()</a></code></td>
+<td>Component loading bar chart</td>
+</tr>
+<tr class="even">
+<td></td>
+<td><code><a href="reference/plot_elbow.html">plot_elbow()</a></code></td>
+<td>Elbow + silhouette evaluation plot</td>
+</tr>
+<tr class="odd">
 <td><strong>Stat Sig</strong></td>
 <td><code><a href="reference/test_segment_significance.html">test_segment_significance()</a></code></td>
 <td>Wilcoxon rank-sum test between segments</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><strong>Legacy Data Prep</strong></td>
 <td><code><a href="reference/prep_data.html">prep_data()</a></code></td>
 <td>SPSS data cleaning pipeline</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td><code><a href="reference/build_imp_column_names.html">build_imp_column_names()</a></code></td>
 <td>Rename columns to <code>imp__step.objective</code>
 </td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td></td>
 <td><code><a href="reference/build_sat_column_names.html">build_sat_column_names()</a></code></td>
 <td>Rename columns to <code>sat__step.objective</code>
 </td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><strong>Analysis</strong></td>
 <td><code><a href="reference/get.normalized_scores.html">get.normalized_scores()</a></code></td>
 <td>Min-max normalize within segments</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td></td>
 <td><code><a href="reference/get.percent_of_max.html">get.percent_of_max()</a></code></td>
 <td>Percent-of-segment-max scoring</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td><code><a href="reference/get_jtbd_segment.comp.ordinal.html">get_jtbd_segment.comp.ordinal()</a></code></td>
 <td>Rank-based segment comparison</td>

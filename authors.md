@@ -11,13 +11,13 @@ Source:
 [`DESCRIPTION`](https://github.com/charlesrogers/jtbdtools/blob/main/DESCRIPTION)
 
 Rogers C (2026). *jtbdtools: Quantitative Jobs-to-Be-Done Analysis Using
-Outcome-Driven Innovation*. R package version 0.2.0,
+Outcome-Driven Innovation*. R package version 0.3.0,
 <https://github.com/charlesrogers/jtbdtools>.
 
     @Manual{,
       title = {jtbdtools: Quantitative Jobs-to-Be-Done Analysis Using Outcome-Driven Innovation},
       author = {Charles Rogers},
       year = {2026},
-      note = {R package version 0.2.0},
+      note = {R package version 0.3.0},
       url = {https://github.com/charlesrogers/jtbdtools},
     }
