@@ -33,6 +33,7 @@ reference:
   - title: Tables
     desc: Publication-ready gt tables
     contents:
+      - gt_theme_jtbd
       - theme.job_step
       - create.job_step.table
       - create.pct.table

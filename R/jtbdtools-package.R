@@ -26,5 +26,5 @@
 #' @importFrom rlang .data !! !!! as_name enquo
 #' @importFrom cli cli_abort cli_warn cli_inform
 #' @importFrom purrr pluck
-#' @importFrom tidyselect all_of
+#' @importFrom tidyselect all_of where
 NULL

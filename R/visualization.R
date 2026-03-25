@@ -112,12 +112,15 @@ plot.job_step <- function(x, step_title = "", ...) {
 #' Opportunity matrix plot
 #'
 #' Creates the classic ODI opportunity matrix: importance on x-axis, satisfaction
-#' on y-axis, with high-opportunity objectives highlighted.
+#' on y-axis, with high-opportunity objectives highlighted. Optionally shows
+#' diagonal zone lines dividing the plot into Under-Served, Appropriately-Served,
+#' Over-Served, and Table Stakes regions (from quantjtbd).
 #'
 #' @param scores A data frame from [get_jtbd_scores()] with imp, sat, and opp columns
 #' @param title Plot title (default: "Opportunity Score Matrix")
 #' @param subtitle Plot subtitle (default: NULL)
 #' @param highlight_threshold Opportunity score threshold for highlighting (default: 10)
+#' @param show_zones Show diagonal reference lines and zone labels (default: FALSE)
 #'
 #' @return A ggplot object
 #' @export
@@ -128,8 +131,10 @@ plot.job_step <- function(x, step_title = "", ...) {
 #' data(jtbd_sample)
 #' scores <- get_jtbd_scores(jtbd_sample)
 #' # plot_opportunity_matrix(scores)
+#' # plot_opportunity_matrix(scores, show_zones = TRUE)
 plot_opportunity_matrix <- function(scores, title = "Opportunity Score Matrix",
-                                    subtitle = NULL, highlight_threshold = 10) {
+                                    subtitle = NULL, highlight_threshold = 10,
+                                    show_zones = FALSE) {
   # Detect the imp/sat/opp column names (they have segment suffixes)
   imp_col <- grep("^imp\\.", names(scores), value = TRUE)[1]
   sat_col <- grep("^sat\\.", names(scores), value = TRUE)[1]
@@ -148,7 +153,33 @@ plot_opportunity_matrix <- function(scores, title = "Opportunity Score Matrix",
     )
 
   p <- plot_df %>%
-    ggplot(aes(x = .imp, y = .sat, color = .high_opp)) +
+    ggplot(aes(x = .imp, y = .sat, color = .high_opp))
+
+  # Add zone annotations if requested
+  if (show_zones) {
+    zone_color <- "#8E9EAB"
+    p <- p +
+      # Diagonal: sat = imp (appropriately served line)
+      annotate("segment", x = 0, xend = 10, y = 0, yend = 10,
+               color = zone_color, linetype = "dashed", linewidth = 0.4) +
+      # Diagonal: sat = 2*imp - 10 (under-served boundary)
+      annotate("segment", x = 5, xend = 10, y = 0, yend = 10,
+               color = zone_color, linetype = "dashed", linewidth = 0.4) +
+      # Table stakes line (high sat horizontal)
+      annotate("segment", x = 0, xend = 10, y = 7.5, yend = 7.5,
+               color = zone_color, linetype = "dotted", linewidth = 0.3) +
+      # Zone labels
+      annotate("text", x = 8, y = 1.5, label = "Under-Served",
+               color = zone_color, size = 3, fontface = "italic") +
+      annotate("text", x = 3.5, y = 1.5, label = "Appropriately\nServed",
+               color = zone_color, size = 3, fontface = "italic") +
+      annotate("text", x = 1, y = 4, label = "Over-\nServed",
+               color = zone_color, size = 3, fontface = "italic") +
+      annotate("text", x = 1, y = 8, label = "Table\nStakes",
+               color = zone_color, size = 2.5, fontface = "italic")
+  }
+
+  p <- p +
     geom_point(size = 3, alpha = 0.8) +
     geom_text_repel(
       data = . %>% filter(.high_opp == "High Opportunity"),

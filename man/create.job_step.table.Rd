@@ -25,6 +25,7 @@ Filters a scores data frame to a specific job step, formats it with
 \seealso{
 Other tables: 
 \code{\link{create.pct.table}()},
+\code{\link{gt_theme_jtbd}()},
 \code{\link{theme.job_step}()}
 }
 \concept{tables}

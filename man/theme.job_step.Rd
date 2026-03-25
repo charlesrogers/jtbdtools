@@ -21,6 +21,7 @@ with color-coded index values and highlighted median row.
 \seealso{
 Other tables: 
 \code{\link{create.job_step.table}()},
-\code{\link{create.pct.table}()}
+\code{\link{create.pct.table}()},
+\code{\link{gt_theme_jtbd}()}
 }
 \concept{tables}

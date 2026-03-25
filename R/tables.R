@@ -1,3 +1,71 @@
+#' jtbdtools gt table theme
+#'
+#' A branded gt theme for JTBD tables. Clean, left-aligned, with heat-mapped
+#' numeric columns and professional typography. Inspired by the quantjtbd
+#' `gt_theme.yellow` but using the jtbdtools color palette.
+#'
+#' @param gt_object A gt table object
+#' @param ... Additional arguments (unused)
+#'
+#' @return A styled gt table object
+#' @export
+#'
+#' @family tables
+#'
+#' @examples
+#' library(gt)
+#' data(jtbd_sample)
+#' scores <- get_jtbd_scores(jtbd_sample)
+#' scores[1:5, c("job_step", "objective", "imp.all", "sat.all", "opp.all")] |>
+#'   gt() |>
+#'   gt_theme_jtbd()
+gt_theme_jtbd <- function(gt_object, ...) {
+  gt_object |>
+    data_color(
+      columns = where(is.numeric),
+      fn = scales::col_numeric(
+        palette = c("#F7F7F7", "#FDEBD0", "#E74C3C"),
+        domain = NULL
+      )
+    ) |>
+    tab_style(
+      locations = cells_column_labels(columns = everything()),
+      style = cell_text(
+        weight = 650,
+        size = px(13),
+        transform = "uppercase",
+        align = "left"
+      )
+    ) |>
+    tab_style(
+      locations = cells_title("title"),
+      style = cell_text(weight = 650, size = px(18))
+    ) |>
+    tab_style(
+      locations = cells_title("subtitle"),
+      style = cell_text(weight = 400, size = px(13))
+    ) |>
+    tab_style(
+      style = cell_borders(sides = "top", color = "#E0E0E0", weight = px(1), style = "solid"),
+      locations = cells_body(rows = everything())
+    ) |>
+    cols_align(align = "left", columns = everything()) |>
+    tab_options(
+      table.font.size = 13,
+      column_labels.border.bottom.width = 2,
+      column_labels.border.bottom.color = "#2C3E50",
+      column_labels.border.top.color = "white",
+      row_group.border.bottom.color = "#E0E0E0",
+      table.border.top.style = "none",
+      table.border.bottom.style = "none",
+      heading.border.bottom.style = "none",
+      heading.align = "left",
+      data_row.padding = px(4),
+      source_notes.border.lr.style = "none",
+      source_notes.font.size = 10
+    )
+}
+
 #' Format job step as gt table
 #'
 #' Creates a publication-ready gt table for a job step's opportunity scores,

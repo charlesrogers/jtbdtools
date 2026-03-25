@@ -33,6 +33,7 @@ categorical data (e.g., tool usage, channel preference).
 \seealso{
 Other tables: 
 \code{\link{create.job_step.table}()},
+\code{\link{gt_theme_jtbd}()},
 \code{\link{theme.job_step}()}
 }
 \concept{tables}

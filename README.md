@@ -28,9 +28,9 @@ Compare opportunity scores across user segments to find where specific groups ar
 
 ### Opportunity matrix
 
-The classic ODI scatter plot: high importance + low satisfaction = high opportunity (red):
+The classic ODI scatter plot with zone annotations. High importance + low satisfaction = high opportunity (red). Use `show_zones = TRUE` to add Under-Served / Appropriately-Served / Over-Served reference lines:
 
-<img src="man/figures/readme-opportunity-matrix.png" width="700" alt="Opportunity score matrix" />
+<img src="man/figures/readme-opportunity-matrix-zones.png" width="700" alt="Opportunity score matrix with zones" />
 
 ### Ranked opportunity scores
 
@@ -69,7 +69,8 @@ plot_opportunity_matrix(scores)
 | | `plot_cleveland()` | Lollipop chart for segment comparison |
 | | `plot_this.graph.rel_score()` | Relative score bump chart |
 | | `plot_this.graph.abs_score()` | Absolute score bump chart |
-| **Tables** | `theme.job_step()` | Publication-ready gt table |
+| **Tables** | `gt_theme_jtbd()` | Branded gt table theme |
+| | `theme.job_step()` | Publication-ready gt table |
 | | `create.job_step.table()` | Filter + format + save as PNG |
 | | `create.pct.table()` | Frequency table with bar charts |
 | **Data Prep** | `prep_data()` | Full SPSS data cleaning pipeline |
