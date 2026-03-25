@@ -129,21 +129,29 @@ heatmap](reference/figures/readme-cluster-heatmap.png)
 ### Step 5: Explain Who’s In Each Segment
 
 Automatically profile clusters against demographics, behavior, or any
-attribute. Chi-squared tests + Cramer’s V rank which variables best
-distinguish segments:
+attribute. Chi-squared tests + Cramer’s V find what distinguishes each
+group:
+
+![Segment DNA divergence
+chart](reference/figures/readme-segment-profiles.png)
+
+The index heatmap shows exactly where each segment over- or
+under-indexes vs the population (100 = average):
 
 ![Segment index heatmap](reference/figures/readme-segment-index.png)
 
-Segment 3 indexes at 221 on \$100k+ income and 192 on power users — your
-high-value segment. Segment 2 skews toward new users and lower income:
+### Step 6: Outcome-Based Personas
 
-![Segment demographic
-profiles](reference/figures/readme-segment-profiles.png)
+Auto-generated “This, Not That” persona cards — who they are, what they
+need, in one table:
+
+![Segment persona table](reference/figures/readme-persona-table.png)
 
 ``` r
+cl <- jtbd_cluster(jtbd_sample, n_clusters = 3)
 prof <- jtbd_profile_segments(cl$data)
-prof$distinguishing  # ranked by effect size
-plot_segment_index(prof)
+opp <- jtbd_cluster_profile(jtbd_sample, cl)
+create_persona_table(prof, opp)
 ```
 
 All discovered segments plug directly into existing comparison functions
@@ -224,7 +232,8 @@ Also works with any CSV via
 |                      | [`plot_pca_loadings()`](https://charlesrogers.github.io/jtbdtools/reference/plot_pca_loadings.md)                         | Component loading bar chart                         |
 |                      | [`plot_elbow()`](https://charlesrogers.github.io/jtbdtools/reference/plot_elbow.md)                                       | Elbow + silhouette evaluation plot                  |
 | **Profiling**        | [`jtbd_profile_segments()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_profile_segments.md)                 | Auto-profile clusters against demographics          |
-|                      | [`plot_segment_profiles()`](https://charlesrogers.github.io/jtbdtools/reference/plot_segment_profiles.md)                 | Grouped bar chart of segment composition            |
+|                      | [`create_persona_table()`](https://charlesrogers.github.io/jtbdtools/reference/create_persona_table.md)                   | “This, Not That” persona cards (gt table)           |
+|                      | [`plot_segment_profiles()`](https://charlesrogers.github.io/jtbdtools/reference/plot_segment_profiles.md)                 | Diverging bar chart of segment DNA                  |
 |                      | [`plot_segment_index()`](https://charlesrogers.github.io/jtbdtools/reference/plot_segment_index.md)                       | Index heatmap (over/under-represented)              |
 | **Stat Sig**         | [`test_segment_significance()`](https://charlesrogers.github.io/jtbdtools/reference/test_segment_significance.md)         | Wilcoxon rank-sum test between segments             |
 | **Legacy Data Prep** | [`prep_data()`](https://charlesrogers.github.io/jtbdtools/reference/prep_data.md)                                         | SPSS data cleaning pipeline                         |
@@ -403,8 +412,10 @@ Discover outcome-based segments using PCA + K-Means
   : Elbow plot for cluster evaluation
 - [`jtbd_profile_segments()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_profile_segments.md)
   : Automatically profile discovered segments
+- [`create_persona_table()`](https://charlesrogers.github.io/jtbdtools/reference/create_persona_table.md)
+  : Create segment persona cards as a gt table
 - [`plot_segment_profiles()`](https://charlesrogers.github.io/jtbdtools/reference/plot_segment_profiles.md)
-  : Plot segment profiles
+  : Plot segment divergence from population
 - [`plot_segment_index()`](https://charlesrogers.github.io/jtbdtools/reference/plot_segment_index.md)
   : Plot segment index heatmap
 

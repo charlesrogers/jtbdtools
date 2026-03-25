@@ -77,13 +77,15 @@ auto-detects all non-imp/sat/cluster/caseid columns.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A list with:</p><ul><li><p><code>summary</code>: tibble with one row per profiling variable — p-value, effect size (Cramer's V), significance flag</p></li>
+    <p>A list with:</p><ul><li><p><code>summary</code>: tibble with one row per profiling variable</p></li>
 <li><p><code>details</code>: list of per-variable breakdowns showing distribution per cluster</p></li>
 <li><p><code>distinguishing</code>: the top distinguishing attributes ranked by effect size</p></li>
+<li><p><code>personas</code>: "this not that" persona table per cluster</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other clustering:
+<code><a href="create_persona_table.html">create_persona_table()</a></code>,
 <code><a href="jtbd_cluster.html">jtbd_cluster()</a></code>,
 <code><a href="jtbd_cluster_profile.html">jtbd_cluster_profile()</a></code>,
 <code><a href="jtbd_feature_matrix.html">jtbd_feature_matrix()</a></code>,
@@ -121,12 +123,13 @@ auto-detects all non-imp/sat/cluster/caseid columns.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> education  0.143      0.155 FALSE       small     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> age_group  0.257      0.159 FALSE       small     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> gender     0.739      0.07  FALSE       negligible</span>
-<span class="r-in"><span><span class="va">profile</span><span class="op">$</span><span class="va">distinguishing</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 5</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   variable p_value cramers_v significant effect</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> segment   0          0.328 TRUE        medium</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> income    0.018<span style="text-decoration: underline;">6</span>     0.214 TRUE        medium</span>
+<span class="r-in"><span><span class="va">profile</span><span class="op">$</span><span class="va">personas</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   segment   more_likely                                              less_likely</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                                    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Segment_1 Graduate (122)                                           High Schoo…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Segment_2 casual (149), 6-12 months (129), &lt; 6 months (128), $30-… $100k+ (15…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Segment_3 $100k+ (221), power_user (182), 45-54 (152), High Schoo… casual (42…</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

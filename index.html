@@ -148,14 +148,21 @@
 <div class="section level3">
 <h3 id="step-5-explain-whos-in-each-segment">Step 5: Explain Who’s In Each Segment<a class="anchor" aria-label="anchor" href="#step-5-explain-whos-in-each-segment"></a>
 </h3>
-<p>Automatically profile clusters against demographics, behavior, or any attribute. Chi-squared tests + Cramer’s V rank which variables best distinguish segments:</p>
+<p>Automatically profile clusters against demographics, behavior, or any attribute. Chi-squared tests + Cramer’s V find what distinguishes each group:</p>
+<p><img src="reference/figures/readme-segment-profiles.png" width="700" alt="Segment DNA divergence chart"></p>
+<p>The index heatmap shows exactly where each segment over- or under-indexes vs the population (100 = average):</p>
 <p><img src="reference/figures/readme-segment-index.png" width="650" alt="Segment index heatmap"></p>
-<p>Segment 3 indexes at 221 on $100k+ income and 192 on power users — your high-value segment. Segment 2 skews toward new users and lower income:</p>
-<p><img src="reference/figures/readme-segment-profiles.png" width="700" alt="Segment demographic profiles"></p>
+</div>
+<div class="section level3">
+<h3 id="step-6-outcome-based-personas">Step 6: Outcome-Based Personas<a class="anchor" aria-label="anchor" href="#step-6-outcome-based-personas"></a>
+</h3>
+<p>Auto-generated “This, Not That” persona cards — who they are, what they need, in one table:</p>
+<p><img src="reference/figures/readme-persona-table.png" width="800" alt="Segment persona table"></p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">prof</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/jtbd_profile_segments.html">jtbd_profile_segments</a></span><span class="op">(</span><span class="va">cl</span><span class="op">$</span><span class="va">data</span><span class="op">)</span></span>
-<span><span class="va">prof</span><span class="op">$</span><span class="va">distinguishing</span>  <span class="co"># ranked by effect size</span></span>
-<span><span class="fu"><a href="reference/plot_segment_index.html">plot_segment_index</a></span><span class="op">(</span><span class="va">prof</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/jtbd_cluster.html">jtbd_cluster</a></span><span class="op">(</span><span class="va">jtbd_sample</span>, n_clusters <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="va">prof</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/jtbd_profile_segments.html">jtbd_profile_segments</a></span><span class="op">(</span><span class="va">cl</span><span class="op">$</span><span class="va">data</span><span class="op">)</span></span>
+<span><span class="va">opp</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/jtbd_cluster_profile.html">jtbd_cluster_profile</a></span><span class="op">(</span><span class="va">jtbd_sample</span>, <span class="va">cl</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/create_persona_table.html">create_persona_table</a></span><span class="op">(</span><span class="va">prof</span>, <span class="va">opp</span><span class="op">)</span></span></code></pre></div>
 <p>All discovered segments plug directly into existing comparison functions — Cleveland plots, divergence charts, gt tables, and significance testing all work automatically.</p>
 <hr>
 </div>
@@ -366,47 +373,52 @@
 </tr>
 <tr class="even">
 <td></td>
-<td><code><a href="reference/plot_segment_profiles.html">plot_segment_profiles()</a></code></td>
-<td>Grouped bar chart of segment composition</td>
+<td><code><a href="reference/create_persona_table.html">create_persona_table()</a></code></td>
+<td>“This, Not That” persona cards (gt table)</td>
 </tr>
 <tr class="odd">
+<td></td>
+<td><code><a href="reference/plot_segment_profiles.html">plot_segment_profiles()</a></code></td>
+<td>Diverging bar chart of segment DNA</td>
+</tr>
+<tr class="even">
 <td></td>
 <td><code><a href="reference/plot_segment_index.html">plot_segment_index()</a></code></td>
 <td>Index heatmap (over/under-represented)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><strong>Stat Sig</strong></td>
 <td><code><a href="reference/test_segment_significance.html">test_segment_significance()</a></code></td>
 <td>Wilcoxon rank-sum test between segments</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><strong>Legacy Data Prep</strong></td>
 <td><code><a href="reference/prep_data.html">prep_data()</a></code></td>
 <td>SPSS data cleaning pipeline</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td><code><a href="reference/build_imp_column_names.html">build_imp_column_names()</a></code></td>
 <td>Rename columns to <code>imp__step.objective</code>
 </td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td></td>
 <td><code><a href="reference/build_sat_column_names.html">build_sat_column_names()</a></code></td>
 <td>Rename columns to <code>sat__step.objective</code>
 </td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><strong>Analysis</strong></td>
 <td><code><a href="reference/get.normalized_scores.html">get.normalized_scores()</a></code></td>
 <td>Min-max normalize within segments</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td></td>
 <td><code><a href="reference/get.percent_of_max.html">get.percent_of_max()</a></code></td>
 <td>Percent-of-segment-max scoring</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td><code><a href="reference/get_jtbd_segment.comp.ordinal.html">get_jtbd_segment.comp.ordinal()</a></code></td>
 <td>Rank-based segment comparison</td>

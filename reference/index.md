@@ -133,8 +133,10 @@ Discover outcome-based segments using PCA + K-Means
   : Elbow plot for cluster evaluation
 - [`jtbd_profile_segments()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_profile_segments.md)
   : Automatically profile discovered segments
+- [`create_persona_table()`](https://charlesrogers.github.io/jtbdtools/reference/create_persona_table.md)
+  : Create segment persona cards as a gt table
 - [`plot_segment_profiles()`](https://charlesrogers.github.io/jtbdtools/reference/plot_segment_profiles.md)
-  : Plot segment profiles
+  : Plot segment divergence from population
 - [`plot_segment_index()`](https://charlesrogers.github.io/jtbdtools/reference/plot_segment_index.md)
   : Plot segment index heatmap
 

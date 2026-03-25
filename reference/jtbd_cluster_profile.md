@@ -33,6 +33,7 @@ with scores per cluster
 ## See also
 
 Other clustering:
+[`create_persona_table()`](https://charlesrogers.github.io/jtbdtools/reference/create_persona_table.md),
 [`jtbd_cluster()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_cluster.md),
 [`jtbd_feature_matrix()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_feature_matrix.md),
 [`jtbd_find_k()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_find_k.md),

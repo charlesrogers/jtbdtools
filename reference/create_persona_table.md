@@ -1,16 +1,14 @@
-# Plot segment index heatmap
+# Create segment persona cards as a gt table
 
-Shows how each segment over- or under-indexes on profiling attributes
-relative to the overall population. Index of 100 = same as population.
+Generates a publication-ready "This / Not That" table showing the
+defining characteristics of each discovered segment. Over-indexed
+attributes (index= 120) are listed as "More Likely", under-indexed
+(index \<= 80) as "Less Likely".
 
 ## Usage
 
 ``` r
-plot_segment_index(
-  profile_result,
-  max_vars = 6,
-  title = "Segment Index: Over & Under-Represented Traits"
-)
+create_persona_table(profile_result, cluster_profile = NULL)
 ```
 
 ## Arguments
@@ -20,22 +18,19 @@ plot_segment_index(
   Result from
   [`jtbd_profile_segments()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_profile_segments.md)
 
-- max_vars:
+- cluster_profile:
 
-  Maximum number of variables to show (default: 6)
-
-- title:
-
-  Plot title
+  Optional result from
+  [`jtbd_cluster_profile()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_cluster_profile.md)
+  to include top opportunity scores in the persona
 
 ## Value
 
-A ggplot object
+A gt table object
 
 ## See also
 
 Other clustering:
-[`create_persona_table()`](https://charlesrogers.github.io/jtbdtools/reference/create_persona_table.md),
 [`jtbd_cluster()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_cluster.md),
 [`jtbd_cluster_profile()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_cluster_profile.md),
 [`jtbd_feature_matrix()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_feature_matrix.md),
@@ -48,6 +43,7 @@ Other clustering:
 [`plot_pca_biplot()`](https://charlesrogers.github.io/jtbdtools/reference/plot_pca_biplot.md),
 [`plot_pca_loadings()`](https://charlesrogers.github.io/jtbdtools/reference/plot_pca_loadings.md),
 [`plot_pca_scree()`](https://charlesrogers.github.io/jtbdtools/reference/plot_pca_scree.md),
+[`plot_segment_index()`](https://charlesrogers.github.io/jtbdtools/reference/plot_segment_index.md),
 [`plot_segment_profiles()`](https://charlesrogers.github.io/jtbdtools/reference/plot_segment_profiles.md)
 
 ## Examples
@@ -63,5 +59,57 @@ prof <- jtbd_profile_segments(cl$data)
 #> ✔ Profiled 6 variables across 3 segments.
 #> ℹ 2 variables significantly distinguish segments (p < 0.05).
 #> ℹ Top distinguisher: segment, income
-plot_segment_index(prof)
+opp_profile <- jtbd_cluster_profile(jtbd_sample, cl, test_sig = FALSE)
+#> Found 3 segments with n > 30.
+create_persona_table(prof, opp_profile)
+
+
+  
+
+
+
+
+
+
+
+
+Outcome-Based Segment Personas
 ```
+
+"This, Not That" -- who they are, what they need
+
+More Likely (over-indexed)
+
+Less Likely (under-indexed)
+
+Top Unmet Needs
+
+Segment 1
+
+Education: Graduate (122) Income: \$30-50k (116)
+
+Education: High School (44) Age Group: 45-54 (57) Gender: Non-binary
+(71) Income: \$100k+ (79) Income: \<\$30k (80)
+
+Find Options (16.7) Understand Pricing (13.7) Complete Transaction (12)
+
+Segment 2
+
+Segment: casual (149) Tenure: 6-12 months (129) Tenure: \< 6 months
+(128) Income: \$30-50k (126) Age Group: 25-34 (121)
+
+Income: \$100k+ (15) Segment: power_user (31) Education: Graduate (59)
+Tenure: 2+ years (73) Tenure: 1-2 years (76)
+
+Avoid Errors in Order (13.2) Find Options (11.8) Get Started (11.6)
+
+Segment 3
+
+Income: \$100k+ (221) Segment: power_user (182) Age Group: 45-54 (152)
+Education: High School (145) Gender: Non-binary (134)
+
+Segment: casual (42) Income: \$30-50k (54) Age Group: 25-34 (62) Tenure:
+\< 6 months (69) Tenure: 6-12 months (71)
+
+Avoid Unexpected Costs (16.2) Evaluate Options (14.4) Avoid Needing
+Support (11.7)

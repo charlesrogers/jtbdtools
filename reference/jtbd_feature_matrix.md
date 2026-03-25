@@ -26,6 +26,7 @@ Column names are the objective identifiers (e.g.,
 ## See also
 
 Other clustering:
+[`create_persona_table()`](https://charlesrogers.github.io/jtbdtools/reference/create_persona_table.md),
 [`jtbd_cluster()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_cluster.md),
 [`jtbd_cluster_profile()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_cluster_profile.md),
 [`jtbd_find_k()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_find_k.md),

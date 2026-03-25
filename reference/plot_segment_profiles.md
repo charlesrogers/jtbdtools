@@ -1,17 +1,16 @@
-# Plot segment profiles
+# Plot segment divergence from population
 
-For each distinguishing profiling variable, shows the distribution
-across clusters as grouped bar charts with an overall reference line.
-Highlights where clusters are over- or under-indexed relative to the
-population.
+For each attribute, shows a diverging bar chart of how much each segment
+over- or under-indexes relative to the overall population. Only shows
+attributes with meaningful divergence (index \> 115 or \< 85).
 
 ## Usage
 
 ``` r
 plot_segment_profiles(
   profile_result,
-  max_vars = 4,
-  title = "Who's In Each Segment?"
+  max_vars = 6,
+  title = "Segment DNA: Who's In Each Group?"
 )
 ```
 
@@ -24,8 +23,7 @@ plot_segment_profiles(
 
 - max_vars:
 
-  Maximum number of variables to plot (default: 4, ordered by effect
-  size)
+  Maximum number of profiling variables to include (default: 6)
 
 - title:
 
@@ -38,6 +36,7 @@ A ggplot object
 ## See also
 
 Other clustering:
+[`create_persona_table()`](https://charlesrogers.github.io/jtbdtools/reference/create_persona_table.md),
 [`jtbd_cluster()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_cluster.md),
 [`jtbd_cluster_profile()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_cluster_profile.md),
 [`jtbd_feature_matrix()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_feature_matrix.md),

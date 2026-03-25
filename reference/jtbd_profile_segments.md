@@ -39,8 +39,7 @@ jtbd_profile_segments(
 
 A list with:
 
-- `summary`: tibble with one row per profiling variable — p-value,
-  effect size (Cramer's V), significance flag
+- `summary`: tibble with one row per profiling variable
 
 - `details`: list of per-variable breakdowns showing distribution per
   cluster
@@ -48,9 +47,12 @@ A list with:
 - `distinguishing`: the top distinguishing attributes ranked by effect
   size
 
+- `personas`: "this not that" persona table per cluster
+
 ## See also
 
 Other clustering:
+[`create_persona_table()`](https://charlesrogers.github.io/jtbdtools/reference/create_persona_table.md),
 [`jtbd_cluster()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_cluster.md),
 [`jtbd_cluster_profile()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_cluster_profile.md),
 [`jtbd_feature_matrix()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_feature_matrix.md),
@@ -88,10 +90,11 @@ profile$summary
 #> 4 education  0.143      0.155 FALSE       small     
 #> 5 age_group  0.257      0.159 FALSE       small     
 #> 6 gender     0.739      0.07  FALSE       negligible
-profile$distinguishing
-#> # A tibble: 2 × 5
-#>   variable p_value cramers_v significant effect
-#>   <chr>      <dbl>     <dbl> <lgl>       <chr> 
-#> 1 segment   0          0.328 TRUE        medium
-#> 2 income    0.0186     0.214 TRUE        medium
+profile$personas
+#> # A tibble: 3 × 3
+#>   segment   more_likely                                              less_likely
+#>   <chr>     <chr>                                                    <chr>      
+#> 1 Segment_1 Graduate (122)                                           High Schoo…
+#> 2 Segment_2 casual (149), 6-12 months (129), < 6 months (128), $30-… $100k+ (15…
+#> 3 Segment_3 $100k+ (221), power_user (182), 45-54 (152), High Schoo… casual (42…
 ```
