@@ -11,9 +11,10 @@
 #' @param alpha Significance level (default: 0.05)
 #'
 #' @return A list with:
-#'   - `summary`: tibble with one row per profiling variable — p-value, effect size (Cramer's V), significance flag
+#'   - `summary`: tibble with one row per profiling variable
 #'   - `details`: list of per-variable breakdowns showing distribution per cluster
 #'   - `distinguishing`: the top distinguishing attributes ranked by effect size
+#'   - `personas`: "this not that" persona table per cluster
 #' @export
 #'
 #' @family clustering
@@ -23,7 +24,7 @@
 #' cl <- jtbd_cluster(jtbd_sample, n_clusters = 3)
 #' profile <- jtbd_profile_segments(cl$data)
 #' profile$summary
-#' profile$distinguishing
+#' profile$personas
 jtbd_profile_segments <- function(df, cluster_col = "jtbd_cluster", profile_cols = NULL, alpha = 0.05) {
   if (!cluster_col %in% names(df)) {
     cli::cli_abort("Column {.val {cluster_col}} not found. Run {.fn jtbd_cluster} first.")
@@ -34,19 +35,17 @@ jtbd_profile_segments <- function(df, cluster_col = "jtbd_cluster", profile_cols
     skip_patterns <- c("^imp__", "^sat__", "^caseid$", paste0("^", cluster_col, "$"))
     skip_regex <- paste(skip_patterns, collapse = "|")
     profile_cols <- names(df)[!grepl(skip_regex, names(df))]
-    # Only keep factor/character columns (demographics, not numeric IDs)
     keep <- sapply(df[profile_cols], function(x) is.factor(x) || is.character(x))
     profile_cols <- profile_cols[keep]
   }
 
   if (length(profile_cols) == 0) {
     cli::cli_warn("No profiling columns found. Add demographic/behavioral columns to your data.")
-    return(list(summary = tibble::tibble(), details = list(), distinguishing = tibble::tibble()))
+    return(list(summary = tibble::tibble(), details = list(), distinguishing = tibble::tibble(), personas = tibble::tibble()))
   }
 
   clusters <- df[[cluster_col]]
   n_clusters <- length(unique(clusters))
-  n_total <- nrow(df)
 
   summary_rows <- list()
   details_list <- list()
@@ -55,10 +54,8 @@ jtbd_profile_segments <- function(df, cluster_col = "jtbd_cluster", profile_cols
     col_data <- df[[col_name]]
     if (is.character(col_data)) col_data <- factor(col_data)
 
-    # Cross-tabulation
     ct <- table(clusters, col_data)
 
-    # Chi-squared test
     chi_result <- tryCatch(
       suppressWarnings(stats::chisq.test(ct)),
       error = function(e) NULL
@@ -69,7 +66,6 @@ jtbd_profile_segments <- function(df, cluster_col = "jtbd_cluster", profile_cols
       cramers_v <- NA_real_
     } else {
       p_val <- chi_result$p.value
-      # Cramer's V effect size
       n_obs <- sum(ct)
       k <- min(nrow(ct), ncol(ct))
       cramers_v <- sqrt(chi_result$statistic / (n_obs * (k - 1)))
@@ -91,14 +87,12 @@ jtbd_profile_segments <- function(df, cluster_col = "jtbd_cluster", profile_cols
       stringsAsFactors = FALSE
     )
 
-    # Per-cluster distribution (percentages)
     pct_table <- prop.table(ct, margin = 1) * 100
     detail_df <- as.data.frame(pct_table)
     colnames(detail_df) <- c("cluster", "value", "pct")
     detail_df$pct <- round(detail_df$pct, 1)
     detail_df$variable <- col_name
 
-    # Find over/under-indexed values per cluster
     overall_pct <- prop.table(table(col_data)) * 100
     detail_df$overall_pct <- round(as.numeric(overall_pct[as.character(detail_df$value)]), 1)
     detail_df$index <- round(detail_df$pct / detail_df$overall_pct * 100)
@@ -107,15 +101,16 @@ jtbd_profile_segments <- function(df, cluster_col = "jtbd_cluster", profile_cols
     details_list[[col_name]] <- tibble::as_tibble(detail_df)
   }
 
-  # Build summary
   summary_df <- do.call(rbind, summary_rows) %>%
     tibble::as_tibble() %>%
     arrange(p_value)
 
-  # Build distinguishing attributes (significant, ranked by effect size)
   distinguishing <- summary_df %>%
     filter(significant) %>%
     arrange(desc(cramers_v))
+
+  # Build "this not that" personas
+  personas <- .build_personas(details_list, distinguishing, summary_df)
 
   n_sig <- nrow(distinguishing)
   cli::cli_inform(c(
@@ -127,20 +122,57 @@ jtbd_profile_segments <- function(df, cluster_col = "jtbd_cluster", profile_cols
   result <- list(
     summary = summary_df,
     details = details_list,
-    distinguishing = distinguishing
+    distinguishing = distinguishing,
+    personas = personas
   )
   class(result) <- c("jtbd_profile", "list")
   return(result)
 }
 
-#' Plot segment profiles
+#' Build "this not that" persona descriptions (internal)
+#' @noRd
+.build_personas <- function(details_list, distinguishing, summary_df) {
+  all_details <- do.call(rbind, details_list)
+  if (nrow(all_details) == 0) return(tibble::tibble())
+
+  cluster_names <- unique(as.character(all_details$cluster))
+
+  persona_rows <- list()
+  for (cl in cluster_names) {
+    cl_data <- all_details[all_details$cluster == cl & !is.na(all_details$index) & all_details$overall_pct >= 5, ]
+
+    # "More likely" = index >= 120 (20%+ over-represented)
+    more <- cl_data[cl_data$index >= 120, ]
+    more <- more[order(-more$index), ]
+    more_labels <- paste0(more$value, " (", more$index, ")")
+
+    # "Less likely" = index <= 80 (20%+ under-represented)
+    less <- cl_data[cl_data$index <= 80, ]
+    less <- less[order(less$index), ]
+    less_labels <- paste0(less$value, " (", less$index, ")")
+
+    # Size
+    cl_n <- sum(all_details$cluster == cl) / length(unique(all_details$variable)) / length(unique(all_details$value))
+
+    persona_rows[[cl]] <- data.frame(
+      segment = cl,
+      more_likely = paste(utils::head(more_labels, 5), collapse = ", "),
+      less_likely = paste(utils::head(less_labels, 5), collapse = ", "),
+      stringsAsFactors = FALSE
+    )
+  }
+
+  do.call(rbind, persona_rows) %>% tibble::as_tibble()
+}
+
+#' Plot segment divergence from population
 #'
-#' For each distinguishing profiling variable, shows the distribution across
-#' clusters as grouped bar charts with an overall reference line. Highlights
-#' where clusters are over- or under-indexed relative to the population.
+#' For each attribute, shows a diverging bar chart of how much each segment
+#' over- or under-indexes relative to the overall population. Only shows
+#' attributes with meaningful divergence (index > 115 or < 85).
 #'
 #' @param profile_result Result from [jtbd_profile_segments()]
-#' @param max_vars Maximum number of variables to plot (default: 4, ordered by effect size)
+#' @param max_vars Maximum number of profiling variables to include (default: 6)
 #' @param title Plot title
 #'
 #' @return A ggplot object
@@ -153,48 +185,61 @@ jtbd_profile_segments <- function(df, cluster_col = "jtbd_cluster", profile_cols
 #' cl <- jtbd_cluster(jtbd_sample, n_clusters = 3)
 #' prof <- jtbd_profile_segments(cl$data)
 #' plot_segment_profiles(prof)
-plot_segment_profiles <- function(profile_result, max_vars = 4,
-                                   title = "Who's In Each Segment?") {
-  # Get top distinguishing variables
-  top_vars <- profile_result$distinguishing$variable[1:min(max_vars, nrow(profile_result$distinguishing))]
+plot_segment_profiles <- function(profile_result, max_vars = 6,
+                                   title = "Segment DNA: Who's In Each Group?") {
+  top_vars <- profile_result$summary$variable[1:min(max_vars, nrow(profile_result$summary))]
 
-  if (length(top_vars) == 0) {
-    # Fall back to all variables if none significant
-    top_vars <- profile_result$summary$variable[1:min(max_vars, nrow(profile_result$summary))]
+  plot_data <- do.call(rbind, profile_result$details[top_vars])
+  plot_data <- plot_data[!is.na(plot_data$index) & plot_data$overall_pct >= 5, ]
+  plot_data$deviation <- plot_data$index - 100
+  plot_data$cluster_label <- gsub("Segment_", "Seg ", as.character(plot_data$cluster))
+  plot_data$attr_label <- paste0(tools::toTitleCase(gsub("_", " ", plot_data$variable)), ": ", plot_data$value)
+
+  # Only keep attributes with meaningful divergence in at least one segment
+  plot_data <- plot_data %>%
+    group_by(attr_label) %>%
+    filter(max(abs(deviation)) >= 15) %>%
+    ungroup()
+
+  if (nrow(plot_data) == 0) {
+    cli::cli_warn("No attributes with meaningful divergence found.")
+    return(ggplot() + theme_void())
   }
 
-  # Combine detail data for top variables
-  plot_data <- do.call(rbind, profile_result$details[top_vars])
-  plot_data$variable <- factor(plot_data$variable, levels = top_vars)
+  # Order by max absolute deviation
+  attr_order <- plot_data %>%
+    group_by(attr_label) %>%
+    summarize(max_dev = max(abs(deviation)), .groups = "drop") %>%
+    arrange(max_dev)
+  plot_data$attr_label <- factor(plot_data$attr_label, levels = attr_order$attr_label)
 
-  # Clean labels
-  plot_data$cluster_label <- gsub("_", " ", as.character(plot_data$cluster))
-
-  ggplot(plot_data, aes(x = value, y = pct, fill = cluster_label)) +
-    geom_col(position = position_dodge(width = 0.8), width = 0.7, alpha = 0.85) +
-    geom_point(aes(y = overall_pct), shape = 4, size = 2.5, color = "#2C3E50",
-               position = position_dodge(width = 0.8), show.legend = FALSE) +
-    facet_wrap(~variable, scales = "free_x", ncol = 2) +
-    scale_y_continuous(labels = function(x) paste0(x, "%"), expand = expansion(mult = c(0, 0.1))) +
+  ggplot(plot_data, aes(x = attr_label, y = deviation, fill = cluster_label)) +
+    geom_col(position = position_dodge(width = 0.75), width = 0.65, alpha = 0.9) +
+    geom_hline(yintercept = 0, linewidth = 0.6, color = "#2C3E50") +
+    geom_text(aes(label = ifelse(abs(deviation) >= 15, paste0(ifelse(deviation > 0, "+", ""), deviation), ""),
+                  hjust = ifelse(deviation >= 0, -0.1, 1.1)),
+              position = position_dodge(width = 0.75), size = 2.8, fontface = "bold") +
+    coord_flip() +
+    scale_fill_manual(values = c("#E74C3C", "#3498DB", "#2ECC71", "#F39C12", "#9B59B6")[1:length(unique(plot_data$cluster_label))]) +
+    scale_y_continuous(labels = function(x) paste0(ifelse(x > 0, "+", ""), x),
+                       expand = expansion(mult = c(0.15, 0.15))) +
     labs(title = title,
-         subtitle = "Bars = segment composition. X marks = overall population average.",
-         x = "", y = "% of Segment", fill = "Segment") +
+         subtitle = "How each segment deviates from the population average (index 100 = average)",
+         x = "", y = "Deviation from Average (index points)", fill = "") +
     theme_jtbd() +
-    theme(
-      axis.text.x = element_text(angle = 30, hjust = 1, size = 9),
-      strip.text = element_text(face = "bold", size = 11),
-      legend.position = "top"
-    )
+    theme(panel.grid.major.y = element_blank(),
+          axis.line.y = element_blank(),
+          legend.position = "top",
+          legend.text = element_text(size = 11, face = "bold"))
 }
 
 #' Plot segment index heatmap
 #'
 #' Shows how each segment over- or under-indexes on profiling attributes
-#' relative to the overall population. Index of 100 = same as population,
-#' >100 = over-represented, <100 = under-represented.
+#' relative to the overall population. Index of 100 = same as population.
 #'
 #' @param profile_result Result from [jtbd_profile_segments()]
-#' @param max_vars Maximum number of variables to show (default: 4)
+#' @param max_vars Maximum number of variables to show (default: 6)
 #' @param title Plot title
 #'
 #' @return A ggplot object
@@ -207,34 +252,188 @@ plot_segment_profiles <- function(profile_result, max_vars = 4,
 #' cl <- jtbd_cluster(jtbd_sample, n_clusters = 3)
 #' prof <- jtbd_profile_segments(cl$data)
 #' plot_segment_index(prof)
-plot_segment_index <- function(profile_result, max_vars = 4,
-                                title = "Segment Index vs Population") {
-  top_vars <- profile_result$distinguishing$variable[1:min(max_vars, nrow(profile_result$distinguishing))]
-  if (length(top_vars) == 0) {
-    top_vars <- profile_result$summary$variable[1:min(max_vars, nrow(profile_result$summary))]
-  }
+plot_segment_index <- function(profile_result, max_vars = 6,
+                                title = "Segment Index: Over & Under-Represented Traits") {
+  top_vars <- profile_result$summary$variable[1:min(max_vars, nrow(profile_result$summary))]
 
   plot_data <- do.call(rbind, profile_result$details[top_vars])
-  plot_data$variable <- factor(plot_data$variable, levels = top_vars)
-  plot_data$label <- paste0(plot_data$variable, ": ", plot_data$value)
-  plot_data$cluster_label <- gsub("_", " ", as.character(plot_data$cluster))
-
-  # Filter to interesting rows (not NA index, and not tiny overall %)
   plot_data <- plot_data[!is.na(plot_data$index) & plot_data$overall_pct >= 5, ]
+  plot_data$cluster_label <- gsub("Segment_", "Seg ", as.character(plot_data$cluster))
 
-  ggplot(plot_data, aes(x = cluster_label, y = label, fill = index)) +
-    geom_tile(color = "white", linewidth = 1.2) +
-    geom_text(aes(label = index,
-                  color = abs(index - 100) > 20),
-              size = 3.5, fontface = "bold", show.legend = FALSE) +
-    scale_color_manual(values = c("TRUE" = "white", "FALSE" = "#2C3E50")) +
-    scale_fill_gradient2(low = "#3498DB", mid = "#F7F7F7", high = "#E74C3C",
-                         midpoint = 100, name = "Index\n(100 = avg)") +
+  # Clean attribute labels
+  plot_data$attr_label <- paste0(
+    tools::toTitleCase(gsub("_", " ", plot_data$variable)),
+    ": ", plot_data$value
+  )
+
+  # Only keep rows with meaningful deviation
+  plot_data <- plot_data %>%
+    group_by(attr_label) %>%
+    filter(max(abs(index - 100)) >= 10) %>%
+    ungroup()
+
+  # Order by max deviation
+  attr_order <- plot_data %>%
+    group_by(attr_label) %>%
+    summarize(max_dev = max(abs(index - 100)), .groups = "drop") %>%
+    arrange(max_dev)
+  plot_data$attr_label <- factor(plot_data$attr_label, levels = attr_order$attr_label)
+
+  ggplot(plot_data, aes(x = cluster_label, y = attr_label, fill = index)) +
+    geom_tile(color = "white", linewidth = 2) +
+    geom_text(aes(label = index), size = 4.5, fontface = "bold",
+              color = ifelse(abs(plot_data$index - 100) > 25, "white", "#2C3E50")) +
+    scale_fill_gradient2(
+      low = "#2980B9", mid = "#F8F9FA", high = "#C0392B",
+      midpoint = 100, limits = c(40, 230),
+      oob = scales::squish,
+      name = "Index"
+    ) +
     labs(title = title,
-         subtitle = ">100 = over-represented in segment. <100 = under-represented.",
+         subtitle = "100 = population average. Red = over-represented. Blue = under-represented.",
          x = "", y = "") +
     theme_jtbd() +
     theme(panel.grid = element_blank(),
           axis.line = element_blank(),
-          axis.text.x = element_text(face = "bold", size = 11))
+          axis.text.x = element_text(face = "bold", size = 12),
+          axis.text.y = element_text(size = 10),
+          legend.position = "right")
+}
+
+#' Create segment persona cards as a gt table
+#'
+#' Generates a publication-ready "This / Not That" table showing the defining
+#' characteristics of each discovered segment. Over-indexed attributes (index
+#' >= 120) are listed as "More Likely", under-indexed (index <= 80) as "Less Likely".
+#'
+#' @param profile_result Result from [jtbd_profile_segments()]
+#' @param cluster_profile Optional result from [jtbd_cluster_profile()] to include
+#'   top opportunity scores in the persona
+#'
+#' @return A gt table object
+#' @export
+#'
+#' @family clustering
+#'
+#' @examples
+#' data(jtbd_sample)
+#' cl <- jtbd_cluster(jtbd_sample, n_clusters = 3)
+#' prof <- jtbd_profile_segments(cl$data)
+#' opp_profile <- jtbd_cluster_profile(jtbd_sample, cl, test_sig = FALSE)
+#' create_persona_table(prof, opp_profile)
+create_persona_table <- function(profile_result, cluster_profile = NULL) {
+  all_details <- do.call(rbind, profile_result$details)
+  if (nrow(all_details) == 0) {
+    cli::cli_warn("No profiling data available.")
+    return(gt::gt(data.frame(message = "No data")))
+  }
+
+  cluster_names <- sort(unique(as.character(all_details$cluster)))
+
+  clean_attr <- function(variable, value) {
+    var_clean <- tools::toTitleCase(gsub("_", " ", variable))
+    paste0(var_clean, ": ", value)
+  }
+
+  rows <- list()
+  for (cl in cluster_names) {
+    cl_data <- all_details[all_details$cluster == cl & !is.na(all_details$index) & all_details$overall_pct >= 5, ]
+    cl_label <- gsub("_", " ", cl)
+
+    # Size
+    n_in_cluster <- nrow(profile_result$details[[1]][profile_result$details[[1]]$cluster == cl, ]) # approximate
+    # Actually compute from the data
+    size_row <- cl_data[1, ]  # just need cluster name
+
+    # More likely (index >= 120)
+    more <- cl_data[cl_data$index >= 115, ]
+    more <- more[order(-more$index), ]
+    more_text <- if (nrow(more) > 0) {
+      paste(sapply(seq_len(min(5, nrow(more))), function(i) {
+        paste0(clean_attr(more$variable[i], more$value[i]), " (", more$index[i], ")")
+      }), collapse = "\n")
+    } else "--"
+
+    # Less likely (index <= 80)
+    less <- cl_data[cl_data$index <= 85, ]
+    less <- less[order(less$index), ]
+    less_text <- if (nrow(less) > 0) {
+      paste(sapply(seq_len(min(5, nrow(less))), function(i) {
+        paste0(clean_attr(less$variable[i], less$value[i]), " (", less$index[i], ")")
+      }), collapse = "\n")
+    } else "--"
+
+    # Top unmet needs (from cluster_profile if provided)
+    needs_text <- "--"
+    if (!is.null(cluster_profile)) {
+      opp_col <- paste0("opp.", cl)
+      if (opp_col %in% names(cluster_profile)) {
+        opp_data <- cluster_profile[order(-cluster_profile[[opp_col]]), ]
+        top3 <- utils::head(opp_data, 3)
+        obj_clean <- gsub("_", " ", as.character(top3$objective))
+        obj_clean <- gsub("minimize time to ", "", obj_clean)
+        obj_clean <- gsub("minimize likelihood of ", "Avoid ", obj_clean)
+        obj_clean <- tools::toTitleCase(obj_clean)
+        needs_text <- paste(paste0(obj_clean, " (", round(top3[[opp_col]], 1), ")"), collapse = "\n")
+      }
+    }
+
+    rows[[cl]] <- data.frame(
+      Segment = cl_label,
+      `More Likely` = more_text,
+      `Less Likely` = less_text,
+      `Top Unmet Needs` = needs_text,
+      check.names = FALSE,
+      stringsAsFactors = FALSE
+    )
+  }
+
+  persona_df <- do.call(rbind, rows)
+
+  tbl <- persona_df %>%
+    gt::gt() %>%
+    gt::tab_header(
+      title = "Outcome-Based Segment Personas",
+      subtitle = "\"This, Not That\" -- who they are, what they need"
+    ) %>%
+    gt::cols_label(
+      Segment = "",
+      `More Likely` = "More Likely (over-indexed)",
+      `Less Likely` = "Less Likely (under-indexed)",
+      `Top Unmet Needs` = "Top Unmet Needs"
+    ) %>%
+    gt::tab_style(
+      style = gt::cell_text(weight = "bold", size = gt::px(15)),
+      locations = gt::cells_body(columns = "Segment")
+    ) %>%
+    gt::tab_style(
+      style = gt::cell_text(color = "#C0392B"),
+      locations = gt::cells_body(columns = "More Likely")
+    ) %>%
+    gt::tab_style(
+      style = gt::cell_text(color = "#2980B9"),
+      locations = gt::cells_body(columns = "Less Likely")
+    ) %>%
+    gt::tab_style(
+      style = gt::cell_text(color = "#2C3E50", weight = "bold"),
+      locations = gt::cells_body(columns = "Top Unmet Needs")
+    ) %>%
+    gt::tab_options(
+      heading.align = "left",
+      column_labels.font.weight = "bold",
+      column_labels.border.bottom.width = 2,
+      column_labels.border.bottom.color = "#2C3E50",
+      data_row.padding = gt::px(10),
+      table.font.size = 13,
+      table.border.top.style = "none",
+      table.border.bottom.style = "none"
+    ) %>%
+    gt::cols_width(
+      Segment ~ gt::px(100),
+      `More Likely` ~ gt::px(250),
+      `Less Likely` ~ gt::px(250),
+      `Top Unmet Needs` ~ gt::px(250)
+    )
+
+  return(tbl)
 }

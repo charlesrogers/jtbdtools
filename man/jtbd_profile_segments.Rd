@@ -24,9 +24,10 @@ auto-detects all non-imp/sat/cluster/caseid columns.}
 \value{
 A list with:
 \itemize{
-\item \code{summary}: tibble with one row per profiling variable — p-value, effect size (Cramer's V), significance flag
+\item \code{summary}: tibble with one row per profiling variable
 \item \code{details}: list of per-variable breakdowns showing distribution per cluster
 \item \code{distinguishing}: the top distinguishing attributes ranked by effect size
+\item \code{personas}: "this not that" persona table per cluster
 }
 }
 \description{
@@ -39,10 +40,11 @@ data(jtbd_sample)
 cl <- jtbd_cluster(jtbd_sample, n_clusters = 3)
 profile <- jtbd_profile_segments(cl$data)
 profile$summary
-profile$distinguishing
+profile$personas
 }
 \seealso{
 Other clustering: 
+\code{\link{create_persona_table}()},
 \code{\link{jtbd_cluster}()},
 \code{\link{jtbd_cluster_profile}()},
 \code{\link{jtbd_feature_matrix}()},

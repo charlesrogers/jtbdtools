@@ -51,6 +51,7 @@ comparison <- get_jtbd_scores.comparison(cl$data, "jtbd_cluster")
 }
 \seealso{
 Other clustering: 
+\code{\link{create_persona_table}()},
 \code{\link{jtbd_cluster_profile}()},
 \code{\link{jtbd_feature_matrix}()},
 \code{\link{jtbd_find_k}()},

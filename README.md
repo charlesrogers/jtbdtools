@@ -108,18 +108,25 @@ The payoff — opportunity scores per discovered segment with statistical signif
 
 ### Step 5: Explain Who's In Each Segment
 
-Automatically profile clusters against demographics, behavior, or any attribute. Chi-squared tests + Cramer's V rank which variables best distinguish segments:
+Automatically profile clusters against demographics, behavior, or any attribute. Chi-squared tests + Cramer's V find what distinguishes each group:
+
+<img src="man/figures/readme-segment-profiles.png" width="700" alt="Segment DNA divergence chart" />
+
+The index heatmap shows exactly where each segment over- or under-indexes vs the population (100 = average):
 
 <img src="man/figures/readme-segment-index.png" width="650" alt="Segment index heatmap" />
 
-Segment 3 indexes at 221 on $100k+ income and 192 on power users — your high-value segment. Segment 2 skews toward new users and lower income:
+### Step 6: Outcome-Based Personas
 
-<img src="man/figures/readme-segment-profiles.png" width="700" alt="Segment demographic profiles" />
+Auto-generated "This, Not That" persona cards — who they are, what they need, in one table:
+
+<img src="man/figures/readme-persona-table.png" width="800" alt="Segment persona table" />
 
 ```r
+cl <- jtbd_cluster(jtbd_sample, n_clusters = 3)
 prof <- jtbd_profile_segments(cl$data)
-prof$distinguishing  # ranked by effect size
-plot_segment_index(prof)
+opp <- jtbd_cluster_profile(jtbd_sample, cl)
+create_persona_table(prof, opp)
 ```
 
 All discovered segments plug directly into existing comparison functions — Cleveland plots, divergence charts, gt tables, and significance testing all work automatically.
@@ -196,7 +203,8 @@ Also works with any CSV via `prep_survey()` — just point it at your importance
 | | `plot_pca_loadings()` | Component loading bar chart |
 | | `plot_elbow()` | Elbow + silhouette evaluation plot |
 | **Profiling** | `jtbd_profile_segments()` | Auto-profile clusters against demographics |
-| | `plot_segment_profiles()` | Grouped bar chart of segment composition |
+| | `create_persona_table()` | "This, Not That" persona cards (gt table) |
+| | `plot_segment_profiles()` | Diverging bar chart of segment DNA |
 | | `plot_segment_index()` | Index heatmap (over/under-represented) |
 | **Stat Sig** | `test_segment_significance()` | Wilcoxon rank-sum test between segments |
 | **Legacy Data Prep** | `prep_data()` | SPSS data cleaning pipeline |

@@ -79,6 +79,7 @@ reference:
       - plot_pca_loadings
       - plot_elbow
       - jtbd_profile_segments
+      - create_persona_table
       - plot_segment_profiles
       - plot_segment_index
 

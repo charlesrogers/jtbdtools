@@ -2,18 +2,18 @@
 % Please edit documentation in R/profiling.R
 \name{plot_segment_profiles}
 \alias{plot_segment_profiles}
-\title{Plot segment profiles}
+\title{Plot segment divergence from population}
 \usage{
 plot_segment_profiles(
   profile_result,
-  max_vars = 4,
-  title = "Who's In Each Segment?"
+  max_vars = 6,
+  title = "Segment DNA: Who's In Each Group?"
 )
 }
 \arguments{
 \item{profile_result}{Result from \code{\link[=jtbd_profile_segments]{jtbd_profile_segments()}}}
 
-\item{max_vars}{Maximum number of variables to plot (default: 4, ordered by effect size)}
+\item{max_vars}{Maximum number of profiling variables to include (default: 6)}
 
 \item{title}{Plot title}
 }
@@ -21,9 +21,9 @@ plot_segment_profiles(
 A ggplot object
 }
 \description{
-For each distinguishing profiling variable, shows the distribution across
-clusters as grouped bar charts with an overall reference line. Highlights
-where clusters are over- or under-indexed relative to the population.
+For each attribute, shows a diverging bar chart of how much each segment
+over- or under-indexes relative to the overall population. Only shows
+attributes with meaningful divergence (index > 115 or < 85).
 }
 \examples{
 data(jtbd_sample)
@@ -33,6 +33,7 @@ plot_segment_profiles(prof)
 }
 \seealso{
 Other clustering: 
+\code{\link{create_persona_table}()},
 \code{\link{jtbd_cluster}()},
 \code{\link{jtbd_cluster_profile}()},
 \code{\link{jtbd_feature_matrix}()},

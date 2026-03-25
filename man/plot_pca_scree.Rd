@@ -23,6 +23,7 @@ plot_pca_scree(pca)
 }
 \seealso{
 Other clustering: 
+\code{\link{create_persona_table}()},
 \code{\link{jtbd_cluster}()},
 \code{\link{jtbd_cluster_profile}()},
 \code{\link{jtbd_feature_matrix}()},

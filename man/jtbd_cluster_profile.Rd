@@ -28,6 +28,7 @@ head(profile)
 }
 \seealso{
 Other clustering: 
+\code{\link{create_persona_table}()},
 \code{\link{jtbd_cluster}()},
 \code{\link{jtbd_feature_matrix}()},
 \code{\link{jtbd_find_k}()},
