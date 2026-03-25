@@ -106,7 +106,23 @@ The payoff — opportunity scores per discovered segment with statistical signif
 
 <img src="man/figures/readme-cluster-heatmap.png" width="650" alt="Cluster opportunity heatmap" />
 
-These discovered segments plug directly into all existing comparison functions — Cleveland plots, divergence charts, gt tables, and significance testing all work automatically.
+### Step 5: Explain Who's In Each Segment
+
+Automatically profile clusters against demographics, behavior, or any attribute. Chi-squared tests + Cramer's V rank which variables best distinguish segments:
+
+<img src="man/figures/readme-segment-index.png" width="650" alt="Segment index heatmap" />
+
+Segment 3 indexes at 221 on $100k+ income and 192 on power users — your high-value segment. Segment 2 skews toward new users and lower income:
+
+<img src="man/figures/readme-segment-profiles.png" width="700" alt="Segment demographic profiles" />
+
+```r
+prof <- jtbd_profile_segments(cl$data)
+prof$distinguishing  # ranked by effect size
+plot_segment_index(prof)
+```
+
+All discovered segments plug directly into existing comparison functions — Cleveland plots, divergence charts, gt tables, and significance testing all work automatically.
 
 ---
 
@@ -179,6 +195,9 @@ Also works with any CSV via `prep_survey()` — just point it at your importance
 | | `plot_pca_scree()` | Scree plot with Kaiser line |
 | | `plot_pca_loadings()` | Component loading bar chart |
 | | `plot_elbow()` | Elbow + silhouette evaluation plot |
+| **Profiling** | `jtbd_profile_segments()` | Auto-profile clusters against demographics |
+| | `plot_segment_profiles()` | Grouped bar chart of segment composition |
+| | `plot_segment_index()` | Index heatmap (over/under-represented) |
 | **Stat Sig** | `test_segment_significance()` | Wilcoxon rank-sum test between segments |
 | **Legacy Data Prep** | `prep_data()` | SPSS data cleaning pipeline |
 | | `build_imp_column_names()` | Rename columns to `imp__step.objective` |

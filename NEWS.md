@@ -10,6 +10,13 @@
 - New `jtbd_feature_matrix()`: respondent × objective opportunity matrix
 - New visualizations: `plot_pca_biplot()`, `plot_cluster_heatmap()`, `plot_pca_scree()`, `plot_pca_loadings()`, `plot_elbow()`
 
+## Automated Segment Profiling
+
+- New `jtbd_profile_segments()`: auto-profiles clusters against demographics/behavior using chi-squared + Cramer's V
+- New `plot_segment_profiles()`: grouped bar chart of segment composition
+- New `plot_segment_index()`: index heatmap showing over/under-representation per cluster
+- Sample data now includes demographics: gender, age_group, income, education, tenure
+
 ## Bug Fixes
 
 - Fixed broken `get_jtbd_scores.individual()` (replaced deprecated `mutate_if` with explicit type conversion)

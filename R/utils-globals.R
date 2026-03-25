@@ -24,5 +24,7 @@ utils::globalVariables(c(
   ".", "opp_sum", "total_count", "reorder",
   "p.imp", "p.sat", "sig.imp", "sig.sat",
   "component", "eigenvalue", "variance_pct", "loading", "label",
-  "PC1", "PC2", "Cluster", "wcss_norm", "avg_silhouette", "k"
+  "PC1", "PC2", "Cluster", "wcss_norm", "avg_silhouette", "k",
+  "variable", "p_value", "cramers_v", "significant", "effect",
+  "pct", "overall_pct", "index", "cluster_label"
 ))

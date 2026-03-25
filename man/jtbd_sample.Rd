@@ -5,10 +5,11 @@
 \alias{jtbd_sample}
 \title{Sample JTBD survey data}
 \format{
-A data frame with 200 rows and 26 columns. Key columns include
-\code{caseid} (respondent ID), \code{segment} (user type factor), and 24 paired
-importance/satisfaction columns following the \code{imp__step.objective} /
-\code{sat__step.objective} naming convention.
+A data frame with 200 rows and 31 columns. Key columns include
+\code{caseid} (respondent ID), \code{segment} (user type factor),
+demographic profiling columns (\code{gender}, \code{age_group}, \code{income},
+\code{education}, \code{tenure}), and 24 paired importance/satisfaction columns
+following the \code{imp__step.objective} / \code{sat__step.objective} naming convention.
 }
 \usage{
 jtbd_sample

@@ -25,10 +25,13 @@ Other clustering:
 \code{\link{jtbd_feature_matrix}()},
 \code{\link{jtbd_find_k}()},
 \code{\link{jtbd_pca}()},
+\code{\link{jtbd_profile_segments}()},
 \code{\link{jtbd_segment}()},
 \code{\link{plot_cluster_heatmap}()},
 \code{\link{plot_elbow}()},
 \code{\link{plot_pca_biplot}()},
-\code{\link{plot_pca_scree}()}
+\code{\link{plot_pca_scree}()},
+\code{\link{plot_segment_index}()},
+\code{\link{plot_segment_profiles}()}
 }
 \concept{clustering}

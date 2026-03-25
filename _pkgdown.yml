@@ -78,6 +78,9 @@ reference:
       - plot_pca_scree
       - plot_pca_loadings
       - plot_elbow
+      - jtbd_profile_segments
+      - plot_segment_profiles
+      - plot_segment_index
 
   - title: Utilities
     contents:
