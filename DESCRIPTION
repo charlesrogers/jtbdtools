@@ -1,6 +1,6 @@
 Package: jtbdtools
 Title: Quantitative Jobs-to-Be-Done Analysis Using Outcome-Driven Innovation
-Version: 0.1.0
+Version: 0.2.0
 Authors@R:
     person("Charles", "Rogers", , "charlesrogers@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0009-0004-3162-0322"))

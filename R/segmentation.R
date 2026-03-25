@@ -1,3 +1,86 @@
+#' Test statistical significance between two segments
+#'
+#' Runs Wilcoxon rank-sum (Mann-Whitney U) tests on raw Likert responses
+#' for each importance and satisfaction objective, comparing two segments.
+#' This is a non-parametric test appropriate for ordinal survey data.
+#'
+#' @param data_frame The full data frame with `imp__`/`sat__` columns and a segmentation column
+#' @param segmentation_column The name of the segmentation column (as string)
+#' @param segment_a First segment value to compare
+#' @param segment_b Second segment value to compare
+#' @param alpha Significance level (default: 0.05)
+#'
+#' @return A tibble with columns: objective, p.imp, p.sat, sig.imp, sig.sat
+#' @export
+#'
+#' @family segmentation
+#'
+#' @examples
+#' data(jtbd_sample)
+#' sig <- test_segment_significance(jtbd_sample, "segment", "casual", "power_user")
+#' sig
+test_segment_significance <- function(data_frame, segmentation_column, segment_a, segment_b, alpha = 0.05) {
+  group_a <- data_frame %>% filter(.data[[segmentation_column]] == segment_a)
+  group_b <- data_frame %>% filter(.data[[segmentation_column]] == segment_b)
+
+  if (nrow(group_a) < 5 || nrow(group_b) < 5) {
+    cli::cli_warn("Segment sample sizes are very small (n_a={nrow(group_a)}, n_b={nrow(group_b)}). P-values may be unreliable.")
+  }
+
+  imp_cols <- grep("^imp__", names(data_frame), value = TRUE)
+  sat_cols <- grep("^sat__", names(data_frame), value = TRUE)
+
+  # Extract objective names from column names (strip imp__/sat__ prefix)
+  imp_objectives <- sub("^imp__", "", imp_cols)
+  sat_objectives <- sub("^sat__", "", sat_cols)
+
+  results <- list()
+
+  for (i in seq_along(imp_cols)) {
+    obj <- imp_objectives[i]
+    imp_col <- imp_cols[i]
+    # Find matching sat column
+    sat_col <- paste0("sat__", obj)
+
+    # Convert factors to numeric for Wilcoxon test
+    a_imp <- as.numeric(as.character(group_a[[imp_col]]))
+    b_imp <- as.numeric(as.character(group_b[[imp_col]]))
+
+    p_imp <- tryCatch(
+      suppressWarnings(stats::wilcox.test(a_imp, b_imp)$p.value),
+      error = function(e) NA_real_
+    )
+
+    p_sat <- NA_real_
+    if (sat_col %in% names(data_frame)) {
+      a_sat <- as.numeric(as.character(group_a[[sat_col]]))
+      b_sat <- as.numeric(as.character(group_b[[sat_col]]))
+      p_sat <- tryCatch(
+        suppressWarnings(stats::wilcox.test(a_sat, b_sat)$p.value),
+        error = function(e) NA_real_
+      )
+    }
+
+    # Split objective into job_step.objective
+    parts <- strsplit(obj, "\\.")[[1]]
+    job_step <- parts[1]
+    objective <- paste(parts[-1], collapse = ".")
+
+    results[[i]] <- data.frame(
+      job_step = job_step,
+      objective = objective,
+      p.imp = round(p_imp, 4),
+      p.sat = round(p_sat, 4),
+      sig.imp = !is.na(p_imp) & p_imp < alpha,
+      sig.sat = !is.na(p_sat) & p_sat < alpha,
+      stringsAsFactors = FALSE
+    )
+  }
+
+  result_df <- do.call(rbind, results)
+  return(tibble::as_tibble(result_df))
+}
+
 #' Get unique segment values
 #'
 #' Extracts unique values from a segmentation column, filtering to segments
@@ -38,21 +121,32 @@ get_jtbd_var_values.list <- function(data_frame, segmentation_column, min_n = 30
 #' Calculate JTBD scores for multiple segments
 #'
 #' Compares opportunity scores across all values of a segmentation variable.
-#' This is the main function for segment comparison analysis.
+#' This is the main function for segment comparison analysis. Optionally
+#' runs Wilcoxon rank-sum tests to identify statistically significant
+#' differences between each segment and the overall population.
 #'
 #' @param data_frame A data frame with `imp__`/`sat__` columns and a segmentation column
 #' @param segmentation_column The name of the column to segment by (as string)
+#' @param test_sig If TRUE, run statistical significance tests and add p-value columns (default: FALSE)
+#' @param alpha Significance level for tests (default: 0.05)
 #'
-#' @return A data frame with imp/sat/opp scores for each segment, joined together
+#' @return A data frame with imp/sat/opp scores for each segment. When `test_sig = TRUE`,
+#'   additional columns `p.imp.<segment>`, `p.sat.<segment>`, `sig.imp.<segment>`,
+#'   `sig.sat.<segment>` are included.
 #' @export
 #'
 #' @family segmentation
 #'
 #' @examples
 #' data(jtbd_sample)
+#' # Without significance testing
 #' comparison <- get_jtbd_scores.comparison(jtbd_sample, "segment")
-#' head(comparison)
-get_jtbd_scores.comparison <- function(data_frame, segmentation_column) {
+#'
+#' # With significance testing
+#' comparison_sig <- get_jtbd_scores.comparison(jtbd_sample, "segment", test_sig = TRUE)
+#' # Look at p-values
+#' comparison_sig[, grep("^(objective|p\\.|sig\\.)", names(comparison_sig))]
+get_jtbd_scores.comparison <- function(data_frame, segmentation_column, test_sig = FALSE, alpha = 0.05) {
   segments_list <- get_jtbd_var_values.list(data_frame, segmentation_column)
 
   result <- get_jtbd_scores(data_frame, col_suffix = "all")
@@ -62,9 +156,77 @@ get_jtbd_scores.comparison <- function(data_frame, segmentation_column) {
     segment_scores <- get_jtbd_scores(segment_data, col_suffix = seg_value)
     result <- result %>%
       left_join(segment_scores %>% select(-starts_with("all")), by = c("job_step", "objective"))
+
+    # Run stat sig tests: segment vs complement (everyone NOT in this segment)
+    if (test_sig) {
+      complement_data <- data_frame %>% filter(.data[[segmentation_column]] != seg_value)
+      sig_results <- test_segment_significance(
+        data_frame, segmentation_column,
+        segment_a = seg_value,
+        segment_b = unique(as.character(complement_data[[segmentation_column]])),
+        alpha = alpha
+      )
+      # Actually, we want segment vs everyone else — use raw data directly
+      sig_results <- .test_segment_vs_rest(data_frame, segmentation_column, seg_value, alpha)
+      sig_cols <- sig_results %>%
+        select(job_step, objective, p.imp, p.sat, sig.imp, sig.sat) %>%
+        rename(
+          !!paste0("p.imp.", seg_value) := p.imp,
+          !!paste0("p.sat.", seg_value) := p.sat,
+          !!paste0("sig.imp.", seg_value) := sig.imp,
+          !!paste0("sig.sat.", seg_value) := sig.sat
+        )
+      result <- result %>%
+        left_join(sig_cols, by = c("job_step", "objective"))
+    }
   }
 
   return(result)
+}
+
+#' Test one segment vs the rest of the population (internal)
+#' @noRd
+.test_segment_vs_rest <- function(data_frame, segmentation_column, segment_value, alpha = 0.05) {
+  group_seg <- data_frame %>% filter(.data[[segmentation_column]] == segment_value)
+  group_rest <- data_frame %>% filter(.data[[segmentation_column]] != segment_value)
+
+  imp_cols <- grep("^imp__", names(data_frame), value = TRUE)
+
+  results <- list()
+  for (i in seq_along(imp_cols)) {
+    imp_col <- imp_cols[i]
+    obj <- sub("^imp__", "", imp_col)
+    sat_col <- paste0("sat__", obj)
+
+    a_imp <- as.numeric(as.character(group_seg[[imp_col]]))
+    b_imp <- as.numeric(as.character(group_rest[[imp_col]]))
+    p_imp <- tryCatch(
+      suppressWarnings(stats::wilcox.test(a_imp, b_imp)$p.value),
+      error = function(e) NA_real_
+    )
+
+    p_sat <- NA_real_
+    if (sat_col %in% names(data_frame)) {
+      a_sat <- as.numeric(as.character(group_seg[[sat_col]]))
+      b_sat <- as.numeric(as.character(group_rest[[sat_col]]))
+      p_sat <- tryCatch(
+        suppressWarnings(stats::wilcox.test(a_sat, b_sat)$p.value),
+        error = function(e) NA_real_
+      )
+    }
+
+    parts <- strsplit(obj, "\\.")[[1]]
+    results[[i]] <- data.frame(
+      job_step = parts[1],
+      objective = paste(parts[-1], collapse = "."),
+      p.imp = round(p_imp, 4),
+      p.sat = round(p_sat, 4),
+      sig.imp = !is.na(p_imp) & p_imp < alpha,
+      sig.sat = !is.na(p_sat) & p_sat < alpha,
+      stringsAsFactors = FALSE
+    )
+  }
+  do.call(rbind, results) %>% tibble::as_tibble()
 }
 
 #' Calculate JTBD scores for a pair of segments

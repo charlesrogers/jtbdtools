@@ -38,9 +38,14 @@ reference:
       - create.job_step.table
       - create.pct.table
 
-  - title: Data Preparation
-    desc: Prepare survey data for analysis
+  - title: Import & Data Prep
+    desc: Import survey data and prepare for analysis
     contents:
+      - prep_qualtrics
+      - prep_survey
+      - read_qualtrics
+      - detect_imp_sat
+      - validate_jtbd_data
       - prep_data
       - build_imp_column_names
       - build_sat_column_names
@@ -50,10 +55,11 @@ reference:
       - replace_spaces_with_underscores
       - change_labeles_to_factors
 
-  - title: Segmentation
-    desc: Compare scores across segments
+  - title: Segmentation & Significance
+    desc: Compare scores across segments with statistical testing
     contents:
       - get_jtbd_var_values.list
+      - test_segment_significance
       - get_jtbd_segment.comp.ordinal
       - get_jtbd_segment.comp_and_plot
       - get_seg_comp.build.linear

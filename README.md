@@ -82,12 +82,28 @@ data(jtbd_sample)
 # Calculate opportunity scores
 scores <- get_jtbd_scores(jtbd_sample)
 
-# Compare across segments
-comparison <- get_jtbd_scores.comparison(jtbd_sample, "segment")
+# Compare across segments with statistical significance
+comparison <- get_jtbd_scores.comparison(jtbd_sample, "segment", test_sig = TRUE)
 
 # Visualize
 plot_opportunity_matrix(scores, show_zones = TRUE)
 ```
+
+### From Qualtrics to Insights in 3 Lines
+
+```r
+# Import directly from Qualtrics CSV
+ready <- prep_qualtrics("my_survey.csv",
+  job_steps = list(researching = 1:4, purchasing = 5:8),
+  segment_col = "Q_segment"
+)
+
+# Score with significance testing
+scores <- get_jtbd_scores(ready)
+comparison <- get_jtbd_scores.comparison(ready, "Q_segment", test_sig = TRUE)
+```
+
+Also works with any CSV via `prep_survey()` — just point it at your importance and satisfaction columns.
 
 ## Functions
 
@@ -107,7 +123,13 @@ plot_opportunity_matrix(scores, show_zones = TRUE)
 | | `theme.job_step()` | Publication-ready gt table |
 | | `create.job_step.table()` | Filter + format + save as PNG |
 | | `create.pct.table()` | Frequency table with bar charts |
-| **Data Prep** | `prep_data()` | Full SPSS data cleaning pipeline |
+| **Import** | `prep_qualtrics()` | Qualtrics CSV to analysis-ready in one call |
+| | `prep_survey()` | Universal data prep for any source |
+| | `read_qualtrics()` | Read Qualtrics CSV (handles metadata rows) |
+| | `detect_imp_sat()` | Auto-detect importance/satisfaction columns |
+| | `validate_jtbd_data()` | Check data format before scoring |
+| **Stat Sig** | `test_segment_significance()` | Wilcoxon rank-sum test between segments |
+| **Legacy Data Prep** | `prep_data()` | SPSS data cleaning pipeline |
 | | `build_imp_column_names()` | Rename columns to `imp__step.objective` |
 | | `build_sat_column_names()` | Rename columns to `sat__step.objective` |
 | **Analysis** | `get.normalized_scores()` | Min-max normalize within segments |

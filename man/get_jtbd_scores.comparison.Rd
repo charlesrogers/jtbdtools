@@ -4,24 +4,42 @@
 \alias{get_jtbd_scores.comparison}
 \title{Calculate JTBD scores for multiple segments}
 \usage{
-get_jtbd_scores.comparison(data_frame, segmentation_column)
+get_jtbd_scores.comparison(
+  data_frame,
+  segmentation_column,
+  test_sig = FALSE,
+  alpha = 0.05
+)
 }
 \arguments{
 \item{data_frame}{A data frame with \code{imp__}/\code{sat__} columns and a segmentation column}
 
 \item{segmentation_column}{The name of the column to segment by (as string)}
+
+\item{test_sig}{If TRUE, run statistical significance tests and add p-value columns (default: FALSE)}
+
+\item{alpha}{Significance level for tests (default: 0.05)}
 }
 \value{
-A data frame with imp/sat/opp scores for each segment, joined together
+A data frame with imp/sat/opp scores for each segment. When \code{test_sig = TRUE},
+additional columns \verb{p.imp.<segment>}, \verb{p.sat.<segment>}, \verb{sig.imp.<segment>},
+\verb{sig.sat.<segment>} are included.
 }
 \description{
 Compares opportunity scores across all values of a segmentation variable.
-This is the main function for segment comparison analysis.
+This is the main function for segment comparison analysis. Optionally
+runs Wilcoxon rank-sum tests to identify statistically significant
+differences between each segment and the overall population.
 }
 \examples{
 data(jtbd_sample)
+# Without significance testing
 comparison <- get_jtbd_scores.comparison(jtbd_sample, "segment")
-head(comparison)
+
+# With significance testing
+comparison_sig <- get_jtbd_scores.comparison(jtbd_sample, "segment", test_sig = TRUE)
+# Look at p-values
+comparison_sig[, grep("^(objective|p\\\\.|sig\\\\.)", names(comparison_sig))]
 }
 \seealso{
 Other segmentation: 
@@ -29,6 +47,7 @@ Other segmentation:
 \code{\link{get_jtbd_scores.pairwise}()},
 \code{\link{get_jtbd_segment.comp.ordinal}()},
 \code{\link{get_jtbd_var_values.list}()},
-\code{\link{get_seg_comp.build.linear}()}
+\code{\link{get_seg_comp.build.linear}()},
+\code{\link{test_segment_significance}()}
 }
 \concept{segmentation}

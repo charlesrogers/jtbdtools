@@ -36,6 +36,7 @@ Other segmentation:
 \code{\link{get_jtbd_scores.pairwise}()},
 \code{\link{get_jtbd_segment.comp.ordinal}()},
 \code{\link{get_jtbd_var_values.list}()},
-\code{\link{get_seg_comp.build.linear}()}
+\code{\link{get_seg_comp.build.linear}()},
+\code{\link{test_segment_significance}()}
 }
 \concept{segmentation}

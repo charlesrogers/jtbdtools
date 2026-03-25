@@ -23,7 +23,7 @@
 #' @importFrom gtExtras gt_theme_nytimes gt_highlight_rows gt_plt_bar_pct
 #' @importFrom ggrepel geom_text_repel
 #' @importFrom labelled to_factor
-#' @importFrom rlang .data !! !!! as_name enquo
+#' @importFrom rlang .data !! !!! := as_name enquo
 #' @importFrom cli cli_abort cli_warn cli_inform
 #' @importFrom purrr pluck
 #' @importFrom tidyselect all_of where
