@@ -54,184 +54,192 @@ response patterns.</p>
 
     <div class="section level2">
     <h2 id="format">Format<a class="anchor" aria-label="anchor" href="#format"></a></h2>
-    <p>A data frame with 200 rows and 26 columns. Key columns include
-<code>caseid</code> (respondent ID), <code>segment</code> (user type factor), and 24 paired
-importance/satisfaction columns following the <code>imp__step.objective</code> /
-<code>sat__step.objective</code> naming convention.</p>
+    <p>A data frame with 200 rows and 31 columns. Key columns include
+<code>caseid</code> (respondent ID), <code>segment</code> (user type factor),
+demographic profiling columns (<code>gender</code>, <code>age_group</code>, <code>income</code>,
+<code>education</code>, <code>tenure</code>), and 24 paired importance/satisfaction columns
+following the <code>imp__step.objective</code> / <code>sat__step.objective</code> naming convention.</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">jtbd_sample</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">jtbd_sample</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   caseid    segment imp__researching.minimize_time_to_find_options</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1      1   new_user                                              3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2      2   new_user                                              4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3      3     casual                                              4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4      4   new_user                                              4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5      5 power_user                                              3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6      6 power_user                                              4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   caseid    segment gender age_group   income    education      tenure</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1      1   new_user Female     18-24  $50-75k  High School   1-2 years</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2      2   new_user Female     25-34  $30-50k   Bachelor's 6-12 months</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3      3     casual   Male     25-34  $30-50k   Bachelor's 6-12 months</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4      4   new_user Female     25-34 $75-100k Some College  &lt; 6 months</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5      5 power_user   Male       55+   $100k+     Graduate   1-2 years</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6      6 power_user   Male       55+ $75-100k     Graduate    2+ years</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   imp__researching.minimize_time_to_find_options</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                              5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                                              5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                              2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                              3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                              5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6                                              5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   sat__researching.minimize_time_to_find_options</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1                                              3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2                                              2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3                                              4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4                                              3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                              3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6                                              5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                              2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6                                              2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   imp__researching.minimize_time_to_evaluate_options</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                  5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                  4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                                  5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                                  4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                  3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6                                                  4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   sat__researching.minimize_time_to_evaluate_options</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                  3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                  2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                                  2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                                  4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                  5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6                                                  5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   sat__researching.minimize_time_to_evaluate_options</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                  4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                  3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3                                                  4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                                  2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                  3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6                                                  2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                                  3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                  4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6                                                  4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   imp__researching.minimize_likelihood_of_missing_relevant_options</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                                4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                                3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                                4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                                                2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                                                3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                                5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6                                                                4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                                                4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                                                4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                                4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6                                                                5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   sat__researching.minimize_likelihood_of_missing_relevant_options</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                                4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                                2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                                                4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                                4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                                                5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4                                                                3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                                3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6                                                                3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                                5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6                                                                5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   imp__researching.minimize_time_to_understand_pricing</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                    5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                                    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                    5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                                    3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4                                                    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                    5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6                                                    5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6                                                    3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   sat__researching.minimize_time_to_understand_pricing</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                    3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                                    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                                    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                    5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                                    5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                                    5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                    4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6                                                    4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   imp__purchasing.minimize_time_to_complete_transaction</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                     3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                     4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                                     4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                                     4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                     5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6                                                     5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   sat__purchasing.minimize_time_to_complete_transaction</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                     4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                     4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                                     5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                                     3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                     5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6                                                     5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   imp__purchasing.minimize_likelihood_of_unexpected_costs</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                       4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                       5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                                       3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                                       4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                       5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6                                                       4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   sat__purchasing.minimize_likelihood_of_unexpected_costs</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                       2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                       2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                                       5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                                       3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                       3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6                                                       2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   imp__purchasing.minimize_time_to_receive_confirmation</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                     4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                     3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3                                                     5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                                     3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                     5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6                                                     5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   sat__purchasing.minimize_time_to_complete_transaction</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                     3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                     5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                                     4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4                                                     4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                     5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6                                                     2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   imp__purchasing.minimize_likelihood_of_unexpected_costs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                       4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                       5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                                       4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                                       5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                       5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6                                                       4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   sat__purchasing.minimize_likelihood_of_unexpected_costs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                       1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                       3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                                       5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                                       2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                       2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6                                                       4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   imp__purchasing.minimize_time_to_receive_confirmation</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                     3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                     4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                                     5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                                     3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                     5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6                                                     5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   sat__purchasing.minimize_time_to_receive_confirmation</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                     2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                     3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                     4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                                     3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                                     3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                                     2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                                     2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                     5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6                                                     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6                                                     5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   imp__purchasing.minimize_likelihood_of_errors_in_order</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                      5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                      4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                                      4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                                      5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                      4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6                                                      4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   sat__purchasing.minimize_likelihood_of_errors_in_order</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                      3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                      4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3                                                      4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4                                                      3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                      4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6                                                      3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   sat__purchasing.minimize_likelihood_of_errors_in_order</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                      1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                      4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                                      5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                                      2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                      2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                      5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6                                                      4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   imp__onboarding.minimize_time_to_get_started</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1                                            4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2                                            5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                            5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                            3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                            5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6                                            4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   sat__onboarding.minimize_time_to_get_started</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                            3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2                                            4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                            3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                            3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                            5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6                                            5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                            5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                            4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                            3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6                                            3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   sat__onboarding.minimize_time_to_get_started</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                            2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                                            3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                            2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                            2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                            3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6                                            4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   imp__onboarding.minimize_likelihood_of_confusion_during_setup</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                             5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                             4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                                             3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                                             5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                             4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                             5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                                             4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                                             3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                             4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6                                                             4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   sat__onboarding.minimize_likelihood_of_confusion_during_setup</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                             1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                             3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                             2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3                                                             4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                                             1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                             3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6                                                             2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                                             3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                             5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6                                                             5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   imp__onboarding.minimize_time_to_reach_first_value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                  5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                  4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                                  5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                                  4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                  4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                  5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                                  3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                                  3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                  4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6                                                  4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   sat__onboarding.minimize_time_to_reach_first_value</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                  4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                  4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                  3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3                                                  3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                                  4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                  4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6                                                  5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                                  2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                  5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6                                                  3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   imp__onboarding.minimize_likelihood_of_needing_support</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                      4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                      5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                                      5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                                      3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                      4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                                      2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                                      4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                      3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6                                                      4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   sat__onboarding.minimize_likelihood_of_needing_support</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                      3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                      2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                                      4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                      2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                      1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                                      3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4                                                      3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                      5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6                                                      5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                      1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6                                                      2</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Calculate opportunity scores</span></span></span>
 <span class="r-in"><span><span class="va">scores</span> <span class="op">&lt;-</span> <span class="fu"><a href="get_jtbd_scores.html">get_jtbd_scores</a></span><span class="op">(</span><span class="va">jtbd_sample</span><span class="op">)</span></span></span>

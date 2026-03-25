@@ -29,6 +29,21 @@
   [`plot_pca_loadings()`](https://charlesrogers.github.io/jtbdtools/reference/plot_pca_loadings.md),
   [`plot_elbow()`](https://charlesrogers.github.io/jtbdtools/reference/plot_elbow.md)
 
+### Automated Segment Profiling
+
+- New
+  [`jtbd_profile_segments()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_profile_segments.md):
+  auto-profiles clusters against demographics/behavior using
+  chi-squared + Cramer’s V
+- New
+  [`plot_segment_profiles()`](https://charlesrogers.github.io/jtbdtools/reference/plot_segment_profiles.md):
+  grouped bar chart of segment composition
+- New
+  [`plot_segment_index()`](https://charlesrogers.github.io/jtbdtools/reference/plot_segment_index.md):
+  index heatmap showing over/under-representation per cluster
+- Sample data now includes demographics: gender, age_group, income,
+  education, tenure
+
 ### Bug Fixes
 
 - Fixed broken

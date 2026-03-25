@@ -77,12 +77,15 @@ to help choose the optimal number of clusters (elbow method + silhouette).</p>
 <code><a href="jtbd_cluster_profile.html">jtbd_cluster_profile()</a></code>,
 <code><a href="jtbd_feature_matrix.html">jtbd_feature_matrix()</a></code>,
 <code><a href="jtbd_pca.html">jtbd_pca()</a></code>,
+<code><a href="jtbd_profile_segments.html">jtbd_profile_segments()</a></code>,
 <code><a href="jtbd_segment.html">jtbd_segment()</a></code>,
 <code><a href="plot_cluster_heatmap.html">plot_cluster_heatmap()</a></code>,
 <code><a href="plot_elbow.html">plot_elbow()</a></code>,
 <code><a href="plot_pca_biplot.html">plot_pca_biplot()</a></code>,
 <code><a href="plot_pca_loadings.html">plot_pca_loadings()</a></code>,
-<code><a href="plot_pca_scree.html">plot_pca_scree()</a></code></p></div>
+<code><a href="plot_pca_scree.html">plot_pca_scree()</a></code>,
+<code><a href="plot_segment_index.html">plot_segment_index()</a></code>,
+<code><a href="plot_segment_profiles.html">plot_segment_profiles()</a></code></p></div>
     </div>
 
     <div class="section level2">
@@ -91,13 +94,13 @@ to help choose the optimal number of clusters (elbow method + silhouette).</p>
 <span class="r-in"><span><span class="va">k_eval</span> <span class="op">&lt;-</span> <span class="fu">jtbd_find_k</span><span class="op">(</span><span class="va">jtbd_sample</span>, max_k <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Feature matrix: 200 respondents x 12 objectives (opportunity scores 1-9).</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Kaiser rule: retaining 5 components (eigenvalue &gt; 1).</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Best k by silhouette: 5 (avg silhouette = 0.174)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Best k by silhouette: 2 (avg silhouette = 0.162)</span>
 <span class="r-in"><span><span class="va">k_eval</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   k   wcss avg_silhouette</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 2 1051.1          0.168</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 3  915.3          0.156</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 4  809.1          0.162</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 5  722.6          0.174</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 2 1060.8          0.162</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 3  924.9          0.157</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 4  832.7          0.157</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 5  756.1          0.160</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

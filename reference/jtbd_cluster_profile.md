@@ -37,12 +37,15 @@ Other clustering:
 [`jtbd_feature_matrix()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_feature_matrix.md),
 [`jtbd_find_k()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_find_k.md),
 [`jtbd_pca()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_pca.md),
+[`jtbd_profile_segments()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_profile_segments.md),
 [`jtbd_segment()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_segment.md),
 [`plot_cluster_heatmap()`](https://charlesrogers.github.io/jtbdtools/reference/plot_cluster_heatmap.md),
 [`plot_elbow()`](https://charlesrogers.github.io/jtbdtools/reference/plot_elbow.md),
 [`plot_pca_biplot()`](https://charlesrogers.github.io/jtbdtools/reference/plot_pca_biplot.md),
 [`plot_pca_loadings()`](https://charlesrogers.github.io/jtbdtools/reference/plot_pca_loadings.md),
-[`plot_pca_scree()`](https://charlesrogers.github.io/jtbdtools/reference/plot_pca_scree.md)
+[`plot_pca_scree()`](https://charlesrogers.github.io/jtbdtools/reference/plot_pca_scree.md),
+[`plot_segment_index()`](https://charlesrogers.github.io/jtbdtools/reference/plot_segment_index.md),
+[`plot_segment_profiles()`](https://charlesrogers.github.io/jtbdtools/reference/plot_segment_profiles.md)
 
 ## Examples
 
@@ -52,19 +55,19 @@ cl <- jtbd_cluster(jtbd_sample, n_clusters = 3)
 #> Feature matrix: 200 respondents x 12 objectives (opportunity scores 1-9).
 #> Kaiser rule: retaining 5 components (eigenvalue > 1).
 #> ✔ Clustered 200 respondents into 3 segments.
-#> ℹ Sizes: Segment_1 (n=65), Segment_2 (n=63), Segment_3 (n=72)
+#> ℹ Sizes: Segment_1 (n=60), Segment_2 (n=76), Segment_3 (n=64)
 profile <- jtbd_cluster_profile(jtbd_sample, cl)
 #> Found 3 segments with n > 30.
 head(profile)
 #> # A tibble: 6 × 34
 #>   job_step    objective           imp.all sat.all opp.all rank.all opp_index.all
 #>   <chr>       <chr>                 <dbl>   <dbl>   <dbl>    <dbl>         <dbl>
-#> 1 researching minimize_time_to_e…    8.5     2.2     14.8        1          1.64
-#> 2 purchasing  minimize_likelihoo…    7.6     1.5     13.7        2          1.51
-#> 3 purchasing  minimize_time_to_r…    8.4     4.2     12.6        3          1.39
-#> 4 onboarding  minimize_likelihoo…    7.35    2.1     12.6        4          1.39
-#> 5 researching minimize_time_to_u…    8.3     6.05    10.6        5          1.17
-#> 6 researching minimize_time_to_f…    7.9     6.7      9.1        6          1.01
+#> 1 researching minimize_time_to_f…    7.75    2.6     12.9        1          1.53
+#> 2 purchasing  minimize_likelihoo…    8.65    6.1     11.2        2          1.33
+#> 3 purchasing  minimize_likelihoo…    7.4     4.55    10.2        3          1.21
+#> 4 onboarding  minimize_likelihoo…    6.25    2.3     10.2        4          1.21
+#> 5 researching minimize_likelihoo…    7.7     6        9.4        5          1.11
+#> 6 purchasing  minimize_time_to_c…    7.45    6.3      8.6        6          1.02
 #> # ℹ 27 more variables: imp.Segment_1 <dbl>, sat.Segment_1 <dbl>,
 #> #   opp.Segment_1 <dbl>, rank.Segment_1 <dbl>, opp_index.Segment_1 <dbl>,
 #> #   p.imp.Segment_1 <dbl>, p.sat.Segment_1 <dbl>, sig.imp.Segment_1 <lgl>,

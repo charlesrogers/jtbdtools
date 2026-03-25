@@ -87,14 +87,14 @@ objectives across 3 job steps:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># See the column structure</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">jtbd_sample</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">8</span><span class="op">]</span></span>
-<span><span class="co">#&gt; [1] "caseid"                                                          </span></span>
-<span><span class="co">#&gt; [2] "segment"                                                         </span></span>
-<span><span class="co">#&gt; [3] "imp__researching.minimize_time_to_find_options"                  </span></span>
-<span><span class="co">#&gt; [4] "sat__researching.minimize_time_to_find_options"                  </span></span>
-<span><span class="co">#&gt; [5] "imp__researching.minimize_time_to_evaluate_options"              </span></span>
-<span><span class="co">#&gt; [6] "sat__researching.minimize_time_to_evaluate_options"              </span></span>
-<span><span class="co">#&gt; [7] "imp__researching.minimize_likelihood_of_missing_relevant_options"</span></span>
-<span><span class="co">#&gt; [8] "sat__researching.minimize_likelihood_of_missing_relevant_options"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "caseid"                                        </span></span>
+<span><span class="co">#&gt; [2] "segment"                                       </span></span>
+<span><span class="co">#&gt; [3] "gender"                                        </span></span>
+<span><span class="co">#&gt; [4] "age_group"                                     </span></span>
+<span><span class="co">#&gt; [5] "income"                                        </span></span>
+<span><span class="co">#&gt; [6] "education"                                     </span></span>
+<span><span class="co">#&gt; [7] "tenure"                                        </span></span>
+<span><span class="co">#&gt; [8] "imp__researching.minimize_time_to_find_options"</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="calculate-scores">Calculate Scores<a class="anchor" aria-label="anchor" href="#calculate-scores"></a>
 </h3>
@@ -104,18 +104,18 @@ objectives across 3 job steps:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 12 × 5</span></span></span>
 <span><span class="co">#&gt;    job_step    objective                                 imp.all sat.all opp.all</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>                                       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> researching minimize_time_to_evaluate_options            8.5     2.2    14.8 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> purchasing  minimize_likelihood_of_unexpected_costs      7.6     1.5    13.7 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> purchasing  minimize_time_to_receive_confirmation        8.4     4.2    12.6 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> onboarding  minimize_likelihood_of_confusion_during_…    7.35    2.1    12.6 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> researching minimize_time_to_understand_pricing          8.3     6.05   10.6 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> researching minimize_time_to_find_options                7.9     6.7     9.1 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> onboarding  minimize_likelihood_of_needing_support       7.85    6.7     9   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> onboarding  minimize_time_to_get_started                 7.2     6.15    8.25</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> researching minimize_likelihood_of_missing_relevant_…    5.65    3.7     7.6 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> purchasing  minimize_time_to_complete_transaction        6.6     6.95    6.6 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> onboarding  minimize_time_to_reach_first_value           6       6.45    6   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span> purchasing  minimize_likelihood_of_errors_in_order       3.85    3.85    3.85</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> researching minimize_time_to_find_options                7.75    2.6    12.9 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> purchasing  minimize_likelihood_of_errors_in_order       8.65    6.1    11.2 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> purchasing  minimize_likelihood_of_unexpected_costs      7.4     4.55   10.2 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> onboarding  minimize_likelihood_of_needing_support       6.25    2.3    10.2 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> researching minimize_likelihood_of_missing_relevant_…    7.7     6       9.4 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> purchasing  minimize_time_to_complete_transaction        7.45    6.3     8.6 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> researching minimize_time_to_evaluate_options            7.35    6.4     8.3 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> purchasing  minimize_time_to_receive_confirmation        6.05    5.2     6.9 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> onboarding  minimize_likelihood_of_confusion_during_…    6.55    6.95    6.55</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> onboarding  minimize_time_to_reach_first_value           6.3     7.2     6.3 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> onboarding  minimize_time_to_get_started                 4.15    2.15    6.15</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span> researching minimize_time_to_understand_pricing          5       4.65    5.35</span></span></code></pre></div>
 <p>The highest-opportunity objectives have high importance and low
 satisfaction.</p>
 </div>
@@ -131,18 +131,18 @@ satisfaction.</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 12 × 6</span></span></span>
 <span><span class="co">#&gt;    job_step    objective          opp.all opp.casual opp.new_user opp.power_user</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> researching minimize_time_to_…   14.8       12.7         15.8           16.6 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> purchasing  minimize_likeliho…   13.7        8.52        16.2           18.1 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> purchasing  minimize_time_to_…   12.6       13.7         12.9           11.0 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> onboarding  minimize_likeliho…   12.6       11.2         11.9           14.8 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> researching minimize_time_to_…   10.6       11.7          9.42          10   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> researching minimize_time_to_…    9.1        8.15         9.42          10   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> onboarding  minimize_likeliho…    9          8.02         6.35          12.2 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> onboarding  minimize_time_to_…    8.25       9.88        10.8            6.12</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> researching minimize_likeliho…    7.6       10.1          6.92           5.52</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> purchasing  minimize_time_to_…    6.6        5.8          4.81          11.8 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> onboarding  minimize_time_to_…    6          5.19         8.46           5.82</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span> purchasing  minimize_likeliho…    3.85       5.8          2.31           4.33</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> researching minimize_time_to_…   12.9       12.4         13.5           13.1 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> purchasing  minimize_likeliho…   11.2       13.6          8.65          10.3 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> purchasing  minimize_likeliho…   10.2        5.8         12.7           14.8 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> onboarding  minimize_likeliho…   10.2        8.89         9.42          12.4 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> researching minimize_likeliho…    9.4       11.1          5.58          10.3 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> purchasing  minimize_time_to_…    8.6        8.15         6.92          10.4 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> researching minimize_time_to_…    8.3        6.3          8.85          11.8 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> purchasing  minimize_time_to_…    6.9        7.9          6.92           6.27</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> onboarding  minimize_likeliho…    6.55       6.3          4.42          10   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> onboarding  minimize_time_to_…    6.3        5.43         7.12           6.72</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> onboarding  minimize_time_to_…    6.15       8.89         7.31           2.84</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span> researching minimize_time_to_…    5.35       5.19         4.62           6.12</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="opportunity-matrix">Opportunity Matrix<a class="anchor" aria-label="anchor" href="#opportunity-matrix"></a>

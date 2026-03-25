@@ -46,10 +46,10 @@ head(scores)
 #> # A tibble: 6 × 7
 #>   job_step    objective           imp.all sat.all opp.all rank.all opp_index.all
 #>   <chr>       <fct>                 <dbl>   <dbl>   <dbl>    <dbl>         <dbl>
-#> 1 researching minimize_time_to_e…    8.5     2.2     14.8        1          1.64
-#> 2 purchasing  minimize_likelihoo…    7.6     1.5     13.7        2          1.51
-#> 3 purchasing  minimize_time_to_r…    8.4     4.2     12.6        3          1.39
-#> 4 onboarding  minimize_likelihoo…    7.35    2.1     12.6        4          1.39
-#> 5 researching minimize_time_to_u…    8.3     6.05    10.6        5          1.17
-#> 6 researching minimize_time_to_f…    7.9     6.7      9.1        6          1.01
+#> 1 researching minimize_time_to_f…    7.75    2.6     12.9        1          1.53
+#> 2 purchasing  minimize_likelihoo…    8.65    6.1     11.2        2          1.33
+#> 3 purchasing  minimize_likelihoo…    7.4     4.55    10.2        3          1.21
+#> 4 onboarding  minimize_likelihoo…    6.25    2.3     10.2        4          1.21
+#> 5 researching minimize_likelihoo…    7.7     6        9.4        5          1.11
+#> 6 purchasing  minimize_time_to_c…    7.45    6.3      8.6        6          1.02
 ```

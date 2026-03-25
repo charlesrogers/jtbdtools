@@ -1,23 +1,33 @@
-# PCA biplot
+# Plot segment index heatmap
 
-2D scatter of respondents on PC1 vs PC2, optionally colored by cluster.
+Shows how each segment over- or under-indexes on profiling attributes
+relative to the overall population. Index of 100 = same as
+population,100 = over-represented, \<100 = under-represented.
 
 ## Usage
 
 ``` r
-plot_pca_biplot(pca_result, cluster_labels = NULL)
+plot_segment_index(
+  profile_result,
+  max_vars = 4,
+  title = "Segment Index vs Population"
+)
 ```
 
 ## Arguments
 
-- pca_result:
+- profile_result:
 
   Result from
-  [`jtbd_pca()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_pca.md)
+  [`jtbd_profile_segments()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_profile_segments.md)
 
-- cluster_labels:
+- max_vars:
 
-  Optional factor/integer vector of cluster assignments
+  Maximum number of variables to show (default: 4)
+
+- title:
+
+  Plot title
 
 ## Value
 
@@ -35,9 +45,9 @@ Other clustering:
 [`jtbd_segment()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_segment.md),
 [`plot_cluster_heatmap()`](https://charlesrogers.github.io/jtbdtools/reference/plot_cluster_heatmap.md),
 [`plot_elbow()`](https://charlesrogers.github.io/jtbdtools/reference/plot_elbow.md),
+[`plot_pca_biplot()`](https://charlesrogers.github.io/jtbdtools/reference/plot_pca_biplot.md),
 [`plot_pca_loadings()`](https://charlesrogers.github.io/jtbdtools/reference/plot_pca_loadings.md),
 [`plot_pca_scree()`](https://charlesrogers.github.io/jtbdtools/reference/plot_pca_scree.md),
-[`plot_segment_index()`](https://charlesrogers.github.io/jtbdtools/reference/plot_segment_index.md),
 [`plot_segment_profiles()`](https://charlesrogers.github.io/jtbdtools/reference/plot_segment_profiles.md)
 
 ## Examples
@@ -49,5 +59,9 @@ cl <- jtbd_cluster(jtbd_sample, n_clusters = 3)
 #> Kaiser rule: retaining 5 components (eigenvalue > 1).
 #> ✔ Clustered 200 respondents into 3 segments.
 #> ℹ Sizes: Segment_1 (n=60), Segment_2 (n=76), Segment_3 (n=64)
-plot_pca_biplot(cl$pca, cl$cluster)
+prof <- jtbd_profile_segments(cl$data)
+#> ✔ Profiled 6 variables across 3 segments.
+#> ℹ 2 variables significantly distinguish segments (p < 0.05).
+#> ℹ Top distinguisher: segment, income
+plot_segment_index(prof)
 ```

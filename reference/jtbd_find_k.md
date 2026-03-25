@@ -38,12 +38,15 @@ Other clustering:
 [`jtbd_cluster_profile()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_cluster_profile.md),
 [`jtbd_feature_matrix()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_feature_matrix.md),
 [`jtbd_pca()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_pca.md),
+[`jtbd_profile_segments()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_profile_segments.md),
 [`jtbd_segment()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_segment.md),
 [`plot_cluster_heatmap()`](https://charlesrogers.github.io/jtbdtools/reference/plot_cluster_heatmap.md),
 [`plot_elbow()`](https://charlesrogers.github.io/jtbdtools/reference/plot_elbow.md),
 [`plot_pca_biplot()`](https://charlesrogers.github.io/jtbdtools/reference/plot_pca_biplot.md),
 [`plot_pca_loadings()`](https://charlesrogers.github.io/jtbdtools/reference/plot_pca_loadings.md),
-[`plot_pca_scree()`](https://charlesrogers.github.io/jtbdtools/reference/plot_pca_scree.md)
+[`plot_pca_scree()`](https://charlesrogers.github.io/jtbdtools/reference/plot_pca_scree.md),
+[`plot_segment_index()`](https://charlesrogers.github.io/jtbdtools/reference/plot_segment_index.md),
+[`plot_segment_profiles()`](https://charlesrogers.github.io/jtbdtools/reference/plot_segment_profiles.md)
 
 ## Examples
 
@@ -52,11 +55,11 @@ data(jtbd_sample)
 k_eval <- jtbd_find_k(jtbd_sample, max_k = 5)
 #> Feature matrix: 200 respondents x 12 objectives (opportunity scores 1-9).
 #> Kaiser rule: retaining 5 components (eigenvalue > 1).
-#> Best k by silhouette: 5 (avg silhouette = 0.174)
+#> Best k by silhouette: 2 (avg silhouette = 0.162)
 k_eval
 #>   k   wcss avg_silhouette
-#> 1 2 1051.1          0.168
-#> 2 3  915.3          0.156
-#> 3 4  809.1          0.162
-#> 4 5  722.6          0.174
+#> 1 2 1060.8          0.162
+#> 2 3  924.9          0.157
+#> 3 4  832.7          0.157
+#> 4 5  756.1          0.160
 ```

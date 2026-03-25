@@ -57,50 +57,50 @@ opp.all
 
 researching
 
-minimize_time_to_evaluate_options
+minimize_time_to_find_options
 
-8.50
+7.75
 
-2.20
+2.60
 
-14.80
+12.90
+
+purchasing
+
+minimize_likelihood_of_errors_in_order
+
+8.65
+
+6.10
+
+11.20
 
 purchasing
 
 minimize_likelihood_of_unexpected_costs
 
-7.60
+7.40
 
-1.50
+4.55
 
-13.70
-
-purchasing
-
-minimize_time_to_receive_confirmation
-
-8.40
-
-4.20
-
-12.60
+10.25
 
 onboarding
 
-minimize_likelihood_of_confusion_during_setup
+minimize_likelihood_of_needing_support
 
-7.35
+6.25
 
-2.10
+2.30
 
-12.60
+10.20
 
 researching
 
-minimize_time_to_understand_pricing
+minimize_likelihood_of_missing_relevant_options
 
-8.30
+7.70
 
-6.05
+6.00
 
-10.55
+9.40

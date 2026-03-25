@@ -66,11 +66,14 @@ for different numbers of clusters.</p>
 <code><a href="jtbd_feature_matrix.html">jtbd_feature_matrix()</a></code>,
 <code><a href="jtbd_find_k.html">jtbd_find_k()</a></code>,
 <code><a href="jtbd_pca.html">jtbd_pca()</a></code>,
+<code><a href="jtbd_profile_segments.html">jtbd_profile_segments()</a></code>,
 <code><a href="jtbd_segment.html">jtbd_segment()</a></code>,
 <code><a href="plot_cluster_heatmap.html">plot_cluster_heatmap()</a></code>,
 <code><a href="plot_pca_biplot.html">plot_pca_biplot()</a></code>,
 <code><a href="plot_pca_loadings.html">plot_pca_loadings()</a></code>,
-<code><a href="plot_pca_scree.html">plot_pca_scree()</a></code></p></div>
+<code><a href="plot_pca_scree.html">plot_pca_scree()</a></code>,
+<code><a href="plot_segment_index.html">plot_segment_index()</a></code>,
+<code><a href="plot_segment_profiles.html">plot_segment_profiles()</a></code></p></div>
     </div>
 
     <div class="section level2">
@@ -79,7 +82,7 @@ for different numbers of clusters.</p>
 <span class="r-in"><span><span class="va">k_eval</span> <span class="op">&lt;-</span> <span class="fu"><a href="jtbd_find_k.html">jtbd_find_k</a></span><span class="op">(</span><span class="va">jtbd_sample</span>, max_k <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Feature matrix: 200 respondents x 12 objectives (opportunity scores 1-9).</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Kaiser rule: retaining 5 components (eigenvalue &gt; 1).</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Best k by silhouette: 5 (avg silhouette = 0.174)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Best k by silhouette: 2 (avg silhouette = 0.162)</span>
 <span class="r-in"><span><span class="fu">plot_elbow</span><span class="op">(</span><span class="va">k_eval</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="plot_elbow-1.png" alt="" width="700" height="433"></span>
 </code></pre></div>

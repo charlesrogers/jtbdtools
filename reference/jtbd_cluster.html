@@ -97,12 +97,15 @@ surveys with many objectives).</p>
 <code><a href="jtbd_feature_matrix.html">jtbd_feature_matrix()</a></code>,
 <code><a href="jtbd_find_k.html">jtbd_find_k()</a></code>,
 <code><a href="jtbd_pca.html">jtbd_pca()</a></code>,
+<code><a href="jtbd_profile_segments.html">jtbd_profile_segments()</a></code>,
 <code><a href="jtbd_segment.html">jtbd_segment()</a></code>,
 <code><a href="plot_cluster_heatmap.html">plot_cluster_heatmap()</a></code>,
 <code><a href="plot_elbow.html">plot_elbow()</a></code>,
 <code><a href="plot_pca_biplot.html">plot_pca_biplot()</a></code>,
 <code><a href="plot_pca_loadings.html">plot_pca_loadings()</a></code>,
-<code><a href="plot_pca_scree.html">plot_pca_scree()</a></code></p></div>
+<code><a href="plot_pca_scree.html">plot_pca_scree()</a></code>,
+<code><a href="plot_segment_index.html">plot_segment_index()</a></code>,
+<code><a href="plot_segment_profiles.html">plot_segment_profiles()</a></code></p></div>
     </div>
 
     <div class="section level2">
@@ -112,11 +115,11 @@ surveys with many objectives).</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Feature matrix: 200 respondents x 12 objectives (opportunity scores 1-9).</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Kaiser rule: retaining 5 components (eigenvalue &gt; 1).</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Clustered 200 respondents into 3 segments.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Sizes: Segment_1 (n=65), Segment_2 (n=63), Segment_3 (n=72)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Sizes: Segment_1 (n=60), Segment_2 (n=76), Segment_3 (n=64)</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">cl</span><span class="op">$</span><span class="va">cluster</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  1  2  3 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 65 63 72 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 60 76 64 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Use with existing comparison functions</span></span></span>
 <span class="r-in"><span><span class="va">comparison</span> <span class="op">&lt;-</span> <span class="fu"><a href="get_jtbd_scores.comparison.html">get_jtbd_scores.comparison</a></span><span class="op">(</span><span class="va">cl</span><span class="op">$</span><span class="va">data</span>, <span class="st">"jtbd_cluster"</span><span class="op">)</span></span></span>

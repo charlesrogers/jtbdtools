@@ -68,18 +68,18 @@ comparison_sig[, grep("^(objective|p\\.|sig\\.)", names(comparison_sig))]
 #> # A tibble: 12 × 13
 #>    objective             p.imp.casual p.sat.casual sig.imp.casual sig.sat.casual
 #>    <chr>                        <dbl>        <dbl> <lgl>          <lgl>         
-#>  1 minimize_time_to_eva…       0.0469       0      TRUE           TRUE          
-#>  2 minimize_likelihood_…       0            0      TRUE           TRUE          
-#>  3 minimize_time_to_rec…       0.523        0.523  FALSE          FALSE         
-#>  4 minimize_likelihood_…       0.212        0.0001 FALSE          TRUE          
-#>  5 minimize_time_to_und…       0.581        0.0698 FALSE          FALSE         
-#>  6 minimize_time_to_fin…       0.429        0.082  FALSE          FALSE         
-#>  7 minimize_likelihood_…       0.827        0.0059 FALSE          TRUE          
-#>  8 minimize_time_to_get…       0.0484       0.0363 TRUE           TRUE          
-#>  9 minimize_likelihood_…       0.0156       0.0043 TRUE           TRUE          
-#> 10 minimize_time_to_com…       0.180        0      FALSE          TRUE          
-#> 11 minimize_time_to_rea…       0.0655       0.436  FALSE          FALSE         
-#> 12 minimize_likelihood_…       0.0353       0.497  TRUE           FALSE         
+#>  1 minimize_time_to_fin…       0.964        0.939  FALSE          FALSE         
+#>  2 minimize_likelihood_…       0.0198       0.0049 TRUE           TRUE          
+#>  3 minimize_likelihood_…       0            0      TRUE           TRUE          
+#>  4 minimize_likelihood_…       0.248        0.001  FALSE          TRUE          
+#>  5 minimize_likelihood_…       0.0222       0.675  TRUE           FALSE         
+#>  6 minimize_time_to_com…       0.304        0.0101 FALSE          TRUE          
+#>  7 minimize_time_to_eva…       0.0001       0.0006 TRUE           TRUE          
+#>  8 minimize_time_to_rec…       0.479        0.181  FALSE          FALSE         
+#>  9 minimize_likelihood_…       0.313        0.0001 FALSE          TRUE          
+#> 10 minimize_time_to_rea…       0.0389       0.188  TRUE           FALSE         
+#> 11 minimize_time_to_get…       0.0027       0.0564 TRUE           FALSE         
+#> 12 minimize_time_to_und…       0.580        0.702  FALSE          FALSE         
 #> # ℹ 8 more variables: p.imp.new_user <dbl>, p.sat.new_user <dbl>,
 #> #   sig.imp.new_user <lgl>, sig.sat.new_user <lgl>, p.imp.power_user <dbl>,
 #> #   p.sat.power_user <dbl>, sig.imp.power_user <lgl>, sig.sat.power_user <lgl>

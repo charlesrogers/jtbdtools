@@ -131,6 +131,12 @@ Discover outcome-based segments using PCA + K-Means
   : PCA loadings bar chart
 - [`plot_elbow()`](https://charlesrogers.github.io/jtbdtools/reference/plot_elbow.md)
   : Elbow plot for cluster evaluation
+- [`jtbd_profile_segments()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_profile_segments.md)
+  : Automatically profile discovered segments
+- [`plot_segment_profiles()`](https://charlesrogers.github.io/jtbdtools/reference/plot_segment_profiles.md)
+  : Plot segment profiles
+- [`plot_segment_index()`](https://charlesrogers.github.io/jtbdtools/reference/plot_segment_index.md)
+  : Plot segment index heatmap
 
 ## Utilities
 

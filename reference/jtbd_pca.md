@@ -45,12 +45,15 @@ Other clustering:
 [`jtbd_cluster_profile()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_cluster_profile.md),
 [`jtbd_feature_matrix()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_feature_matrix.md),
 [`jtbd_find_k()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_find_k.md),
+[`jtbd_profile_segments()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_profile_segments.md),
 [`jtbd_segment()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_segment.md),
 [`plot_cluster_heatmap()`](https://charlesrogers.github.io/jtbdtools/reference/plot_cluster_heatmap.md),
 [`plot_elbow()`](https://charlesrogers.github.io/jtbdtools/reference/plot_elbow.md),
 [`plot_pca_biplot()`](https://charlesrogers.github.io/jtbdtools/reference/plot_pca_biplot.md),
 [`plot_pca_loadings()`](https://charlesrogers.github.io/jtbdtools/reference/plot_pca_loadings.md),
-[`plot_pca_scree()`](https://charlesrogers.github.io/jtbdtools/reference/plot_pca_scree.md)
+[`plot_pca_scree()`](https://charlesrogers.github.io/jtbdtools/reference/plot_pca_scree.md),
+[`plot_segment_index()`](https://charlesrogers.github.io/jtbdtools/reference/plot_segment_index.md),
+[`plot_segment_profiles()`](https://charlesrogers.github.io/jtbdtools/reference/plot_segment_profiles.md)
 
 ## Examples
 
@@ -63,16 +66,16 @@ pca_result$n_components
 #> [1] 5
 pca_result$variance_explained
 #>    component eigenvalue variance_pct cumulative_pct
-#> 1          1      1.754         14.6           14.6
-#> 2          2      1.320         11.0           25.6
-#> 3          3      1.200         10.0           35.6
-#> 4          4      1.108          9.2           44.8
-#> 5          5      1.081          9.0           53.9
-#> 6          6      0.982          8.2           62.0
-#> 7          7      0.927          7.7           69.8
-#> 8          8      0.884          7.4           77.1
-#> 9          9      0.792          6.6           83.7
-#> 10        10      0.725          6.0           89.8
-#> 11        11      0.663          5.5           95.3
-#> 12        12      0.564          4.7          100.0
+#> 1          1      1.621         13.5           13.5
+#> 2          2      1.336         11.1           24.6
+#> 3          3      1.231         10.3           34.9
+#> 4          4      1.163          9.7           44.6
+#> 5          5      1.101          9.2           53.8
+#> 6          6      0.991          8.3           62.0
+#> 7          7      0.910          7.6           69.6
+#> 8          8      0.880          7.3           76.9
+#> 9          9      0.799          6.7           83.6
+#> 10        10      0.716          6.0           89.6
+#> 11        11      0.666          5.6           95.1
+#> 12        12      0.586          4.9          100.0
 ```

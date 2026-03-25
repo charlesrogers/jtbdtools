@@ -126,9 +126,29 @@ while Segment 1 is relatively satisfied (4.8):
 ![Cluster opportunity
 heatmap](reference/figures/readme-cluster-heatmap.png)
 
-These discovered segments plug directly into all existing comparison
-functions — Cleveland plots, divergence charts, gt tables, and
-significance testing all work automatically.
+### Step 5: Explain Who’s In Each Segment
+
+Automatically profile clusters against demographics, behavior, or any
+attribute. Chi-squared tests + Cramer’s V rank which variables best
+distinguish segments:
+
+![Segment index heatmap](reference/figures/readme-segment-index.png)
+
+Segment 3 indexes at 221 on \$100k+ income and 192 on power users — your
+high-value segment. Segment 2 skews toward new users and lower income:
+
+![Segment demographic
+profiles](reference/figures/readme-segment-profiles.png)
+
+``` r
+prof <- jtbd_profile_segments(cl$data)
+prof$distinguishing  # ranked by effect size
+plot_segment_index(prof)
+```
+
+All discovered segments plug directly into existing comparison functions
+— Cleveland plots, divergence charts, gt tables, and significance
+testing all work automatically.
 
 ------------------------------------------------------------------------
 
@@ -203,6 +223,9 @@ Also works with any CSV via
 |                      | [`plot_pca_scree()`](https://charlesrogers.github.io/jtbdtools/reference/plot_pca_scree.md)                               | Scree plot with Kaiser line                         |
 |                      | [`plot_pca_loadings()`](https://charlesrogers.github.io/jtbdtools/reference/plot_pca_loadings.md)                         | Component loading bar chart                         |
 |                      | [`plot_elbow()`](https://charlesrogers.github.io/jtbdtools/reference/plot_elbow.md)                                       | Elbow + silhouette evaluation plot                  |
+| **Profiling**        | [`jtbd_profile_segments()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_profile_segments.md)                 | Auto-profile clusters against demographics          |
+|                      | [`plot_segment_profiles()`](https://charlesrogers.github.io/jtbdtools/reference/plot_segment_profiles.md)                 | Grouped bar chart of segment composition            |
+|                      | [`plot_segment_index()`](https://charlesrogers.github.io/jtbdtools/reference/plot_segment_index.md)                       | Index heatmap (over/under-represented)              |
 | **Stat Sig**         | [`test_segment_significance()`](https://charlesrogers.github.io/jtbdtools/reference/test_segment_significance.md)         | Wilcoxon rank-sum test between segments             |
 | **Legacy Data Prep** | [`prep_data()`](https://charlesrogers.github.io/jtbdtools/reference/prep_data.md)                                         | SPSS data cleaning pipeline                         |
 |                      | [`build_imp_column_names()`](https://charlesrogers.github.io/jtbdtools/reference/build_imp_column_names.md)               | Rename columns to `imp__step.objective`             |

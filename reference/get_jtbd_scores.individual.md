@@ -41,10 +41,10 @@ head(individual)
 #> # A tibble: 6 × 5
 #>   caseid objective                                               imp   sat   opp
 #>    <int> <chr>                                                 <dbl> <dbl> <dbl>
-#> 1      1 researching.minimize_time_to_find_options                 3     3     3
-#> 2      1 researching.minimize_time_to_evaluate_options             5     3     7
-#> 3      1 researching.minimize_likelihood_of_missing_relevant_…     4     4     4
-#> 4      1 researching.minimize_time_to_understand_pricing           5     4     6
-#> 5      1 purchasing.minimize_time_to_complete_transaction          3     4     3
-#> 6      1 purchasing.minimize_likelihood_of_unexpected_costs        4     2     6
+#> 1      1 researching.minimize_time_to_find_options                 5     3     7
+#> 2      1 researching.minimize_time_to_evaluate_options             5     4     6
+#> 3      1 researching.minimize_likelihood_of_missing_relevant_…     3     4     3
+#> 4      1 researching.minimize_time_to_understand_pricing           3     3     3
+#> 5      1 purchasing.minimize_time_to_complete_transaction          4     3     5
+#> 6      1 purchasing.minimize_likelihood_of_unexpected_costs        4     1     7
 ```
