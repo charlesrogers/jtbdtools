@@ -2,6 +2,9 @@
 
 Creates the classic ODI opportunity matrix: importance on x-axis,
 satisfaction on y-axis, with high-opportunity objectives highlighted.
+Optionally shows diagonal zone lines dividing the plot into
+Under-Served, Appropriately-Served, Over-Served, and Table Stakes
+regions (from quantjtbd).
 
 ## Usage
 
@@ -10,7 +13,8 @@ plot_opportunity_matrix(
   scores,
   title = "Opportunity Score Matrix",
   subtitle = NULL,
-  highlight_threshold = 10
+  highlight_threshold = 10,
+  show_zones = FALSE
 )
 ```
 
@@ -34,6 +38,10 @@ plot_opportunity_matrix(
 
   Opportunity score threshold for highlighting (default: 10)
 
+- show_zones:
+
+  Show diagonal reference lines and zone labels (default: FALSE)
+
 ## Value
 
 A ggplot object
@@ -54,4 +62,5 @@ Other visualization:
 data(jtbd_sample)
 scores <- get_jtbd_scores(jtbd_sample)
 # plot_opportunity_matrix(scores)
+# plot_opportunity_matrix(scores, show_zones = TRUE)
 ```

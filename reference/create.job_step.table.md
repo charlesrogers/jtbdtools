@@ -38,4 +38,5 @@ The gt table object (also saved as PNG)
 
 Other tables:
 [`create.pct.table()`](https://charlesrogers.github.io/jtbdtools/reference/create.pct.table.md),
+[`gt_theme_jtbd()`](https://charlesrogers.github.io/jtbdtools/reference/gt_theme_jtbd.md),
 [`theme.job_step()`](https://charlesrogers.github.io/jtbdtools/reference/theme.job_step.md)

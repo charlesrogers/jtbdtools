@@ -46,4 +46,5 @@ The gt table object (also saved as PNG)
 
 Other tables:
 [`create.job_step.table()`](https://charlesrogers.github.io/jtbdtools/reference/create.job_step.table.md),
+[`gt_theme_jtbd()`](https://charlesrogers.github.io/jtbdtools/reference/gt_theme_jtbd.md),
 [`theme.job_step()`](https://charlesrogers.github.io/jtbdtools/reference/theme.job_step.md)

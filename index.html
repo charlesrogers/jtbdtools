@@ -72,8 +72,8 @@
 <div class="section level3">
 <h3 id="opportunity-matrix">Opportunity matrix<a class="anchor" aria-label="anchor" href="#opportunity-matrix"></a>
 </h3>
-<p>The classic ODI scatter plot: high importance + low satisfaction = high opportunity (red):</p>
-<p><img src="reference/figures/readme-opportunity-matrix.png" width="700" alt="Opportunity score matrix"></p>
+<p>The classic ODI scatter plot with zone annotations. High importance + low satisfaction = high opportunity (red). Use <code>show_zones = TRUE</code> to add Under-Served / Appropriately-Served / Over-Served reference lines:</p>
+<p><img src="reference/figures/readme-opportunity-matrix-zones.png" width="700" alt="Opportunity score matrix with zones"></p>
 </div>
 <div class="section level3">
 <h3 id="ranked-opportunity-scores">Ranked opportunity scores<a class="anchor" aria-label="anchor" href="#ranked-opportunity-scores"></a>
@@ -158,47 +158,52 @@
 </tr>
 <tr class="odd">
 <td><strong>Tables</strong></td>
+<td><code><a href="reference/gt_theme_jtbd.html">gt_theme_jtbd()</a></code></td>
+<td>Branded gt table theme</td>
+</tr>
+<tr class="even">
+<td></td>
 <td><code><a href="reference/theme.job_step.html">theme.job_step()</a></code></td>
 <td>Publication-ready gt table</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td><code><a href="reference/create.job_step.table.html">create.job_step.table()</a></code></td>
 <td>Filter + format + save as PNG</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td></td>
 <td><code><a href="reference/create.pct.table.html">create.pct.table()</a></code></td>
 <td>Frequency table with bar charts</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><strong>Data Prep</strong></td>
 <td><code><a href="reference/prep_data.html">prep_data()</a></code></td>
 <td>Full SPSS data cleaning pipeline</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td></td>
 <td><code><a href="reference/build_imp_column_names.html">build_imp_column_names()</a></code></td>
 <td>Rename columns to <code>imp__step.objective</code>
 </td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td><code><a href="reference/build_sat_column_names.html">build_sat_column_names()</a></code></td>
 <td>Rename columns to <code>sat__step.objective</code>
 </td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><strong>Analysis</strong></td>
 <td><code><a href="reference/get.normalized_scores.html">get.normalized_scores()</a></code></td>
 <td>Min-max normalize within segments</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td><code><a href="reference/get.percent_of_max.html">get.percent_of_max()</a></code></td>
 <td>Percent-of-segment-max scoring</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td></td>
 <td><code><a href="reference/get_jtbd_segment.comp.ordinal.html">get_jtbd_segment.comp.ordinal()</a></code></td>
 <td>Rank-based segment comparison</td>

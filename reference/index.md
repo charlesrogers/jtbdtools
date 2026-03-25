@@ -50,6 +50,8 @@ Plot opportunity data
 
 Publication-ready gt tables
 
+- [`gt_theme_jtbd()`](https://charlesrogers.github.io/jtbdtools/reference/gt_theme_jtbd.md)
+  : jtbdtools gt table theme
 - [`theme.job_step()`](https://charlesrogers.github.io/jtbdtools/reference/theme.job_step.md)
   : Format job step as gt table
 - [`create.job_step.table()`](https://charlesrogers.github.io/jtbdtools/reference/create.job_step.table.md)

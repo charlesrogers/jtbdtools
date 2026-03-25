@@ -29,4 +29,5 @@ A gt table object
 
 Other tables:
 [`create.job_step.table()`](https://charlesrogers.github.io/jtbdtools/reference/create.job_step.table.md),
-[`create.pct.table()`](https://charlesrogers.github.io/jtbdtools/reference/create.pct.table.md)
+[`create.pct.table()`](https://charlesrogers.github.io/jtbdtools/reference/create.pct.table.md),
+[`gt_theme_jtbd()`](https://charlesrogers.github.io/jtbdtools/reference/gt_theme_jtbd.md)
