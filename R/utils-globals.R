@@ -22,5 +22,7 @@ utils::globalVariables(c(
   "count.linear.1", "count.linear.05", "count.outlier.sal",
   "sd", "count",
   ".", "opp_sum", "total_count", "reorder",
-  "p.imp", "p.sat", "sig.imp", "sig.sat"
+  "p.imp", "p.sat", "sig.imp", "sig.sat",
+  "component", "eigenvalue", "variance_pct", "loading", "label",
+  "PC1", "PC2", "Cluster", "wcss_norm", "avg_silhouette", "k"
 ))

@@ -4,17 +4,23 @@
 \alias{get_jtbd_scores.individual}
 \title{Calculate individual JTBD scores}
 \usage{
-get_jtbd_scores.individual(df.uid_imp_sat)
+get_jtbd_scores.individual(df)
 }
 \arguments{
-\item{df.uid_imp_sat}{A data frame with a \code{caseid} column and \code{imp__}/\code{sat__} columns}
+\item{df}{A data frame with \code{imp__}/\code{sat__} factor columns (1-5 scale)}
 }
 \value{
-A data frame with individual-level scores
+A long-format data frame with columns: caseid, objective, imp, sat, opp
 }
 \description{
 Calculates opportunity scores at the individual respondent level rather than
 aggregated across the population. Useful for clustering and segmentation.
+Applies the ODI formula per respondent: \code{opp = imp + max(0, imp - sat)}.
+}
+\examples{
+data(jtbd_sample)
+individual <- get_jtbd_scores.individual(jtbd_sample)
+head(individual)
 }
 \seealso{
 Other scoring: 

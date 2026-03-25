@@ -176,36 +176,58 @@ get_sample_size <- function(your_data_frame) {
 #'
 #' Calculates opportunity scores at the individual respondent level rather than
 #' aggregated across the population. Useful for clustering and segmentation.
+#' Applies the ODI formula per respondent: `opp = imp + max(0, imp - sat)`.
 #'
-#' @param df.uid_imp_sat A data frame with a `caseid` column and `imp__`/`sat__` columns
+#' @param df A data frame with `imp__`/`sat__` factor columns (1-5 scale)
 #'
-#' @return A data frame with individual-level scores
+#' @return A long-format data frame with columns: caseid, objective, imp, sat, opp
 #' @export
 #'
 #' @family scoring
-get_jtbd_scores.individual <- function(df.uid_imp_sat) {
-  step.1 <- df.uid_imp_sat %>%
-    pivot_longer(cols = -caseid, names_to = "objective_string", values_to = "score") %>%
-    separate(objective_string, "__", into = c("imp_sat", "objective"), remove = FALSE) %>%
-    mutate_if(is.factor, as.numeric) %>%
-    mutate_if(is.numeric, as.factor)
+#'
+#' @examples
+#' data(jtbd_sample)
+#' individual <- get_jtbd_scores.individual(jtbd_sample)
+#' head(individual)
+get_jtbd_scores.individual <- function(df) {
+  imp_cols <- grep("^imp__", names(df), value = TRUE)
+  sat_cols <- grep("^sat__", names(df), value = TRUE)
 
-  step.2 <- step.1 %>%
-    select(caseid, objective, imp_sat, score) %>%
-    pivot_wider(names_from = imp_sat, values_from = score)
+  if (length(imp_cols) == 0) {
+    cli::cli_abort("No columns starting with {.val imp__} found.")
+  }
 
-  step.3 <- step.2 %>%
-    mutate(opp = case_when(
-      (imp == "5" & sat %in% c("11", "12")) | (imp == "4" & sat == "11") | (imp %in% c("4", "5") & !sat %in% c("11", "12")) ~ 1,
-      TRUE ~ 0))
+  # Build caseid if not present
+  if (!"caseid" %in% names(df)) {
+    df$caseid <- seq_len(nrow(df))
+  }
 
-  step.4 <- step.3 %>%
-    group_by(objective) %>%
-    summarize(opp_sum = sum(opp == 1),
-              total_count = n(),
-              opp.score = opp_sum / total_count)
+  # Extract and convert imp columns to numeric
+  imp_data <- df[, imp_cols, drop = FALSE]
+  imp_data <- as.data.frame(lapply(imp_data, function(x) as.numeric(as.character(x))))
+  imp_data$caseid <- df$caseid
 
-  cli::cli_inform("Individual scores calculated for {nrow(step.4)} objectives.")
+  sat_data <- df[, sat_cols, drop = FALSE]
+  sat_data <- as.data.frame(lapply(sat_data, function(x) as.numeric(as.character(x))))
+  sat_data$caseid <- df$caseid
 
-  return(step.3)
+  # Pivot to long
+  imp_long <- imp_data %>%
+    pivot_longer(cols = -caseid, names_to = "col", values_to = "imp") %>%
+    mutate(objective = sub("^imp__", "", col)) %>%
+    select(caseid, objective, imp)
+
+  sat_long <- sat_data %>%
+    pivot_longer(cols = -caseid, names_to = "col", values_to = "sat") %>%
+    mutate(objective = sub("^sat__", "", col)) %>%
+    select(caseid, objective, sat)
+
+  # Join and calculate per-respondent opportunity
+  result <- imp_long %>%
+    left_join(sat_long, by = c("caseid", "objective")) %>%
+    mutate(opp = imp + pmax(0, imp - sat))
+
+  cli::cli_inform("Individual scores calculated: {length(unique(result$caseid))} respondents x {length(unique(result$objective))} objectives.")
+
+  return(tibble::as_tibble(result))
 }

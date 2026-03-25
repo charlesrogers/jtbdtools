@@ -70,6 +70,37 @@ Formatted gt tables with heat-mapped scores, ready for stakeholder decks:
 
 ---
 
+## Outcome-Based Segmentation (PCA + K-Means)
+
+Discover segments from the data itself — groups of people with shared unmet needs that don't map to demographics. This is the core of Outcome-Driven Innovation.
+
+### Respondent Clusters in PCA Space
+
+PCA reduces objectives to themes, then K-Means finds natural groupings:
+
+<img src="man/figures/readme-pca-biplot.png" width="600" alt="PCA biplot with clusters" />
+
+### Cluster Opportunity Heatmap
+
+Compare opportunity scores across discovered segments. Segment 3 has extreme unmet needs on purchasing objectives (18.3) while Segment 1 is relatively satisfied:
+
+<img src="man/figures/readme-cluster-heatmap.png" width="650" alt="Cluster opportunity heatmap" />
+
+### PCA Scree Plot
+
+Kaiser rule selects components with eigenvalue > 1 to determine how many outcome themes exist:
+
+<img src="man/figures/readme-pca-scree.png" width="650" alt="PCA scree plot" />
+
+```r
+# Discover segments in 3 lines
+data(jtbd_sample)
+result <- jtbd_segment(jtbd_sample, n_clusters = 3)
+plot_cluster_heatmap(result$profile)
+```
+
+---
+
 ## Quick Start
 
 ```r
@@ -128,6 +159,17 @@ Also works with any CSV via `prep_survey()` — just point it at your importance
 | | `read_qualtrics()` | Read Qualtrics CSV (handles metadata rows) |
 | | `detect_imp_sat()` | Auto-detect importance/satisfaction columns |
 | | `validate_jtbd_data()` | Check data format before scoring |
+| **Segmentation** | `jtbd_segment()` | Full ODI segmentation pipeline (one call) |
+| | `jtbd_cluster()` | K-Means clustering on opportunity data |
+| | `jtbd_pca()` | PCA with Kaiser rule component selection |
+| | `jtbd_find_k()` | Evaluate 2-6 cluster solutions (elbow + silhouette) |
+| | `jtbd_cluster_profile()` | T2B scores per discovered cluster |
+| | `jtbd_feature_matrix()` | Respondent x objective opportunity matrix |
+| **Cluster Viz** | `plot_pca_biplot()` | Respondents in PCA space, colored by cluster |
+| | `plot_cluster_heatmap()` | Opportunity heatmap across clusters |
+| | `plot_pca_scree()` | Scree plot with Kaiser line |
+| | `plot_pca_loadings()` | Component loading bar chart |
+| | `plot_elbow()` | Elbow + silhouette evaluation plot |
 | **Stat Sig** | `test_segment_significance()` | Wilcoxon rank-sum test between segments |
 | **Legacy Data Prep** | `prep_data()` | SPSS data cleaning pipeline |
 | | `build_imp_column_names()` | Rename columns to `imp__step.objective` |

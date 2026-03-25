@@ -64,6 +64,21 @@ reference:
       - get_jtbd_segment.comp_and_plot
       - get_seg_comp.build.linear
 
+  - title: Clustering & Segmentation Discovery
+    desc: Discover outcome-based segments using PCA + K-Means
+    contents:
+      - jtbd_segment
+      - jtbd_cluster
+      - jtbd_pca
+      - jtbd_find_k
+      - jtbd_cluster_profile
+      - jtbd_feature_matrix
+      - plot_pca_biplot
+      - plot_cluster_heatmap
+      - plot_pca_scree
+      - plot_pca_loadings
+      - plot_elbow
+
   - title: Utilities
     contents:
       - get_count

@@ -233,3 +233,215 @@ plot_cleveland <- function(data, objective, group_1, group_2, title_string, subt
 
   return(plot)
 }
+
+# ============================================================
+# Cluster Visualization Functions
+# ============================================================
+
+#' PCA scree plot
+#'
+#' Shows eigenvalues per component with a Kaiser line at 1.0 to help
+#' determine how many components to retain.
+#'
+#' @param pca_result Result from [jtbd_pca()]
+#'
+#' @return A ggplot object
+#' @export
+#'
+#' @family clustering
+#'
+#' @examples
+#' data(jtbd_sample)
+#' pca <- jtbd_pca(jtbd_sample)
+#' plot_pca_scree(pca)
+plot_pca_scree <- function(pca_result) {
+  ve <- pca_result$variance_explained
+
+  ggplot(ve, aes(x = component, y = eigenvalue)) +
+    geom_line(linewidth = 1, color = "#2C3E50") +
+    geom_point(size = 3, color = "#2C3E50") +
+    geom_hline(yintercept = 1, linetype = "dashed", color = "#E74C3C", linewidth = 0.5) +
+    annotate("text", x = max(ve$component) - 0.5, y = 1.1, label = "Kaiser Rule (eigenvalue = 1)",
+             color = "#E74C3C", size = 3, fontface = "italic", hjust = 1) +
+    geom_text(aes(label = paste0(variance_pct, "%")), nudge_y = 0.08, size = 3, color = "#7F8C8D") +
+    scale_x_continuous(breaks = ve$component) +
+    labs(title = "PCA Scree Plot",
+         subtitle = paste0("Retained ", pca_result$n_components, " components (",
+                           ve$cumulative_pct[pca_result$n_components], "% variance explained)"),
+         x = "Principal Component", y = "Eigenvalue") +
+    theme_jtbd()
+}
+
+#' PCA loadings bar chart
+#'
+#' Shows how each objective loads on a given principal component.
+#' High-loading objectives define the "theme" of that component.
+#'
+#' @param pca_result Result from [jtbd_pca()]
+#' @param component Which component to plot (default: 1)
+#'
+#' @return A ggplot object
+#' @export
+#'
+#' @family clustering
+plot_pca_loadings <- function(pca_result, component = 1) {
+  loadings <- as.data.frame(pca_result$loadings)
+  loadings$objective <- rownames(loadings)
+  col_name <- colnames(loadings)[component]
+
+  loadings$loading <- loadings[[col_name]]
+  loadings$label <- gsub("_", " ", gsub("^[^.]+\\.", "", loadings$objective))
+  loadings$label <- tools::toTitleCase(loadings$label)
+  loadings <- loadings[order(loadings$loading), ]
+  loadings$label <- factor(loadings$label, levels = loadings$label)
+
+  ggplot(loadings, aes(x = label, y = loading, fill = loading > 0)) +
+    geom_col(width = 0.7) +
+    geom_hline(yintercept = c(-0.3, 0.3), linetype = "dotted", color = "#7F8C8D") +
+    coord_flip() +
+    scale_fill_manual(values = c("TRUE" = "#2ECC71", "FALSE" = "#E74C3C"), guide = "none") +
+    labs(title = paste0("PCA Loadings: Component ", component),
+         subtitle = "Objectives that define this component's theme",
+         x = "", y = "Loading") +
+    theme_jtbd() +
+    theme(axis.line.y = element_blank())
+}
+
+#' PCA biplot
+#'
+#' 2D scatter of respondents on PC1 vs PC2, optionally colored by cluster.
+#'
+#' @param pca_result Result from [jtbd_pca()]
+#' @param cluster_labels Optional factor/integer vector of cluster assignments
+#'
+#' @return A ggplot object
+#' @export
+#'
+#' @family clustering
+#'
+#' @examples
+#' data(jtbd_sample)
+#' cl <- jtbd_cluster(jtbd_sample, n_clusters = 3)
+#' plot_pca_biplot(cl$pca, cl$cluster)
+plot_pca_biplot <- function(pca_result, cluster_labels = NULL) {
+  scores_df <- as.data.frame(pca_result$scores[, 1:2])
+  colnames(scores_df) <- c("PC1", "PC2")
+
+  if (!is.null(cluster_labels)) {
+    scores_df$Cluster <- factor(paste0("Segment ", cluster_labels))
+    p <- ggplot(scores_df, aes(x = PC1, y = PC2, color = Cluster)) +
+      geom_point(size = 2, alpha = 0.7) +
+      stat_ellipse(level = 0.68, linewidth = 0.8, linetype = "dashed")
+  } else {
+    p <- ggplot(scores_df, aes(x = PC1, y = PC2)) +
+      geom_point(size = 2, alpha = 0.5, color = "#2C3E50")
+  }
+
+  ve <- pca_result$variance_explained
+  p + labs(
+    title = "Respondent Clusters in PCA Space",
+    subtitle = paste0("PC1 (", ve$variance_pct[1], "%) vs PC2 (", ve$variance_pct[2], "%)"),
+    x = paste0("PC1 (", ve$variance_pct[1], "% variance)"),
+    y = paste0("PC2 (", ve$variance_pct[2], "% variance)")
+  ) +
+  theme_jtbd()
+}
+
+#' Elbow plot for cluster evaluation
+#'
+#' Shows within-cluster sum of squares (WCSS) and average silhouette width
+#' for different numbers of clusters.
+#'
+#' @param k_results Result from [jtbd_find_k()]
+#'
+#' @return A ggplot object
+#' @export
+#'
+#' @family clustering
+#'
+#' @examples
+#' data(jtbd_sample)
+#' k_eval <- jtbd_find_k(jtbd_sample, max_k = 5)
+#' plot_elbow(k_eval)
+plot_elbow <- function(k_results) {
+  # Normalize WCSS to 0-1 range for dual axis
+  wcss_range <- range(k_results$wcss)
+  k_results$wcss_norm <- (k_results$wcss - wcss_range[1]) / (wcss_range[2] - wcss_range[1])
+
+  best_k <- k_results$k[which.max(k_results$avg_silhouette)]
+
+  ggplot(k_results, aes(x = k)) +
+    geom_line(aes(y = wcss_norm), color = "#2C3E50", linewidth = 1) +
+    geom_point(aes(y = wcss_norm), color = "#2C3E50", size = 3) +
+    geom_line(aes(y = avg_silhouette), color = "#E74C3C", linewidth = 1) +
+    geom_point(aes(y = avg_silhouette), color = "#E74C3C", size = 3) +
+    geom_vline(xintercept = best_k, linetype = "dashed", color = "#7F8C8D") +
+    annotate("text", x = best_k + 0.15, y = 0.95, label = paste0("Best k = ", best_k),
+             color = "#7F8C8D", size = 3.5, hjust = 0, fontface = "italic") +
+    annotate("text", x = max(k_results$k), y = k_results$wcss_norm[nrow(k_results)] + 0.05,
+             label = "WCSS", color = "#2C3E50", size = 3.5, fontface = "bold", hjust = 1) +
+    annotate("text", x = max(k_results$k), y = k_results$avg_silhouette[nrow(k_results)] + 0.05,
+             label = "Silhouette", color = "#E74C3C", size = 3.5, fontface = "bold", hjust = 1) +
+    scale_x_continuous(breaks = k_results$k) +
+    scale_y_continuous(limits = c(0, 1)) +
+    labs(title = "Cluster Evaluation: Elbow + Silhouette",
+         subtitle = "Lower WCSS = tighter clusters. Higher silhouette = better separation.",
+         x = "Number of Clusters (k)", y = "Normalized Score") +
+    theme_jtbd()
+}
+
+#' Cluster opportunity heatmap
+#'
+#' Heatmap of opportunity scores across discovered clusters, showing which
+#' objectives are most underserved in each segment.
+#'
+#' @param profile Result from [jtbd_cluster_profile()] or [jtbd_segment()]$profile
+#' @param title Plot title
+#'
+#' @return A ggplot object
+#' @export
+#'
+#' @family clustering
+#'
+#' @examples
+#' data(jtbd_sample)
+#' result <- jtbd_segment(jtbd_sample, n_clusters = 3)
+#' plot_cluster_heatmap(result$profile)
+plot_cluster_heatmap <- function(profile, title = "Opportunity Heatmap by Discovered Segment") {
+  opp_cols <- grep("^opp\\.", names(profile), value = TRUE)
+
+  clean_obj_local <- function(x) {
+    x <- gsub("minimize_time_to_", "", x)
+    x <- gsub("minimize_likelihood_of_", "Avoid ", x)
+    x <- gsub("_", " ", x)
+    tools::toTitleCase(x)
+  }
+
+  heat_df <- profile %>%
+    select(job_step, objective, all_of(opp_cols)) %>%
+    mutate(label = clean_obj_local(as.character(objective))) %>%
+    arrange(desc(.data[[opp_cols[1]]])) %>%
+    mutate(label = factor(label, levels = rev(label))) %>%
+    select(label, all_of(opp_cols)) %>%
+    pivot_longer(cols = all_of(opp_cols), names_to = "segment", values_to = "opp") %>%
+    mutate(
+      segment = gsub("^opp\\.", "", segment),
+      segment = gsub("_", " ", segment),
+      segment = tools::toTitleCase(segment)
+    )
+
+  ggplot(heat_df, aes(x = segment, y = label, fill = opp)) +
+    geom_tile(color = "white", linewidth = 1.5) +
+    geom_text(aes(label = round(opp, 1),
+                  color = opp > 13), size = 3.5, fontface = "bold", show.legend = FALSE) +
+    scale_color_manual(values = c("TRUE" = "white", "FALSE" = "#2C3E50")) +
+    scale_fill_gradient2(low = "#F7F7F7", mid = "#FDEBD0", high = "#C0392B",
+                         midpoint = 10, name = "Opportunity\nScore") +
+    labs(title = title,
+         subtitle = "Darker = bigger unmet need. Compare columns to find segment-specific pain.",
+         x = "", y = "") +
+    theme_jtbd() +
+    theme(panel.grid = element_blank(),
+          axis.line = element_blank(),
+          axis.text.x = element_text(face = "bold", size = 11))
+}

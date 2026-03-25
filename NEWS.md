@@ -1,3 +1,21 @@
+# jtbdtools 0.3.0
+
+## Outcome-Based Segmentation (PCA + K-Means)
+
+- New `jtbd_segment()`: one-call ODI segmentation pipeline — PCA → K-Means → T2B profiling
+- New `jtbd_cluster()`: K-Means clustering on per-respondent opportunity scores
+- New `jtbd_pca()`: PCA with Kaiser rule component selection
+- New `jtbd_find_k()`: evaluate 2-6 cluster solutions with elbow + silhouette
+- New `jtbd_cluster_profile()`: T2B scoring per discovered cluster with significance testing
+- New `jtbd_feature_matrix()`: respondent × objective opportunity matrix
+- New visualizations: `plot_pca_biplot()`, `plot_cluster_heatmap()`, `plot_pca_scree()`, `plot_pca_loadings()`, `plot_elbow()`
+
+## Bug Fixes
+
+- Fixed broken `get_jtbd_scores.individual()` (replaced deprecated `mutate_if` with explicit type conversion)
+
+---
+
 # jtbdtools 0.2.0
 
 ## Statistical Significance

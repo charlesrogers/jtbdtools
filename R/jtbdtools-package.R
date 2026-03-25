@@ -9,7 +9,7 @@
 #' @importFrom forcats fct_count fct_inorder fct_lump_prop fct_reorder as_factor
 #' @importFrom tibble deframe
 #' @importFrom tidyr pivot_wider pivot_longer separate separate_wider_delim
-#' @importFrom stats median sd setNames
+#' @importFrom stats median sd setNames prcomp kmeans complete.cases dist
 #' @importFrom utils head tail
 #' @importFrom sjlabelled label_to_colnames
 #' @importFrom janitor clean_names
