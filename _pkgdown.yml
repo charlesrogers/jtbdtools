@@ -1,0 +1,81 @@
+url: https://charlesrogers.github.io/jtbdtools/
+
+template:
+  bootstrap: 5
+
+reference:
+  - title: Scoring
+    desc: Calculate opportunity scores from survey data
+    contents:
+      - get_jtbd_scores
+      - get_jtbd_scores.comparison
+      - get_jtbd_scores.pairwise
+      - get_jtbd_scores.batch
+      - get_jtbd_scores.individual
+      - calculate_opportunity_score
+      - calculate_pop_pct_score
+      - find_imp_sat_columns
+      - split_imp_sat_columns
+      - get_sample_size
+
+  - title: Visualization
+    desc: Plot opportunity data
+    contents:
+      - plot_opportunity_matrix
+      - plot_cleveland
+      - plot_this.graph.rel.abs_score
+      - plot_this.graph.rel_score
+      - plot_this.graph.abs_score
+      - plot.job_step
+      - theme_jtbd
+      - jtbd_colors
+
+  - title: Tables
+    desc: Publication-ready gt tables
+    contents:
+      - theme.job_step
+      - create.job_step.table
+      - create.pct.table
+
+  - title: Data Preparation
+    desc: Prepare survey data for analysis
+    contents:
+      - prep_data
+      - build_imp_column_names
+      - build_sat_column_names
+      - convert_labels_to_row_names
+      - remove_data_prefix
+      - remove_data_suffix
+      - replace_spaces_with_underscores
+      - change_labeles_to_factors
+
+  - title: Segmentation
+    desc: Compare scores across segments
+    contents:
+      - get_jtbd_var_values.list
+      - get_jtbd_segment.comp.ordinal
+      - get_jtbd_segment.comp_and_plot
+      - get_seg_comp.build.linear
+
+  - title: Utilities
+    contents:
+      - get_count
+      - make_data_long.pairwise
+      - get_min_max
+      - get.percent_of_max
+      - get.normalized_scores
+      - remove_weird_text_formatting.jtbd
+      - plot_this.pairwise.plotable
+      - plot_this.group.plotable
+
+  - title: Data
+    contents:
+      - jtbd_sample
+
+articles:
+  - title: Getting Started
+    contents:
+      - jtbdtools-introduction
+  - title: Guides
+    contents:
+      - data-preparation

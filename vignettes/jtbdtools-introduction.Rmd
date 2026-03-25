@@ -1,65 +1,81 @@
 ---
-title: "Introduction to JTBDtools"
+title: "Introduction to jtbdtools"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Introduction to JTBDtools}
+  %\VignetteIndexEntry{Introduction to jtbdtools}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
-
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  fig.width = 8,
+  fig.height = 5
 )
-
-
-## Introduction
-
-JTBDtools is an R package designed to facilitate Jobs to be Done (JTBD) analysis. This vignette will guide you through the main functions of the package and demonstrate how to use them effectively.
-
-## Installation
-
-You can install the development version of JTBDtools from GitHub with:
-
-```
-{r, eval = FALSE}
-install.packages("devtools")
-devtools::install_github("charlesrogers/jtbdtools")
 ```
 
-## Loading the Package
+## What is Outcome-Driven Innovation?
 
-Once installed, you can load the package:
+Jobs-to-Be-Done (JTBD) theory says customers "hire" products to get a job done. **Outcome-Driven Innovation** (ODI), developed by Tony Ulwick, turns this into a quantitative framework: survey users on how *important* each outcome is and how *satisfied* they are with current solutions, then calculate where the biggest gaps are.
 
-## Usage
+The **opportunity score** formula:
+
+```
+opportunity = importance + max(0, importance - satisfaction)
+```
+
+When importance exceeds satisfaction, the gap amplifies the opportunity. When satisfaction exceeds importance, opportunity equals importance (the floor). Scores range from 0-20, with anything above 10 considered a high-opportunity outcome.
+
+## Quick Start
 
 ```{r setup}
 library(jtbdtools)
+data(jtbd_sample)
 ```
 
+The sample dataset contains `r nrow(jtbd_sample)` survey respondents rating 12 objectives across 3 job steps:
 
-## Main Functions
-
-### get_jtbd_scores()
-
-This function calculates JTBD scores for a single segment.
-
-```{r, eval = FALSE}
-scores <- get_jtbd_scores(your_data_frame, "segment_column")
+```{r}
+# See the column structure
+names(jtbd_sample)[1:8]
 ```
 
-### get_jtbd_scores.comparison()
+### Calculate Scores
 
-This function simplifies the process of calculating JTBD scores for multiple segments.
-
-```{r, eval = FALSE}
-comparison_scores <- get_jtbd_scores.comparison(your_data_frame, "segmentation_column")
+```{r}
+scores <- get_jtbd_scores(jtbd_sample)
+scores[, c("job_step", "objective", "imp.all", "sat.all", "opp.all")]
 ```
 
-## Conclusion
+The highest-opportunity objectives have high importance and low satisfaction.
 
-JTBDtools provides a comprehensive set of functions for JTBD analysis. By following this guide, you should be able to perform basic analyses and visualizations of your JTBD data.
+### Compare Segments
 
-For more detailed information on each function, please refer to the function documentation by using `?function_name` in the R console.
+```{r}
+comparison <- get_jtbd_scores.comparison(jtbd_sample, "segment")
+# Show opportunity scores by segment
+opp_cols <- grep("^opp\\.", names(comparison), value = TRUE)
+comparison[, c("job_step", "objective", opp_cols)]
+```
+
+### Opportunity Matrix
+
+```{r opportunity-matrix, fig.cap="Opportunity Score Matrix"}
+plot_opportunity_matrix(scores, subtitle = "Sample JTBD Survey (N=200)")
+```
+
+## Data Format
+
+Your data must follow this column naming convention:
+
+- `imp__job_step.objective_name` for importance columns
+- `sat__job_step.objective_name` for satisfaction columns
+- Values should be factors with levels 1-5
+
+Example column names:
+- `imp__researching.minimize_time_to_evaluate_options`
+- `sat__researching.minimize_time_to_evaluate_options`
+
+See `?jtbd_sample` for a complete example dataset and `vignette("data-preparation")` for SPSS import instructions.

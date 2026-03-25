@@ -48,9 +48,7 @@ po/*~
 # RStudio Connect folder
 rsconnect/
 
-# Add .cursurroles to the list of ignored files
 .cursorrules
-
-# Add .cursurroles to the list of ignored files
 .helper
+.DS_Store
 inst/doc
