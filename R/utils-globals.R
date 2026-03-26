@@ -27,5 +27,5 @@ utils::globalVariables(c(
   "PC1", "PC2", "Cluster", "wcss_norm", "avg_silhouette", "k",
   "variable", "p_value", "cramers_v", "significant", "effect",
   "pct", "overall_pct", "index", "cluster_label",
-  "deviation", "attr_label", "max_dev", "direction"
+  "deviation", "attr_label", "max_dev", "direction", "x_num"
 ))

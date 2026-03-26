@@ -489,21 +489,34 @@ plot_segment_radar <- function(profile_result, max_attrs = 8,
                                 title = "Segment Radar: Who Are They?") {
   pd <- .get_profile_plot_data(profile_result, max_attrs)
   radar_data <- pd$data
-  n_attrs <- length(unique(radar_data$attr_label))
+  attr_levels <- levels(radar_data$attr_label)
+  n_attrs <- length(attr_levels)
 
-  ggplot(radar_data, aes(x = attr_label, y = index, group = cluster_label, color = cluster_label)) +
+  # Convert to numeric x for proper polygon closing
+  radar_data$x_num <- as.numeric(radar_data$attr_label)
+
+  # Close polygons: add first point again at position n+1 (wraps in coord_polar)
+  closed <- radar_data %>%
+    group_by(cluster_label) %>%
+    arrange(x_num) %>%
+    bind_rows(slice_head(., n = 1) %>% mutate(x_num = n_attrs + 1)) %>%
+    ungroup()
+
+  ggplot(radar_data, aes(x = x_num, y = index, group = cluster_label, color = cluster_label)) +
     geom_hline(yintercept = 100, linetype = "dashed", color = "#BDC3C7", linewidth = 0.4) +
-    geom_polygon(aes(fill = cluster_label), alpha = 0.08, linewidth = 0) +
-    geom_line(linewidth = 1.2) +
+    geom_polygon(data = closed, aes(fill = cluster_label), alpha = 0.1, linewidth = 0) +
+    geom_path(data = closed, linewidth = 1.2) +
     geom_point(size = 3) +
-    geom_text(aes(label = index), size = 2.5, nudge_y = 12, fontface = "bold", show.legend = FALSE) +
-    coord_polar(start = -pi / n_attrs) +
+    geom_text(aes(label = index), size = 2.5, nudge_y = 14, fontface = "bold", show.legend = FALSE) +
+    coord_polar() +
+    scale_x_continuous(breaks = seq_len(n_attrs), labels = attr_levels,
+                       limits = c(0.5, n_attrs + 0.5)) +
     scale_color_manual(values = c("#E74C3C", "#3498DB", "#2ECC71", "#F39C12", "#9B59B6")) +
     scale_fill_manual(values = c("#E74C3C", "#3498DB", "#2ECC71", "#F39C12", "#9B59B6")) +
     scale_y_continuous(limits = c(0, 250), breaks = c(50, 100, 150, 200)) +
     labs(title = title,
          subtitle = "Index vs population (100 = average). Further from center = more over-represented.",
-         color = "", fill = "") +
+         x = NULL, y = NULL, color = "", fill = "") +
     theme_jtbd() +
     theme(axis.text.y = element_blank(), axis.title = element_blank(),
           axis.line = element_blank(),
@@ -536,18 +549,29 @@ plot_segment_radar_facet <- function(profile_result, max_attrs = 8,
                                       title = "Segment Profiles: Individual Radar Views") {
   pd <- .get_profile_plot_data(profile_result, max_attrs)
   radar_data <- pd$data
-  n_attrs <- length(unique(radar_data$attr_label))
+  attr_levels <- levels(radar_data$attr_label)
+  n_attrs <- length(attr_levels)
 
-  ggplot(radar_data, aes(x = attr_label, y = index, group = 1)) +
+  radar_data$x_num <- as.numeric(radar_data$attr_label)
+
+  closed <- radar_data %>%
+    group_by(cluster_label) %>%
+    arrange(x_num) %>%
+    bind_rows(slice_head(., n = 1) %>% mutate(x_num = n_attrs + 1)) %>%
+    ungroup()
+
+  ggplot(radar_data, aes(x = x_num, y = index, group = 1)) +
     geom_hline(yintercept = 100, linetype = "dashed", color = "#E74C3C", linewidth = 0.5) +
-    geom_polygon(fill = "#3498DB", alpha = 0.15) +
-    geom_line(color = "#2C3E50", linewidth = 1) +
+    geom_polygon(data = closed, fill = "#3498DB", alpha = 0.15) +
+    geom_path(data = closed, color = "#2C3E50", linewidth = 1) +
     geom_point(color = "#2C3E50", size = 2.5) +
     geom_text(aes(label = index), size = 2.5, nudge_y = 15, fontface = "bold", color = "#2C3E50") +
-    coord_polar(start = -pi / n_attrs) +
+    coord_polar() +
+    scale_x_continuous(breaks = seq_len(n_attrs), labels = attr_levels,
+                       limits = c(0.5, n_attrs + 0.5)) +
     scale_y_continuous(limits = c(0, 250)) +
     facet_wrap(~cluster_label) +
-    labs(title = title,
+    labs(title = title, x = NULL, y = NULL,
          subtitle = "Red dashed = population average (100). Shape reveals each segment's personality.") +
     theme_jtbd() +
     theme(axis.text.y = element_blank(), axis.title = element_blank(),
