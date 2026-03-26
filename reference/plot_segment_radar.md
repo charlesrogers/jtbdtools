@@ -69,4 +69,5 @@ prof <- jtbd_profile_segments(cl$data)
 #> ℹ 2 variables significantly distinguish segments (p < 0.05).
 #> ℹ Top distinguisher: segment, income
 plot_segment_radar(prof)
+#> Error in slice_head(., n = 1): could not find function "slice_head"
 ```
