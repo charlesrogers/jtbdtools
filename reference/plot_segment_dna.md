@@ -1,50 +1,37 @@
-# Run the full ODI segmentation pipeline
+# Segment DNA lollipop chart (faceted)
 
-One-call convenience function that runs: feature matrix → PCA → K-Means
-→ T2B profiling with significance testing. Returns everything needed for
-analysis and visualization.
+Each segment gets its own panel showing over-indexed (red) and
+under-indexed (blue) attributes as lollipops extending from the zero
+line.
 
 ## Usage
 
 ``` r
-jtbd_segment(df, n_clusters = 3, use_pca = TRUE, test_sig = TRUE, seed = 42)
+plot_segment_dna(
+  profile_result,
+  max_attrs = 8,
+  title = "Segment DNA: What Makes Each Group Unique"
+)
 ```
 
 ## Arguments
 
-- df:
+- profile_result:
 
-  A data frame with `imp__`/`sat__` columns
+  Result from
+  [`jtbd_profile_segments()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_profile_segments.md)
 
-- n_clusters:
+- max_attrs:
 
-  Number of clusters (default: 3)
+  Maximum number of attributes (default: 8)
 
-- use_pca:
+- title:
 
-  Use PCA before clustering (default: TRUE)
-
-- test_sig:
-
-  Run significance tests on cluster profiles (default: TRUE)
-
-- seed:
-
-  Random seed (default: 42)
+  Plot title
 
 ## Value
 
-A list with:
-
-- `cluster_result`: full
-  [`jtbd_cluster()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_cluster.md)
-  output
-
-- `pca`: PCA result
-
-- `profile`: T2B scores per cluster with p-values
-
-- `data`: original data with `jtbd_cluster` column
+A ggplot object
 
 ## See also
 
@@ -56,12 +43,12 @@ Other clustering:
 [`jtbd_find_k()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_find_k.md),
 [`jtbd_pca()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_pca.md),
 [`jtbd_profile_segments()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_profile_segments.md),
+[`jtbd_segment()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_segment.md),
 [`plot_cluster_heatmap()`](https://charlesrogers.github.io/jtbdtools/reference/plot_cluster_heatmap.md),
 [`plot_elbow()`](https://charlesrogers.github.io/jtbdtools/reference/plot_elbow.md),
 [`plot_pca_biplot()`](https://charlesrogers.github.io/jtbdtools/reference/plot_pca_biplot.md),
 [`plot_pca_loadings()`](https://charlesrogers.github.io/jtbdtools/reference/plot_pca_loadings.md),
 [`plot_pca_scree()`](https://charlesrogers.github.io/jtbdtools/reference/plot_pca_scree.md),
-[`plot_segment_dna()`](https://charlesrogers.github.io/jtbdtools/reference/plot_segment_dna.md),
 [`plot_segment_fingerprint()`](https://charlesrogers.github.io/jtbdtools/reference/plot_segment_fingerprint.md),
 [`plot_segment_index()`](https://charlesrogers.github.io/jtbdtools/reference/plot_segment_index.md),
 [`plot_segment_profiles()`](https://charlesrogers.github.io/jtbdtools/reference/plot_segment_profiles.md),
@@ -72,14 +59,14 @@ Other clustering:
 
 ``` r
 data(jtbd_sample)
-result <- jtbd_segment(jtbd_sample, n_clusters = 3)
+cl <- jtbd_cluster(jtbd_sample, n_clusters = 3)
 #> Feature matrix: 200 respondents x 12 objectives (opportunity scores 1-9).
 #> Kaiser rule: retaining 5 components (eigenvalue > 1).
 #> ✔ Clustered 200 respondents into 3 segments.
 #> ℹ Sizes: Segment_1 (n=60), Segment_2 (n=76), Segment_3 (n=64)
-#> Found 3 segments with n > 30.
-#> ✔ ODI segmentation complete.
-#> ℹ Use `plot_cluster_heatmap()` or `plot_pca_biplot()` to visualize.
-names(result)
-#> [1] "cluster_result" "pca"            "profile"        "data"          
+prof <- jtbd_profile_segments(cl$data)
+#> ✔ Profiled 6 variables across 3 segments.
+#> ℹ 2 variables significantly distinguish segments (p < 0.05).
+#> ℹ Top distinguisher: segment, income
+plot_segment_dna(prof)
 ```

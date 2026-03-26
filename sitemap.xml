@@ -54,8 +54,12 @@
 <url><loc>https://charlesrogers.github.io/jtbdtools/reference/plot_pca_biplot.html</loc></url>
 <url><loc>https://charlesrogers.github.io/jtbdtools/reference/plot_pca_loadings.html</loc></url>
 <url><loc>https://charlesrogers.github.io/jtbdtools/reference/plot_pca_scree.html</loc></url>
+<url><loc>https://charlesrogers.github.io/jtbdtools/reference/plot_segment_dna.html</loc></url>
+<url><loc>https://charlesrogers.github.io/jtbdtools/reference/plot_segment_fingerprint.html</loc></url>
 <url><loc>https://charlesrogers.github.io/jtbdtools/reference/plot_segment_index.html</loc></url>
 <url><loc>https://charlesrogers.github.io/jtbdtools/reference/plot_segment_profiles.html</loc></url>
+<url><loc>https://charlesrogers.github.io/jtbdtools/reference/plot_segment_radar.html</loc></url>
+<url><loc>https://charlesrogers.github.io/jtbdtools/reference/plot_segment_radar_facet.html</loc></url>
 <url><loc>https://charlesrogers.github.io/jtbdtools/reference/plot_this.graph.abs_score.html</loc></url>
 <url><loc>https://charlesrogers.github.io/jtbdtools/reference/plot_this.graph.rel.abs_score.html</loc></url>
 <url><loc>https://charlesrogers.github.io/jtbdtools/reference/plot_this.graph.rel_score.html</loc></url>

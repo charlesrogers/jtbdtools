@@ -148,9 +148,18 @@
 <div class="section level3">
 <h3 id="step-5-explain-whos-in-each-segment">Step 5: Explain Who’s In Each Segment<a class="anchor" aria-label="anchor" href="#step-5-explain-whos-in-each-segment"></a>
 </h3>
-<p>Automatically profile clusters against demographics, behavior, or any attribute. Chi-squared tests + Cramer’s V find what distinguishes each group:</p>
-<p><img src="reference/figures/readme-segment-profiles.png" width="700" alt="Segment DNA divergence chart"></p>
-<p>The index heatmap shows exactly where each segment over- or under-indexes vs the population (100 = average):</p>
+<p>Automatically profile clusters against demographics, behavior, or any attribute. Chi-squared tests + Cramer’s V find what distinguishes each group. Six visualization styles:</p>
+<p><strong>Radar Chart</strong> — each segment’s “personality shape” at a glance:</p>
+<p><img src="reference/figures/readme-radar.png" width="650" alt="Segment radar chart"></p>
+<p><strong>Individual Radar Views</strong> — one panel per segment, no overlap:</p>
+<p><img src="reference/figures/readme-radar-facet.png" width="750" alt="Faceted segment radar"></p>
+<p><strong>Segment Fingerprints</strong> — parallel coordinates show where segments diverge and cross over:</p>
+<p><img src="reference/figures/readme-parallel.png" width="750" alt="Segment fingerprints"></p>
+<p><strong>Segment DNA</strong> — faceted lollipops show each segment’s over/under-indexed traits:</p>
+<p><img src="reference/figures/readme-lollipop-facet.png" width="750" alt="Segment DNA lollipop"></p>
+<p><strong>Diverging Bar</strong> — ranked by impact, only meaningful deviations:</p>
+<p><img src="reference/figures/readme-segment-profiles.png" width="700" alt="Segment divergence bars"></p>
+<p><strong>Index Heatmap</strong> — the full picture, every attribute x every segment:</p>
 <p><img src="reference/figures/readme-segment-index.png" width="650" alt="Segment index heatmap"></p>
 </div>
 <div class="section level3">
@@ -378,13 +387,33 @@
 </tr>
 <tr class="odd">
 <td></td>
+<td><code><a href="reference/plot_segment_radar.html">plot_segment_radar()</a></code></td>
+<td>Overlaid radar chart</td>
+</tr>
+<tr class="even">
+<td></td>
+<td><code><a href="reference/plot_segment_radar_facet.html">plot_segment_radar_facet()</a></code></td>
+<td>One radar per segment</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td><code><a href="reference/plot_segment_fingerprint.html">plot_segment_fingerprint()</a></code></td>
+<td>Parallel coordinates</td>
+</tr>
+<tr class="even">
+<td></td>
+<td><code><a href="reference/plot_segment_dna.html">plot_segment_dna()</a></code></td>
+<td>Faceted lollipop chart</td>
+</tr>
+<tr class="odd">
+<td></td>
 <td><code><a href="reference/plot_segment_profiles.html">plot_segment_profiles()</a></code></td>
-<td>Diverging bar chart of segment DNA</td>
+<td>Diverging bar chart</td>
 </tr>
 <tr class="even">
 <td></td>
 <td><code><a href="reference/plot_segment_index.html">plot_segment_index()</a></code></td>
-<td>Index heatmap (over/under-represented)</td>
+<td>Index heatmap</td>
 </tr>
 <tr class="odd">
 <td><strong>Stat Sig</strong></td>

@@ -135,6 +135,14 @@ Discover outcome-based segments using PCA + K-Means
   : Automatically profile discovered segments
 - [`create_persona_table()`](https://charlesrogers.github.io/jtbdtools/reference/create_persona_table.md)
   : Create segment persona cards as a gt table
+- [`plot_segment_radar()`](https://charlesrogers.github.io/jtbdtools/reference/plot_segment_radar.md)
+  : Segment radar chart (overlaid)
+- [`plot_segment_radar_facet()`](https://charlesrogers.github.io/jtbdtools/reference/plot_segment_radar_facet.md)
+  : Segment radar chart (faceted)
+- [`plot_segment_fingerprint()`](https://charlesrogers.github.io/jtbdtools/reference/plot_segment_fingerprint.md)
+  : Segment fingerprints (parallel coordinates)
+- [`plot_segment_dna()`](https://charlesrogers.github.io/jtbdtools/reference/plot_segment_dna.md)
+  : Segment DNA lollipop chart (faceted)
 - [`plot_segment_profiles()`](https://charlesrogers.github.io/jtbdtools/reference/plot_segment_profiles.md)
   : Plot segment divergence from population
 - [`plot_segment_index()`](https://charlesrogers.github.io/jtbdtools/reference/plot_segment_index.md)

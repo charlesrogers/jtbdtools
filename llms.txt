@@ -130,13 +130,32 @@ heatmap](reference/figures/readme-cluster-heatmap.png)
 
 Automatically profile clusters against demographics, behavior, or any
 attribute. Chi-squared tests + Cramer’s V find what distinguishes each
-group:
+group. Six visualization styles:
 
-![Segment DNA divergence
-chart](reference/figures/readme-segment-profiles.png)
+**Radar Chart** — each segment’s “personality shape” at a glance:
 
-The index heatmap shows exactly where each segment over- or
-under-indexes vs the population (100 = average):
+![Segment radar chart](reference/figures/readme-radar.png)
+
+**Individual Radar Views** — one panel per segment, no overlap:
+
+![Faceted segment radar](reference/figures/readme-radar-facet.png)
+
+**Segment Fingerprints** — parallel coordinates show where segments
+diverge and cross over:
+
+![Segment fingerprints](reference/figures/readme-parallel.png)
+
+**Segment DNA** — faceted lollipops show each segment’s
+over/under-indexed traits:
+
+![Segment DNA lollipop](reference/figures/readme-lollipop-facet.png)
+
+**Diverging Bar** — ranked by impact, only meaningful deviations:
+
+![Segment divergence
+bars](reference/figures/readme-segment-profiles.png)
+
+**Index Heatmap** — the full picture, every attribute x every segment:
 
 ![Segment index heatmap](reference/figures/readme-segment-index.png)
 
@@ -233,8 +252,12 @@ Also works with any CSV via
 |                      | [`plot_elbow()`](https://charlesrogers.github.io/jtbdtools/reference/plot_elbow.md)                                       | Elbow + silhouette evaluation plot                  |
 | **Profiling**        | [`jtbd_profile_segments()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_profile_segments.md)                 | Auto-profile clusters against demographics          |
 |                      | [`create_persona_table()`](https://charlesrogers.github.io/jtbdtools/reference/create_persona_table.md)                   | “This, Not That” persona cards (gt table)           |
-|                      | [`plot_segment_profiles()`](https://charlesrogers.github.io/jtbdtools/reference/plot_segment_profiles.md)                 | Diverging bar chart of segment DNA                  |
-|                      | [`plot_segment_index()`](https://charlesrogers.github.io/jtbdtools/reference/plot_segment_index.md)                       | Index heatmap (over/under-represented)              |
+|                      | [`plot_segment_radar()`](https://charlesrogers.github.io/jtbdtools/reference/plot_segment_radar.md)                       | Overlaid radar chart                                |
+|                      | [`plot_segment_radar_facet()`](https://charlesrogers.github.io/jtbdtools/reference/plot_segment_radar_facet.md)           | One radar per segment                               |
+|                      | [`plot_segment_fingerprint()`](https://charlesrogers.github.io/jtbdtools/reference/plot_segment_fingerprint.md)           | Parallel coordinates                                |
+|                      | [`plot_segment_dna()`](https://charlesrogers.github.io/jtbdtools/reference/plot_segment_dna.md)                           | Faceted lollipop chart                              |
+|                      | [`plot_segment_profiles()`](https://charlesrogers.github.io/jtbdtools/reference/plot_segment_profiles.md)                 | Diverging bar chart                                 |
+|                      | [`plot_segment_index()`](https://charlesrogers.github.io/jtbdtools/reference/plot_segment_index.md)                       | Index heatmap                                       |
 | **Stat Sig**         | [`test_segment_significance()`](https://charlesrogers.github.io/jtbdtools/reference/test_segment_significance.md)         | Wilcoxon rank-sum test between segments             |
 | **Legacy Data Prep** | [`prep_data()`](https://charlesrogers.github.io/jtbdtools/reference/prep_data.md)                                         | SPSS data cleaning pipeline                         |
 |                      | [`build_imp_column_names()`](https://charlesrogers.github.io/jtbdtools/reference/build_imp_column_names.md)               | Rename columns to `imp__step.objective`             |
@@ -414,6 +437,14 @@ Discover outcome-based segments using PCA + K-Means
   : Automatically profile discovered segments
 - [`create_persona_table()`](https://charlesrogers.github.io/jtbdtools/reference/create_persona_table.md)
   : Create segment persona cards as a gt table
+- [`plot_segment_radar()`](https://charlesrogers.github.io/jtbdtools/reference/plot_segment_radar.md)
+  : Segment radar chart (overlaid)
+- [`plot_segment_radar_facet()`](https://charlesrogers.github.io/jtbdtools/reference/plot_segment_radar_facet.md)
+  : Segment radar chart (faceted)
+- [`plot_segment_fingerprint()`](https://charlesrogers.github.io/jtbdtools/reference/plot_segment_fingerprint.md)
+  : Segment fingerprints (parallel coordinates)
+- [`plot_segment_dna()`](https://charlesrogers.github.io/jtbdtools/reference/plot_segment_dna.md)
+  : Segment DNA lollipop chart (faceted)
 - [`plot_segment_profiles()`](https://charlesrogers.github.io/jtbdtools/reference/plot_segment_profiles.md)
   : Plot segment divergence from population
 - [`plot_segment_index()`](https://charlesrogers.github.io/jtbdtools/reference/plot_segment_index.md)
