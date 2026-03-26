@@ -80,6 +80,10 @@ reference:
       - plot_elbow
       - jtbd_profile_segments
       - create_persona_table
+      - plot_segment_radar
+      - plot_segment_radar_facet
+      - plot_segment_fingerprint
+      - plot_segment_dna
       - plot_segment_profiles
       - plot_segment_index
 

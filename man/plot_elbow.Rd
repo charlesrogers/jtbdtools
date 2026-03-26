@@ -35,7 +35,11 @@ Other clustering:
 \code{\link{plot_pca_biplot}()},
 \code{\link{plot_pca_loadings}()},
 \code{\link{plot_pca_scree}()},
+\code{\link{plot_segment_dna}()},
+\code{\link{plot_segment_fingerprint}()},
 \code{\link{plot_segment_index}()},
-\code{\link{plot_segment_profiles}()}
+\code{\link{plot_segment_profiles}()},
+\code{\link{plot_segment_radar}()},
+\code{\link{plot_segment_radar_facet}()}
 }
 \concept{clustering}

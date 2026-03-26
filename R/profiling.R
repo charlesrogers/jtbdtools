@@ -437,3 +437,206 @@ create_persona_table <- function(profile_result, cluster_profile = NULL) {
 
   return(tbl)
 }
+
+# ============================================================
+# Internal helper: get top indexed attributes for profile plots
+# ============================================================
+.get_profile_plot_data <- function(profile_result, max_attrs = 8) {
+  all_details <- do.call(rbind, profile_result$details)
+  plot_data <- all_details[!is.na(all_details$index) & all_details$overall_pct >= 5, ]
+  plot_data$cluster_label <- gsub("Segment_", "Seg ", as.character(plot_data$cluster))
+  plot_data$attr_label <- paste0(
+    tools::toTitleCase(gsub("_", " ", plot_data$variable)), ": ", plot_data$value
+  )
+  plot_data <- plot_data %>%
+    group_by(attr_label) %>%
+    filter(max(abs(index - 100)) >= 15) %>%
+    ungroup()
+
+  top_attrs <- plot_data %>%
+    group_by(attr_label) %>%
+    summarize(max_dev = max(abs(index - 100)), .groups = "drop") %>%
+    arrange(desc(max_dev)) %>%
+    utils::head(max_attrs)
+
+  plot_data <- plot_data %>%
+    filter(attr_label %in% top_attrs$attr_label) %>%
+    mutate(attr_label = factor(attr_label, levels = top_attrs$attr_label))
+
+  list(data = plot_data, top_attrs = top_attrs)
+}
+
+#' Segment radar chart (overlaid)
+#'
+#' All segments on one radar chart using index values (100 = population average).
+#' Spikes show where a segment is over-represented; dips show under-representation.
+#'
+#' @param profile_result Result from [jtbd_profile_segments()]
+#' @param max_attrs Maximum number of attributes on the radar (default: 8)
+#' @param title Plot title
+#'
+#' @return A ggplot object
+#' @export
+#'
+#' @family clustering
+#'
+#' @examples
+#' data(jtbd_sample)
+#' cl <- jtbd_cluster(jtbd_sample, n_clusters = 3)
+#' prof <- jtbd_profile_segments(cl$data)
+#' plot_segment_radar(prof)
+plot_segment_radar <- function(profile_result, max_attrs = 8,
+                                title = "Segment Radar: Who Are They?") {
+  pd <- .get_profile_plot_data(profile_result, max_attrs)
+  radar_data <- pd$data
+  n_attrs <- length(unique(radar_data$attr_label))
+
+  ggplot(radar_data, aes(x = attr_label, y = index, group = cluster_label, color = cluster_label)) +
+    geom_hline(yintercept = 100, linetype = "dashed", color = "#BDC3C7", linewidth = 0.4) +
+    geom_polygon(aes(fill = cluster_label), alpha = 0.08, linewidth = 0) +
+    geom_line(linewidth = 1.2) +
+    geom_point(size = 3) +
+    geom_text(aes(label = index), size = 2.5, nudge_y = 12, fontface = "bold", show.legend = FALSE) +
+    coord_polar(start = -pi / n_attrs) +
+    scale_color_manual(values = c("#E74C3C", "#3498DB", "#2ECC71", "#F39C12", "#9B59B6")) +
+    scale_fill_manual(values = c("#E74C3C", "#3498DB", "#2ECC71", "#F39C12", "#9B59B6")) +
+    scale_y_continuous(limits = c(0, 250), breaks = c(50, 100, 150, 200)) +
+    labs(title = title,
+         subtitle = "Index vs population (100 = average). Further from center = more over-represented.",
+         color = "", fill = "") +
+    theme_jtbd() +
+    theme(axis.text.y = element_blank(), axis.title = element_blank(),
+          axis.line = element_blank(),
+          panel.grid.major = element_line(color = "#E8E8E8", linewidth = 0.3),
+          legend.position = "top",
+          legend.text = element_text(size = 11, face = "bold"),
+          axis.text.x = element_text(size = 8))
+}
+
+#' Segment radar chart (faceted)
+#'
+#' One radar panel per segment, making each segment's "personality shape" easy
+#' to read without overlap.
+#'
+#' @param profile_result Result from [jtbd_profile_segments()]
+#' @param max_attrs Maximum number of attributes on each radar (default: 8)
+#' @param title Plot title
+#'
+#' @return A ggplot object
+#' @export
+#'
+#' @family clustering
+#'
+#' @examples
+#' data(jtbd_sample)
+#' cl <- jtbd_cluster(jtbd_sample, n_clusters = 3)
+#' prof <- jtbd_profile_segments(cl$data)
+#' plot_segment_radar_facet(prof)
+plot_segment_radar_facet <- function(profile_result, max_attrs = 8,
+                                      title = "Segment Profiles: Individual Radar Views") {
+  pd <- .get_profile_plot_data(profile_result, max_attrs)
+  radar_data <- pd$data
+  n_attrs <- length(unique(radar_data$attr_label))
+
+  ggplot(radar_data, aes(x = attr_label, y = index, group = 1)) +
+    geom_hline(yintercept = 100, linetype = "dashed", color = "#E74C3C", linewidth = 0.5) +
+    geom_polygon(fill = "#3498DB", alpha = 0.15) +
+    geom_line(color = "#2C3E50", linewidth = 1) +
+    geom_point(color = "#2C3E50", size = 2.5) +
+    geom_text(aes(label = index), size = 2.5, nudge_y = 15, fontface = "bold", color = "#2C3E50") +
+    coord_polar(start = -pi / n_attrs) +
+    scale_y_continuous(limits = c(0, 250)) +
+    facet_wrap(~cluster_label) +
+    labs(title = title,
+         subtitle = "Red dashed = population average (100). Shape reveals each segment's personality.") +
+    theme_jtbd() +
+    theme(axis.text.y = element_blank(), axis.title = element_blank(),
+          axis.line = element_blank(),
+          panel.grid.major = element_line(color = "#E8E8E8", linewidth = 0.3),
+          strip.text = element_text(face = "bold", size = 13),
+          axis.text.x = element_text(size = 7))
+}
+
+#' Segment fingerprints (parallel coordinates)
+#'
+#' Lines connecting each segment's index values across attributes. Where lines
+#' diverge = where segments differ most. Where they cross = where rankings flip.
+#'
+#' @param profile_result Result from [jtbd_profile_segments()]
+#' @param max_attrs Maximum number of attributes (default: 8)
+#' @param title Plot title
+#'
+#' @return A ggplot object
+#' @export
+#'
+#' @family clustering
+#'
+#' @examples
+#' data(jtbd_sample)
+#' cl <- jtbd_cluster(jtbd_sample, n_clusters = 3)
+#' prof <- jtbd_profile_segments(cl$data)
+#' plot_segment_fingerprint(prof)
+plot_segment_fingerprint <- function(profile_result, max_attrs = 8,
+                                      title = "Segment Fingerprints") {
+  pd <- .get_profile_plot_data(profile_result, max_attrs)
+  par_data <- pd$data
+
+  ggplot(par_data, aes(x = attr_label, y = index, group = cluster_label, color = cluster_label)) +
+    geom_hline(yintercept = 100, linetype = "dashed", color = "#7F8C8D", linewidth = 0.5) +
+    geom_line(linewidth = 1.3, alpha = 0.8) +
+    geom_point(size = 3.5) +
+    geom_text(aes(label = index), nudge_y = 10, size = 3, fontface = "bold", show.legend = FALSE) +
+    scale_color_manual(values = c("#E74C3C", "#3498DB", "#2ECC71", "#F39C12", "#9B59B6")) +
+    labs(title = title,
+         subtitle = "How each segment deviates from the population average (dashed = 100)",
+         x = "", y = "Index (100 = average)", color = "") +
+    theme_jtbd() +
+    theme(axis.text.x = element_text(angle = 35, hjust = 1, size = 9),
+          legend.position = "top",
+          legend.text = element_text(size = 11, face = "bold"))
+}
+
+#' Segment DNA lollipop chart (faceted)
+#'
+#' Each segment gets its own panel showing over-indexed (red) and under-indexed
+#' (blue) attributes as lollipops extending from the zero line.
+#'
+#' @param profile_result Result from [jtbd_profile_segments()]
+#' @param max_attrs Maximum number of attributes (default: 8)
+#' @param title Plot title
+#'
+#' @return A ggplot object
+#' @export
+#'
+#' @family clustering
+#'
+#' @examples
+#' data(jtbd_sample)
+#' cl <- jtbd_cluster(jtbd_sample, n_clusters = 3)
+#' prof <- jtbd_profile_segments(cl$data)
+#' plot_segment_dna(prof)
+plot_segment_dna <- function(profile_result, max_attrs = 8,
+                              title = "Segment DNA: What Makes Each Group Unique") {
+  pd <- .get_profile_plot_data(profile_result, max_attrs)
+  lol_data <- pd$data %>%
+    mutate(
+      deviation = index - 100,
+      direction = ifelse(deviation >= 0, "Over", "Under"),
+      attr_label = factor(attr_label, levels = rev(levels(attr_label)))
+    )
+
+  ggplot(lol_data, aes(x = attr_label, y = deviation, color = direction)) +
+    geom_hline(yintercept = 0, linewidth = 0.5, color = "#2C3E50") +
+    geom_segment(aes(xend = attr_label, yend = 0), linewidth = 1.2) +
+    geom_point(size = 4) +
+    coord_flip() +
+    facet_wrap(~cluster_label) +
+    scale_color_manual(values = c("Over" = "#C0392B", "Under" = "#2980B9"), guide = "none") +
+    labs(title = title,
+         subtitle = "Red = over-indexed vs population. Blue = under-indexed.",
+         x = "", y = "Index Deviation from Average") +
+    theme_jtbd() +
+    theme(panel.grid.major.y = element_blank(),
+          axis.line.y = element_blank(),
+          strip.text = element_text(face = "bold", size = 13))
+}

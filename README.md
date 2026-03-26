@@ -108,11 +108,29 @@ The payoff — opportunity scores per discovered segment with statistical signif
 
 ### Step 5: Explain Who's In Each Segment
 
-Automatically profile clusters against demographics, behavior, or any attribute. Chi-squared tests + Cramer's V find what distinguishes each group:
+Automatically profile clusters against demographics, behavior, or any attribute. Chi-squared tests + Cramer's V find what distinguishes each group. Six visualization styles:
 
-<img src="man/figures/readme-segment-profiles.png" width="700" alt="Segment DNA divergence chart" />
+**Radar Chart** — each segment's "personality shape" at a glance:
 
-The index heatmap shows exactly where each segment over- or under-indexes vs the population (100 = average):
+<img src="man/figures/readme-radar.png" width="650" alt="Segment radar chart" />
+
+**Individual Radar Views** — one panel per segment, no overlap:
+
+<img src="man/figures/readme-radar-facet.png" width="750" alt="Faceted segment radar" />
+
+**Segment Fingerprints** — parallel coordinates show where segments diverge and cross over:
+
+<img src="man/figures/readme-parallel.png" width="750" alt="Segment fingerprints" />
+
+**Segment DNA** — faceted lollipops show each segment's over/under-indexed traits:
+
+<img src="man/figures/readme-lollipop-facet.png" width="750" alt="Segment DNA lollipop" />
+
+**Diverging Bar** — ranked by impact, only meaningful deviations:
+
+<img src="man/figures/readme-segment-profiles.png" width="700" alt="Segment divergence bars" />
+
+**Index Heatmap** — the full picture, every attribute x every segment:
 
 <img src="man/figures/readme-segment-index.png" width="650" alt="Segment index heatmap" />
 
@@ -204,8 +222,12 @@ Also works with any CSV via `prep_survey()` — just point it at your importance
 | | `plot_elbow()` | Elbow + silhouette evaluation plot |
 | **Profiling** | `jtbd_profile_segments()` | Auto-profile clusters against demographics |
 | | `create_persona_table()` | "This, Not That" persona cards (gt table) |
-| | `plot_segment_profiles()` | Diverging bar chart of segment DNA |
-| | `plot_segment_index()` | Index heatmap (over/under-represented) |
+| | `plot_segment_radar()` | Overlaid radar chart |
+| | `plot_segment_radar_facet()` | One radar per segment |
+| | `plot_segment_fingerprint()` | Parallel coordinates |
+| | `plot_segment_dna()` | Faceted lollipop chart |
+| | `plot_segment_profiles()` | Diverging bar chart |
+| | `plot_segment_index()` | Index heatmap |
 | **Stat Sig** | `test_segment_significance()` | Wilcoxon rank-sum test between segments |
 | **Legacy Data Prep** | `prep_data()` | SPSS data cleaning pipeline |
 | | `build_imp_column_names()` | Rename columns to `imp__step.objective` |
