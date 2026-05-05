@@ -79,7 +79,7 @@ gt_theme_jtbd <- function(gt_object, n = NULL, study = NULL, ...) {
 #' Creates a publication-ready gt table for a job step's opportunity scores,
 #' with color-coded index values and highlighted median row. When `n` is
 #' supplied (or `imp_se.all` / `sat_se.all` columns are already present), the
-#' Importance and Satisfaction values are rendered as `score ± SE` to make
+#' Importance and Satisfaction values are rendered as `score \u00b1 SE` to make
 #' the precision of each estimate visible.
 #'
 #' @param your.df A data frame from [get_jtbd_scores()] containing scores for one job step
@@ -105,7 +105,7 @@ theme.job_step <- function(your.df, step_title, n = NULL, study = NULL) {
     remove_weird_text_formatting.jtbd()
 
   if (has_se) {
-    fmt_pm <- function(x, se) ifelse(is.na(x), "", sprintf("%.1f ± %.1f", x, se))
+    fmt_pm <- function(x, se) ifelse(is.na(x), "", sprintf("%.1f \u00b1 %.1f", x, se))
     prepped <- prepped %>%
       mutate(
         Importance = fmt_pm(imp.all, .data[["imp_se.all"]]),
@@ -157,7 +157,7 @@ theme.job_step <- function(your.df, step_title, n = NULL, study = NULL) {
     output <- output %>%
       tab_footnote(
         locations = cells_column_labels(columns = c("Importance", "Satisfaction")),
-        footnote = "Score ± standard error (Wilson, top-2-box)."
+        footnote = "Score \u00b1 standard error (Wilson, top-2-box)."
       )
   }
 
@@ -178,7 +178,7 @@ theme.job_step <- function(your.df, step_title, n = NULL, study = NULL) {
 #' @param job.string Job name for the filename
 #' @param job_step.string Job step to filter to
 #' @param path.table Directory to save the PNG (default: [tempdir()])
-#' @param n,study Forwarded to [theme.job_step()] — used for `± SE` columns and footer.
+#' @param n,study Forwarded to [theme.job_step()] \u2014 used for `\u00b1 SE` columns and footer.
 #'
 #' @return The gt table object (also saved as PNG)
 #' @export

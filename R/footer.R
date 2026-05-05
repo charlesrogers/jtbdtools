@@ -45,7 +45,7 @@ jtbd_footer <- function(n = NULL, study = NULL, extra = NULL) {
   }
 
   if (length(parts) == 0) return(NULL)
-  paste(parts, collapse = "  ·  ")
+  paste(parts, collapse = "  \u00b7  ")
 }
 
 #' Append a JTBD footer to a ggplot caption

@@ -19,6 +19,7 @@ utils::globalVariables(c(
   "imp.all", "sat.all", "opp_index.all",
   "objective_string", "score_show",
   ".imp", ".sat", ".opp", ".high_opp",
+  ".imp_lo", ".imp_hi", ".sat_lo", ".sat_hi",
   "count.linear.1", "count.linear.05", "count.outlier.sal",
   "sd", "count",
   ".", "opp_sum", "total_count", "reorder",
