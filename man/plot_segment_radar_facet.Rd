@@ -7,7 +7,9 @@
 plot_segment_radar_facet(
   profile_result,
   max_attrs = 8,
-  title = "Segment Profiles: Individual Radar Views"
+  title = "Segment Profiles: Individual Radar Views",
+  n = NULL,
+  study = NULL
 )
 }
 \arguments{
@@ -16,6 +18,8 @@ plot_segment_radar_facet(
 \item{max_attrs}{Maximum number of attributes on each radar (default: 8)}
 
 \item{title}{Plot title}
+
+\item{n, study}{Sample size and study label for the plot footer (see \code{\link[=jtbd_footer]{jtbd_footer()}}).}
 }
 \value{
 A ggplot object

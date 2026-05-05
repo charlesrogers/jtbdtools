@@ -4,10 +4,13 @@
 \alias{gt_theme_jtbd}
 \title{jtbdtools gt table theme}
 \usage{
-gt_theme_jtbd(gt_object, ...)
+gt_theme_jtbd(gt_object, n = NULL, study = NULL, ...)
 }
 \arguments{
 \item{gt_object}{A gt table object}
+
+\item{n, study}{Sample size and study label rendered as a \code{tab_source_note()}
+footer (see \code{\link[=jtbd_footer]{jtbd_footer()}}).}
 
 \item{...}{Additional arguments (unused)}
 }
@@ -25,7 +28,7 @@ data(jtbd_sample)
 scores <- get_jtbd_scores(jtbd_sample)
 scores[1:5, c("job_step", "objective", "imp.all", "sat.all", "opp.all")] |>
   gt() |>
-  gt_theme_jtbd()
+  gt_theme_jtbd(n = 250, study = "Pilot")
 }
 \seealso{
 Other tables: 

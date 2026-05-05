@@ -4,19 +4,26 @@
 \alias{theme.job_step}
 \title{Format job step as gt table}
 \usage{
-theme.job_step(your.df, step_title)
+theme.job_step(your.df, step_title, n = NULL, study = NULL)
 }
 \arguments{
 \item{your.df}{A data frame from \code{\link[=get_jtbd_scores]{get_jtbd_scores()}} containing scores for one job step}
 
 \item{step_title}{Title for the table header}
+
+\item{n}{Sample size for the segment (used to compute Wilson SEs if not present).}
+
+\item{study}{Study label rendered in the footer.}
 }
 \value{
 A gt table object
 }
 \description{
 Creates a publication-ready gt table for a job step's opportunity scores,
-with color-coded index values and highlighted median row.
+with color-coded index values and highlighted median row. When \code{n} is
+supplied (or \code{imp_se.all} / \code{sat_se.all} columns are already present), the
+Importance and Satisfaction values are rendered as \verb{score ± SE} to make
+the precision of each estimate visible.
 }
 \seealso{
 Other tables: 

@@ -7,7 +7,9 @@
 plot_segment_index(
   profile_result,
   max_vars = 6,
-  title = "Segment Index: Over & Under-Represented Traits"
+  title = "Segment Index: Over & Under-Represented Traits",
+  n = NULL,
+  study = NULL
 )
 }
 \arguments{
@@ -16,6 +18,8 @@ plot_segment_index(
 \item{max_vars}{Maximum number of variables to show (default: 6)}
 
 \item{title}{Plot title}
+
+\item{n, study}{Sample size and study label for the plot footer (see \code{\link[=jtbd_footer]{jtbd_footer()}}).}
 }
 \value{
 A ggplot object

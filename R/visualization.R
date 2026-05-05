@@ -8,14 +8,16 @@
 #' @param seg_value_title Title label for the segment variable
 #' @param last_value The segment value to label on the right side of the chart
 #' @param save_path Directory to save plots (default: [tempdir()])
+#' @param n,study Sample size and study label for the plot footer (see [jtbd_footer()]).
 #'
 #' @return NULL (called for side effects: generates and saves plots)
 #' @export
 #'
 #' @family visualization
-plot_this.graph.rel.abs_score <- function(your_data_frame, seg_value_title, last_value, save_path = tempdir()) {
-  plot_this.graph.rel_score(your_data_frame, seg_value_title, last_value, save_path = save_path)
-  plot_this.graph.abs_score(your_data_frame, seg_value_title, last_value, save_path = save_path)
+plot_this.graph.rel.abs_score <- function(your_data_frame, seg_value_title, last_value, save_path = tempdir(),
+                                          n = NULL, study = NULL) {
+  plot_this.graph.rel_score(your_data_frame, seg_value_title, last_value, save_path = save_path, n = n, study = study)
+  plot_this.graph.abs_score(your_data_frame, seg_value_title, last_value, save_path = save_path, n = n, study = study)
 }
 
 #' Plot relative score bump chart
@@ -27,12 +29,17 @@ plot_this.graph.rel.abs_score <- function(your_data_frame, seg_value_title, last
 #' @param seg_value_title Title label for the segment variable
 #' @param last_value The segment value to label on the right side of the chart
 #' @param save_path Directory to save the plot (default: [tempdir()])
+#' @param n,study Sample size and study label for the plot footer (see [jtbd_footer()]).
 #'
 #' @return A ggplot object (also saved as PNG)
 #' @export
 #'
 #' @family visualization
-plot_this.graph.rel_score <- function(your_data_frame, seg_value_title, last_value, save_path = tempdir()) {
+plot_this.graph.rel_score <- function(your_data_frame, seg_value_title, last_value, save_path = tempdir(),
+                                      n = NULL, study = NULL) {
+  base_caption <- "Labelled objectives have a >= 10% difference in relative value within the objective"
+  caption <- .merge_caption(base_caption, n = n, study = study)
+
   p <- your_data_frame %>%
     arrange(seg.value) %>%
     remove_weird_text_formatting.jtbd() %>%
@@ -44,7 +51,7 @@ plot_this.graph.rel_score <- function(your_data_frame, seg_value_title, last_val
                     aes(x = seg.value, label = stringr::str_wrap(objective, 15)), size = 2.5, nudge_x = 1) +
     labs(title = paste0("Percent of Segment Max by: ", seg_value_title),
          y = "Percent of Segment Max (Relative Score)", x = "",
-         caption = "Labelled objectives have a >= 10% difference in relative value within the objective") +
+         caption = caption) +
     theme_jtbd() +
     theme(legend.position = "none") +
     scale_x_discrete(expand = c(.05, 0))
@@ -58,26 +65,39 @@ plot_this.graph.rel_score <- function(your_data_frame, seg_value_title, last_val
 #' Plot absolute score bump chart
 #'
 #' Shows absolute opportunity scores across segments with linear significance labeling.
+#' If `score_lo`/`score_hi` columns are present in `your_data_frame`, error bars are
+#' drawn around each point.
 #'
 #' @param your_data_frame A data frame from [get_jtbd_segment.comp.ordinal()]
 #' @param seg_value_title Title label for the segment variable
 #' @param last_value The segment value to label on the right side of the chart
 #' @param save_path Directory to save the plot (default: [tempdir()])
+#' @param n,study Sample size and study label for the plot footer (see [jtbd_footer()]).
 #'
 #' @return A ggplot object (also saved as PNG)
 #' @export
 #'
 #' @family visualization
-plot_this.graph.abs_score <- function(your_data_frame, seg_value_title, last_value, save_path = tempdir()) {
-  p <- your_data_frame %>%
+plot_this.graph.abs_score <- function(your_data_frame, seg_value_title, last_value, save_path = tempdir(),
+                                      n = NULL, study = NULL) {
+  caption <- .merge_caption(NULL, n = n, study = study)
+
+  cleaned <- your_data_frame %>%
     arrange(seg.value) %>%
-    remove_weird_text_formatting.jtbd() %>%
-    ggplot(aes(y = score, x = fct_inorder(seg.value), group = objective, color = objective)) +
-    geom_line(linewidth = 1.5) +
+    remove_weird_text_formatting.jtbd()
+
+  p <- ggplot(cleaned, aes(y = score, x = fct_inorder(seg.value), group = objective, color = objective)) +
+    geom_line(linewidth = 1.5)
+
+  if (all(c("score_lo", "score_hi") %in% names(cleaned))) {
+    p <- p + geom_errorbar(aes(ymin = score_lo, ymax = score_hi), width = 0.15, alpha = 0.6)
+  }
+
+  p <- p +
     geom_point(size = 5) +
     facet_wrap(~job_step) +
     labs(title = paste0("Absolute Opportunity Scores by: ", seg_value_title),
-         y = "Opportunity Score", x = "") +
+         y = "Opportunity Score", x = "", caption = caption) +
     theme_jtbd() +
     theme(legend.position = "none") +
     scale_x_discrete(expand = c(.05, 0))
@@ -94,17 +114,19 @@ plot_this.graph.abs_score <- function(your_data_frame, seg_value_title, last_val
 #'
 #' @param x A data frame containing job step data
 #' @param step_title The title for the plot
+#' @param n,study Sample size and study label for the plot footer (see [jtbd_footer()]).
 #' @param ... Additional arguments (unused)
 #'
 #' @return A ggplot object
 #' @export
 #'
 #' @family visualization
-plot.job_step <- function(x, step_title = "", ...) {
+plot.job_step <- function(x, step_title = "", n = NULL, study = NULL, ...) {
   your_plot <- x %>%
     ggplot(aes(x = imp.all, y = sat.all)) +
     geom_point(size = 3) +
-    labs(title = step_title, x = "Importance", y = "Satisfaction") +
+    labs(title = step_title, x = "Importance", y = "Satisfaction",
+         caption = jtbd_footer(n = n, study = study)) +
     theme_jtbd()
   return(your_plot)
 }
@@ -121,6 +143,9 @@ plot.job_step <- function(x, step_title = "", ...) {
 #' @param subtitle Plot subtitle (default: NULL)
 #' @param highlight_threshold Opportunity score threshold for highlighting (default: 10)
 #' @param show_zones Show diagonal reference lines and zone labels (default: FALSE)
+#' @param n,study Sample size and study label for the plot footer (see [jtbd_footer()]).
+#'   When `n` is provided and the input has no `imp_lo`/`imp_hi` columns, Wilson CIs
+#'   are auto-computed and error crossbars are drawn.
 #'
 #' @return A ggplot object
 #' @export
@@ -132,9 +157,10 @@ plot.job_step <- function(x, step_title = "", ...) {
 #' scores <- get_jtbd_scores(jtbd_sample)
 #' # plot_opportunity_matrix(scores)
 #' # plot_opportunity_matrix(scores, show_zones = TRUE)
+#' # plot_opportunity_matrix(scores, n = get_sample_size(jtbd_sample), study = "Pilot")
 plot_opportunity_matrix <- function(scores, title = "Opportunity Score Matrix",
                                     subtitle = NULL, highlight_threshold = 10,
-                                    show_zones = FALSE) {
+                                    show_zones = FALSE, n = NULL, study = NULL) {
   # Detect the imp/sat/opp column names (they have segment suffixes)
   imp_col <- grep("^imp\\.", names(scores), value = TRUE)[1]
   sat_col <- grep("^sat\\.", names(scores), value = TRUE)[1]
@@ -144,6 +170,19 @@ plot_opportunity_matrix <- function(scores, title = "Opportunity Score Matrix",
     cli::cli_abort("Could not find imp/sat/opp columns. Run {.fn get_jtbd_scores} first.")
   }
 
+  seg_suffix <- sub("^imp\\.", "", imp_col)
+  imp_lo_col <- paste0("imp_lo.", seg_suffix)
+  imp_hi_col <- paste0("imp_hi.", seg_suffix)
+  sat_lo_col <- paste0("sat_lo.", seg_suffix)
+  sat_hi_col <- paste0("sat_hi.", seg_suffix)
+  has_ci <- all(c(imp_lo_col, imp_hi_col, sat_lo_col, sat_hi_col) %in% names(scores))
+
+  # Auto-compute CIs when n is provided but bounds aren't present
+  if (!has_ci && !is.null(n)) {
+    scores <- add_score_cis(scores, n = n)
+    has_ci <- TRUE
+  }
+
   plot_df <- scores %>%
     mutate(
       .imp = .data[[imp_col]],
@@ -151,6 +190,16 @@ plot_opportunity_matrix <- function(scores, title = "Opportunity Score Matrix",
       .opp = .data[[opp_col]],
       .high_opp = if_else(.opp >= highlight_threshold, "High Opportunity", "Other")
     )
+
+  if (has_ci) {
+    plot_df <- plot_df %>%
+      mutate(
+        .imp_lo = .data[[imp_lo_col]],
+        .imp_hi = .data[[imp_hi_col]],
+        .sat_lo = .data[[sat_lo_col]],
+        .sat_hi = .data[[sat_hi_col]]
+      )
+  }
 
   p <- plot_df %>%
     ggplot(aes(x = .imp, y = .sat, color = .high_opp))
@@ -183,6 +232,12 @@ plot_opportunity_matrix <- function(scores, title = "Opportunity Score Matrix",
                fill = "white", label.size = 0, alpha = 0.85, hjust = 0, vjust = 1)
   }
 
+  if (has_ci) {
+    p <- p +
+      geom_errorbarh(aes(xmin = .imp_lo, xmax = .imp_hi), height = 0, alpha = 0.35, linewidth = 0.4) +
+      geom_errorbar(aes(ymin = .sat_lo, ymax = .sat_hi), width = 0, alpha = 0.35, linewidth = 0.4)
+  }
+
   p <- p +
     geom_point(size = 3, alpha = 0.8) +
     geom_text_repel(
@@ -193,7 +248,9 @@ plot_opportunity_matrix <- function(scores, title = "Opportunity Score Matrix",
     ) +
     scale_color_manual(values = c("High Opportunity" = "#E74C3C", "Other" = "#95A5A6")) +
     labs(title = title, subtitle = subtitle,
-         x = "Importance", y = "Satisfaction", color = "") +
+         x = "Importance", y = "Satisfaction", color = "",
+         caption = jtbd_footer(n = n, study = study,
+                               extra = if (has_ci) "Crossbars: 95% Wilson CI" else NULL)) +
     coord_cartesian(xlim = c(0, 10), ylim = c(0, 10)) +
     theme_jtbd()
 
@@ -203,7 +260,9 @@ plot_opportunity_matrix <- function(scores, title = "Opportunity Score Matrix",
 #' Cleveland (lollipop) comparison plot
 #'
 #' Compares two segments side-by-side using a Cleveland dot plot.
-#' Ported from the quantjtbd package.
+#' Ported from the quantjtbd package. If `data` carries `<col>_lo`/`<col>_hi`
+#' bounds for either group (matching the `group_1`/`group_2` column names),
+#' horizontal error bars are drawn on each dot.
 #'
 #' @param data A data frame with objective and segment score columns
 #' @param objective Unquoted column name for objectives
@@ -211,24 +270,55 @@ plot_opportunity_matrix <- function(scores, title = "Opportunity Score Matrix",
 #' @param group_2 Unquoted column name for second segment scores
 #' @param title_string Plot title
 #' @param subtitle_string Plot subtitle
+#' @param n,study Sample size and study label for the plot footer (see [jtbd_footer()]).
 #'
 #' @return A ggplot object
 #' @export
 #'
 #' @family visualization
-plot_cleveland <- function(data, objective, group_1, group_2, title_string, subtitle_string) {
+plot_cleveland <- function(data, objective, group_1, group_2, title_string, subtitle_string,
+                           n = NULL, study = NULL) {
   objective <- enquo(objective)
   group_1 <- enquo(group_1)
   group_2 <- enquo(group_2)
 
+  g1_name <- rlang::as_name(group_1)
+  g2_name <- rlang::as_name(group_2)
+  ci_col <- function(name, suffix) {
+    nm <- sub("^(imp|sat|opp)\\.", paste0("\\1_", suffix, "."), name)
+    if (nm != name && nm %in% names(data)) nm else NA_character_
+  }
+  g1_lo <- ci_col(g1_name, "lo"); g1_hi <- ci_col(g1_name, "hi")
+  g2_lo <- ci_col(g2_name, "lo"); g2_hi <- ci_col(g2_name, "hi")
+  has_g1_ci <- !is.na(g1_lo) && !is.na(g1_hi)
+  has_g2_ci <- !is.na(g2_lo) && !is.na(g2_hi)
+
   plot <- data %>%
     ggplot() +
-    geom_segment(aes(x = !!objective, xend = !!objective, y = !!group_1, yend = !!group_2), color = "grey") +
+    geom_segment(aes(x = !!objective, xend = !!objective, y = !!group_1, yend = !!group_2), color = "grey")
+
+  if (has_g1_ci) {
+    plot <- plot + geom_errorbar(
+      aes(x = !!objective, ymin = .data[[g1_lo]], ymax = .data[[g1_hi]]),
+      color = "#3498DB", width = 0.25, alpha = 0.55, linewidth = 0.4
+    )
+  }
+  if (has_g2_ci) {
+    plot <- plot + geom_errorbar(
+      aes(x = !!objective, ymin = .data[[g2_lo]], ymax = .data[[g2_hi]]),
+      color = "#E74C3C", width = 0.25, alpha = 0.55, linewidth = 0.4
+    )
+  }
+
+  caption_extra <- if (has_g1_ci || has_g2_ci) "Error bars: 95% Wilson CI" else NULL
+
+  plot <- plot +
     geom_point(aes(x = !!objective, y = !!group_1), color = "#3498DB", size = 3) +
     geom_point(aes(x = !!objective, y = !!group_2), color = "#E74C3C", size = 3) +
     coord_flip() +
     labs(title = title_string, subtitle = subtitle_string,
-         x = "Objectives", y = "Scores") +
+         x = "Objectives", y = "Scores",
+         caption = jtbd_footer(n = n, study = study, extra = caption_extra)) +
     theme_jtbd()
 
   return(plot)
@@ -244,6 +334,7 @@ plot_cleveland <- function(data, objective, group_1, group_2, title_string, subt
 #' determine how many components to retain.
 #'
 #' @param pca_result Result from [jtbd_pca()]
+#' @param n,study Sample size and study label for the plot footer (see [jtbd_footer()]).
 #'
 #' @return A ggplot object
 #' @export
@@ -254,7 +345,7 @@ plot_cleveland <- function(data, objective, group_1, group_2, title_string, subt
 #' data(jtbd_sample)
 #' pca <- jtbd_pca(jtbd_sample)
 #' plot_pca_scree(pca)
-plot_pca_scree <- function(pca_result) {
+plot_pca_scree <- function(pca_result, n = NULL, study = NULL) {
   ve <- pca_result$variance_explained
 
   ggplot(ve, aes(x = component, y = eigenvalue)) +
@@ -268,7 +359,8 @@ plot_pca_scree <- function(pca_result) {
     labs(title = "PCA Scree Plot",
          subtitle = paste0("Retained ", pca_result$n_components, " components (",
                            ve$cumulative_pct[pca_result$n_components], "% variance explained)"),
-         x = "Principal Component", y = "Eigenvalue") +
+         x = "Principal Component", y = "Eigenvalue",
+         caption = jtbd_footer(n = n, study = study)) +
     theme_jtbd()
 }
 
@@ -279,12 +371,13 @@ plot_pca_scree <- function(pca_result) {
 #'
 #' @param pca_result Result from [jtbd_pca()]
 #' @param component Which component to plot (default: 1)
+#' @param n,study Sample size and study label for the plot footer (see [jtbd_footer()]).
 #'
 #' @return A ggplot object
 #' @export
 #'
 #' @family clustering
-plot_pca_loadings <- function(pca_result, component = 1) {
+plot_pca_loadings <- function(pca_result, component = 1, n = NULL, study = NULL) {
   loadings <- as.data.frame(pca_result$loadings)
   loadings$objective <- rownames(loadings)
   col_name <- colnames(loadings)[component]
@@ -302,7 +395,8 @@ plot_pca_loadings <- function(pca_result, component = 1) {
     scale_fill_manual(values = c("TRUE" = "#2ECC71", "FALSE" = "#E74C3C"), guide = "none") +
     labs(title = paste0("PCA Loadings: Component ", component),
          subtitle = "Objectives that define this component's theme",
-         x = "", y = "Loading") +
+         x = "", y = "Loading",
+         caption = jtbd_footer(n = n, study = study)) +
     theme_jtbd() +
     theme(axis.line.y = element_blank())
 }
@@ -313,6 +407,7 @@ plot_pca_loadings <- function(pca_result, component = 1) {
 #'
 #' @param pca_result Result from [jtbd_pca()]
 #' @param cluster_labels Optional factor/integer vector of cluster assignments
+#' @param n,study Sample size and study label for the plot footer (see [jtbd_footer()]).
 #'
 #' @return A ggplot object
 #' @export
@@ -323,7 +418,7 @@ plot_pca_loadings <- function(pca_result, component = 1) {
 #' data(jtbd_sample)
 #' cl <- jtbd_cluster(jtbd_sample, n_clusters = 3)
 #' plot_pca_biplot(cl$pca, cl$cluster)
-plot_pca_biplot <- function(pca_result, cluster_labels = NULL) {
+plot_pca_biplot <- function(pca_result, cluster_labels = NULL, n = NULL, study = NULL) {
   scores_df <- as.data.frame(pca_result$scores[, 1:2])
   colnames(scores_df) <- c("PC1", "PC2")
 
@@ -338,11 +433,14 @@ plot_pca_biplot <- function(pca_result, cluster_labels = NULL) {
   }
 
   ve <- pca_result$variance_explained
+  resolved_n <- n
+  if (is.null(resolved_n)) resolved_n <- nrow(pca_result$scores)
   p + labs(
     title = "Respondent Clusters in PCA Space",
     subtitle = paste0("PC1 (", ve$variance_pct[1], "%) vs PC2 (", ve$variance_pct[2], "%)"),
     x = paste0("PC1 (", ve$variance_pct[1], "% variance)"),
-    y = paste0("PC2 (", ve$variance_pct[2], "% variance)")
+    y = paste0("PC2 (", ve$variance_pct[2], "% variance)"),
+    caption = jtbd_footer(n = resolved_n, study = study)
   ) +
   theme_jtbd()
 }
@@ -353,6 +451,7 @@ plot_pca_biplot <- function(pca_result, cluster_labels = NULL) {
 #' for different numbers of clusters.
 #'
 #' @param k_results Result from [jtbd_find_k()]
+#' @param n,study Sample size and study label for the plot footer (see [jtbd_footer()]).
 #'
 #' @return A ggplot object
 #' @export
@@ -363,7 +462,7 @@ plot_pca_biplot <- function(pca_result, cluster_labels = NULL) {
 #' data(jtbd_sample)
 #' k_eval <- jtbd_find_k(jtbd_sample, max_k = 5)
 #' plot_elbow(k_eval)
-plot_elbow <- function(k_results) {
+plot_elbow <- function(k_results, n = NULL, study = NULL) {
   # Normalize WCSS to 0-1 range for dual axis
   wcss_range <- range(k_results$wcss)
   k_results$wcss_norm <- (k_results$wcss - wcss_range[1]) / (wcss_range[2] - wcss_range[1])
@@ -386,7 +485,8 @@ plot_elbow <- function(k_results) {
     scale_y_continuous(limits = c(0, 1)) +
     labs(title = "Cluster Evaluation: Elbow + Silhouette",
          subtitle = "Lower WCSS = tighter clusters. Higher silhouette = better separation.",
-         x = "Number of Clusters (k)", y = "Normalized Score") +
+         x = "Number of Clusters (k)", y = "Normalized Score",
+         caption = jtbd_footer(n = n, study = study)) +
     theme_jtbd()
 }
 
@@ -397,6 +497,7 @@ plot_elbow <- function(k_results) {
 #'
 #' @param profile Result from [jtbd_cluster_profile()] or [jtbd_segment()]$profile
 #' @param title Plot title
+#' @param n,study Sample size and study label for the plot footer (see [jtbd_footer()]).
 #'
 #' @return A ggplot object
 #' @export
@@ -407,7 +508,8 @@ plot_elbow <- function(k_results) {
 #' data(jtbd_sample)
 #' result <- jtbd_segment(jtbd_sample, n_clusters = 3)
 #' plot_cluster_heatmap(result$profile)
-plot_cluster_heatmap <- function(profile, title = "Opportunity Heatmap by Discovered Segment") {
+plot_cluster_heatmap <- function(profile, title = "Opportunity Heatmap by Discovered Segment",
+                                 n = NULL, study = NULL) {
   opp_cols <- grep("^opp\\.", names(profile), value = TRUE)
 
   clean_obj_local <- function(x) {
@@ -439,7 +541,8 @@ plot_cluster_heatmap <- function(profile, title = "Opportunity Heatmap by Discov
                          midpoint = 10, name = "Opportunity\nScore") +
     labs(title = title,
          subtitle = "Darker = bigger unmet need. Compare columns to find segment-specific pain.",
-         x = "", y = "") +
+         x = "", y = "",
+         caption = jtbd_footer(n = n, study = study)) +
     theme_jtbd() +
     theme(panel.grid = element_blank(),
           axis.line = element_blank(),

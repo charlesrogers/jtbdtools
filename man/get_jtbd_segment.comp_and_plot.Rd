@@ -4,12 +4,19 @@
 \alias{get_jtbd_segment.comp_and_plot}
 \title{Compare and plot JTBD segment scores}
 \usage{
-get_jtbd_segment.comp_and_plot(your_data_frame, save_path = tempdir())
+get_jtbd_segment.comp_and_plot(
+  your_data_frame,
+  save_path = tempdir(),
+  n = NULL,
+  study = NULL
+)
 }
 \arguments{
 \item{your_data_frame}{A data frame containing JTBD scores}
 
 \item{save_path}{Directory to save plots (default: \code{\link[=tempdir]{tempdir()}})}
+
+\item{n, study}{Sample size and study label for the plot footer (see \code{\link[=jtbd_footer]{jtbd_footer()}}).}
 }
 \value{
 NULL (called for side effects)

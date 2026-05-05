@@ -174,6 +174,7 @@ jtbd_profile_segments <- function(df, cluster_col = "jtbd_cluster", profile_cols
 #' @param profile_result Result from [jtbd_profile_segments()]
 #' @param max_vars Maximum number of profiling variables to include (default: 6)
 #' @param title Plot title
+#' @param n,study Sample size and study label for the plot footer (see [jtbd_footer()]).
 #'
 #' @return A ggplot object
 #' @export
@@ -186,7 +187,8 @@ jtbd_profile_segments <- function(df, cluster_col = "jtbd_cluster", profile_cols
 #' prof <- jtbd_profile_segments(cl$data)
 #' plot_segment_profiles(prof)
 plot_segment_profiles <- function(profile_result, max_vars = 6,
-                                   title = "Segment DNA: Who's In Each Group?") {
+                                   title = "Segment DNA: Who's In Each Group?",
+                                   n = NULL, study = NULL) {
   top_vars <- profile_result$summary$variable[1:min(max_vars, nrow(profile_result$summary))]
 
   plot_data <- do.call(rbind, profile_result$details[top_vars])
@@ -225,7 +227,8 @@ plot_segment_profiles <- function(profile_result, max_vars = 6,
                        expand = expansion(mult = c(0.15, 0.15))) +
     labs(title = title,
          subtitle = "How each segment deviates from the population average (index 100 = average)",
-         x = "", y = "Deviation from Average (index points)", fill = "") +
+         x = "", y = "Deviation from Average (index points)", fill = "",
+         caption = jtbd_footer(n = n, study = study)) +
     theme_jtbd() +
     theme(panel.grid.major.y = element_blank(),
           axis.line.y = element_blank(),
@@ -241,6 +244,7 @@ plot_segment_profiles <- function(profile_result, max_vars = 6,
 #' @param profile_result Result from [jtbd_profile_segments()]
 #' @param max_vars Maximum number of variables to show (default: 6)
 #' @param title Plot title
+#' @param n,study Sample size and study label for the plot footer (see [jtbd_footer()]).
 #'
 #' @return A ggplot object
 #' @export
@@ -253,7 +257,8 @@ plot_segment_profiles <- function(profile_result, max_vars = 6,
 #' prof <- jtbd_profile_segments(cl$data)
 #' plot_segment_index(prof)
 plot_segment_index <- function(profile_result, max_vars = 6,
-                                title = "Segment Index: Over & Under-Represented Traits") {
+                                title = "Segment Index: Over & Under-Represented Traits",
+                                n = NULL, study = NULL) {
   top_vars <- profile_result$summary$variable[1:min(max_vars, nrow(profile_result$summary))]
 
   plot_data <- do.call(rbind, profile_result$details[top_vars])
@@ -291,7 +296,8 @@ plot_segment_index <- function(profile_result, max_vars = 6,
     ) +
     labs(title = title,
          subtitle = "100 = population average. Red = over-represented. Blue = under-represented.",
-         x = "", y = "") +
+         x = "", y = "",
+         caption = jtbd_footer(n = n, study = study)) +
     theme_jtbd() +
     theme(panel.grid = element_blank(),
           axis.line = element_blank(),
@@ -309,6 +315,7 @@ plot_segment_index <- function(profile_result, max_vars = 6,
 #' @param profile_result Result from [jtbd_profile_segments()]
 #' @param cluster_profile Optional result from [jtbd_cluster_profile()] to include
 #'   top opportunity scores in the persona
+#' @param n,study Sample size and study label rendered as a footer (see [jtbd_footer()]).
 #'
 #' @return A gt table object
 #' @export
@@ -321,7 +328,8 @@ plot_segment_index <- function(profile_result, max_vars = 6,
 #' prof <- jtbd_profile_segments(cl$data)
 #' opp_profile <- jtbd_cluster_profile(jtbd_sample, cl, test_sig = FALSE)
 #' create_persona_table(prof, opp_profile)
-create_persona_table <- function(profile_result, cluster_profile = NULL) {
+create_persona_table <- function(profile_result, cluster_profile = NULL,
+                                 n = NULL, study = NULL) {
   all_details <- do.call(rbind, profile_result$details)
   if (nrow(all_details) == 0) {
     cli::cli_warn("No profiling data available.")
@@ -435,6 +443,11 @@ create_persona_table <- function(profile_result, cluster_profile = NULL) {
       `Top Unmet Needs` ~ gt::px(250)
     )
 
+  footer <- jtbd_footer(n = n, study = study)
+  if (!is.null(footer)) {
+    tbl <- tbl %>% gt::tab_source_note(source_note = footer)
+  }
+
   return(tbl)
 }
 
@@ -482,6 +495,7 @@ create_persona_table <- function(profile_result, cluster_profile = NULL) {
 #' @param profile_result Result from [jtbd_profile_segments()]
 #' @param max_attrs Maximum number of attributes on the radar (default: 8)
 #' @param title Plot title
+#' @param n,study Sample size and study label for the plot footer (see [jtbd_footer()]).
 #'
 #' @return A ggplot object
 #' @export
@@ -494,7 +508,8 @@ create_persona_table <- function(profile_result, cluster_profile = NULL) {
 #' prof <- jtbd_profile_segments(cl$data)
 #' plot_segment_radar(prof)
 plot_segment_radar <- function(profile_result, max_attrs = 8,
-                                title = "Segment Radar: Who Are They?") {
+                                title = "Segment Radar: Who Are They?",
+                                n = NULL, study = NULL) {
   pd <- .get_profile_plot_data(profile_result, max_attrs)
   radar_data <- pd$data
   attr_levels <- levels(radar_data$attr_label)
@@ -532,7 +547,8 @@ plot_segment_radar <- function(profile_result, max_attrs = 8,
     scale_y_continuous(limits = c(0, 250), breaks = c(50, 100, 150, 200)) +
     labs(title = title,
          subtitle = "Index vs population (100 = average). Further from center = more over-represented.",
-         x = NULL, y = NULL, color = "", fill = "") +
+         x = NULL, y = NULL, color = "", fill = "",
+         caption = jtbd_footer(n = n, study = study)) +
     theme_jtbd() +
     theme(axis.text.y = element_blank(), axis.title = element_blank(),
           axis.line = element_blank(),
@@ -550,6 +566,7 @@ plot_segment_radar <- function(profile_result, max_attrs = 8,
 #' @param profile_result Result from [jtbd_profile_segments()]
 #' @param max_attrs Maximum number of attributes on each radar (default: 8)
 #' @param title Plot title
+#' @param n,study Sample size and study label for the plot footer (see [jtbd_footer()]).
 #'
 #' @return A ggplot object
 #' @export
@@ -562,7 +579,8 @@ plot_segment_radar <- function(profile_result, max_attrs = 8,
 #' prof <- jtbd_profile_segments(cl$data)
 #' plot_segment_radar_facet(prof)
 plot_segment_radar_facet <- function(profile_result, max_attrs = 8,
-                                      title = "Segment Profiles: Individual Radar Views") {
+                                      title = "Segment Profiles: Individual Radar Views",
+                                      n = NULL, study = NULL) {
   pd <- .get_profile_plot_data(profile_result, max_attrs)
   radar_data <- pd$data
   attr_levels <- levels(radar_data$attr_label)
@@ -589,7 +607,8 @@ plot_segment_radar_facet <- function(profile_result, max_attrs = 8,
     scale_y_continuous(limits = c(0, 260)) +
     facet_wrap(~cluster_label) +
     labs(title = title, x = NULL, y = NULL,
-         subtitle = "Red dashed = population average (100). Shape reveals each segment's personality.") +
+         subtitle = "Red dashed = population average (100). Shape reveals each segment's personality.",
+         caption = jtbd_footer(n = n, study = study)) +
     theme_jtbd() +
     theme(axis.text.y = element_blank(), axis.title = element_blank(),
           axis.line = element_blank(),
@@ -606,6 +625,7 @@ plot_segment_radar_facet <- function(profile_result, max_attrs = 8,
 #' @param profile_result Result from [jtbd_profile_segments()]
 #' @param max_attrs Maximum number of attributes (default: 8)
 #' @param title Plot title
+#' @param n,study Sample size and study label for the plot footer (see [jtbd_footer()]).
 #'
 #' @return A ggplot object
 #' @export
@@ -618,7 +638,8 @@ plot_segment_radar_facet <- function(profile_result, max_attrs = 8,
 #' prof <- jtbd_profile_segments(cl$data)
 #' plot_segment_fingerprint(prof)
 plot_segment_fingerprint <- function(profile_result, max_attrs = 8,
-                                      title = "Segment Fingerprints") {
+                                      title = "Segment Fingerprints",
+                                      n = NULL, study = NULL) {
   pd <- .get_profile_plot_data(profile_result, max_attrs)
   par_data <- pd$data
 
@@ -630,7 +651,8 @@ plot_segment_fingerprint <- function(profile_result, max_attrs = 8,
     scale_color_manual(values = c("#E74C3C", "#3498DB", "#2ECC71", "#F39C12", "#9B59B6")) +
     labs(title = title,
          subtitle = "How each segment deviates from the population average (dashed = 100)",
-         x = "", y = "Index (100 = average)", color = "") +
+         x = "", y = "Index (100 = average)", color = "",
+         caption = jtbd_footer(n = n, study = study)) +
     theme_jtbd() +
     theme(axis.text.x = element_text(angle = 35, hjust = 1, size = 9),
           legend.position = "top",
@@ -645,6 +667,7 @@ plot_segment_fingerprint <- function(profile_result, max_attrs = 8,
 #' @param profile_result Result from [jtbd_profile_segments()]
 #' @param max_attrs Maximum number of attributes (default: 8)
 #' @param title Plot title
+#' @param n,study Sample size and study label for the plot footer (see [jtbd_footer()]).
 #'
 #' @return A ggplot object
 #' @export
@@ -657,7 +680,8 @@ plot_segment_fingerprint <- function(profile_result, max_attrs = 8,
 #' prof <- jtbd_profile_segments(cl$data)
 #' plot_segment_dna(prof)
 plot_segment_dna <- function(profile_result, max_attrs = 8,
-                              title = "Segment DNA: What Makes Each Group Unique") {
+                              title = "Segment DNA: What Makes Each Group Unique",
+                              n = NULL, study = NULL) {
   pd <- .get_profile_plot_data(profile_result, max_attrs)
   lol_data <- pd$data %>%
     mutate(
@@ -675,7 +699,8 @@ plot_segment_dna <- function(profile_result, max_attrs = 8,
     scale_color_manual(values = c("Over" = "#C0392B", "Under" = "#2980B9"), guide = "none") +
     labs(title = title,
          subtitle = "Red = over-indexed vs population. Blue = under-indexed.",
-         x = "", y = "Index Deviation from Average") +
+         x = "", y = "Index Deviation from Average",
+         caption = jtbd_footer(n = n, study = study)) +
     theme_jtbd() +
     theme(panel.grid.major.y = element_blank(),
           axis.line.y = element_blank(),

@@ -4,12 +4,14 @@
 \alias{plot.job_step}
 \title{Plot job step scatter}
 \usage{
-\method{plot}{job_step}(x, step_title = "", ...)
+\method{plot}{job_step}(x, step_title = "", n = NULL, study = NULL, ...)
 }
 \arguments{
 \item{x}{A data frame containing job step data}
 
 \item{step_title}{The title for the plot}
+
+\item{n, study}{Sample size and study label for the plot footer (see \code{\link[=jtbd_footer]{jtbd_footer()}}).}
 
 \item{...}{Additional arguments (unused)}
 }
@@ -21,6 +23,7 @@ Creates an importance vs satisfaction scatter plot for a job step.
 }
 \seealso{
 Other visualization: 
+\code{\link{jtbd_footer}()},
 \code{\link{plot_cleveland}()},
 \code{\link{plot_opportunity_matrix}()},
 \code{\link{plot_this.graph.abs_score}()},

@@ -17,6 +17,7 @@ Extracts all columns starting with \code{imp_} or \code{sat_} from a data frame.
 }
 \seealso{
 Other scoring: 
+\code{\link{add_score_cis}()},
 \code{\link{calculate_opportunity_score}()},
 \code{\link{calculate_pop_pct_score}()},
 \code{\link{get_jtbd_scores}()},

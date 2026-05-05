@@ -24,6 +24,7 @@ head(individual)
 }
 \seealso{
 Other scoring: 
+\code{\link{add_score_cis}()},
 \code{\link{calculate_opportunity_score}()},
 \code{\link{calculate_pop_pct_score}()},
 \code{\link{find_imp_sat_columns}()},

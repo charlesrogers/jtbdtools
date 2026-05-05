@@ -22,6 +22,7 @@ ggplot(mtcars, aes(mpg, wt)) + geom_point() + theme_jtbd()
 }
 \seealso{
 Other visualization: 
+\code{\link{jtbd_footer}()},
 \code{\link{plot.job_step}()},
 \code{\link{plot_cleveland}()},
 \code{\link{plot_opportunity_matrix}()},

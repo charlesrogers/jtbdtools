@@ -7,7 +7,9 @@
 plot_segment_profiles(
   profile_result,
   max_vars = 6,
-  title = "Segment DNA: Who's In Each Group?"
+  title = "Segment DNA: Who's In Each Group?",
+  n = NULL,
+  study = NULL
 )
 }
 \arguments{
@@ -16,6 +18,8 @@ plot_segment_profiles(
 \item{max_vars}{Maximum number of profiling variables to include (default: 6)}
 
 \item{title}{Plot title}
+
+\item{n, study}{Sample size and study label for the plot footer (see \code{\link[=jtbd_footer]{jtbd_footer()}}).}
 }
 \value{
 A ggplot object

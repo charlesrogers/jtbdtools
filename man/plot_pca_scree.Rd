@@ -4,10 +4,12 @@
 \alias{plot_pca_scree}
 \title{PCA scree plot}
 \usage{
-plot_pca_scree(pca_result)
+plot_pca_scree(pca_result, n = NULL, study = NULL)
 }
 \arguments{
 \item{pca_result}{Result from \code{\link[=jtbd_pca]{jtbd_pca()}}}
+
+\item{n, study}{Sample size and study label for the plot footer (see \code{\link[=jtbd_footer]{jtbd_footer()}}).}
 }
 \value{
 A ggplot object

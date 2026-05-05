@@ -8,7 +8,9 @@ plot_this.graph.rel.abs_score(
   your_data_frame,
   seg_value_title,
   last_value,
-  save_path = tempdir()
+  save_path = tempdir(),
+  n = NULL,
+  study = NULL
 )
 }
 \arguments{
@@ -19,6 +21,8 @@ plot_this.graph.rel.abs_score(
 \item{last_value}{The segment value to label on the right side of the chart}
 
 \item{save_path}{Directory to save plots (default: \code{\link[=tempdir]{tempdir()}})}
+
+\item{n, study}{Sample size and study label for the plot footer (see \code{\link[=jtbd_footer]{jtbd_footer()}}).}
 }
 \value{
 NULL (called for side effects: generates and saves plots)
@@ -30,6 +34,7 @@ and \code{\link[=plot_this.graph.abs_score]{plot_this.graph.abs_score()}}.
 }
 \seealso{
 Other visualization: 
+\code{\link{jtbd_footer}()},
 \code{\link{plot.job_step}()},
 \code{\link{plot_cleveland}()},
 \code{\link{plot_opportunity_matrix}()},

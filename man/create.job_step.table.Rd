@@ -4,7 +4,14 @@
 \alias{create.job_step.table}
 \title{Create and save job step table}
 \usage{
-create.job_step.table(df, job.string, job_step.string, path.table = tempdir())
+create.job_step.table(
+  df,
+  job.string,
+  job_step.string,
+  path.table = tempdir(),
+  n = NULL,
+  study = NULL
+)
 }
 \arguments{
 \item{df}{A data frame from \code{\link[=get_jtbd_scores]{get_jtbd_scores()}}}
@@ -14,6 +21,8 @@ create.job_step.table(df, job.string, job_step.string, path.table = tempdir())
 \item{job_step.string}{Job step to filter to}
 
 \item{path.table}{Directory to save the PNG (default: \code{\link[=tempdir]{tempdir()}})}
+
+\item{n, study}{Forwarded to \code{\link[=theme.job_step]{theme.job_step()}} — used for \verb{± SE} columns and footer.}
 }
 \value{
 The gt table object (also saved as PNG)
