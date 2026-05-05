@@ -521,7 +521,7 @@ plot_segment_radar <- function(profile_result, max_attrs = 8,
   closed <- radar_data %>%
     group_by(cluster_label) %>%
     arrange(x_num) %>%
-    bind_rows(slice_head(., n = 1) %>% mutate(x_num = x_num + n_attrs)) %>%
+    bind_rows(dplyr::slice_head(., n = 1) %>% mutate(x_num = x_num + n_attrs)) %>%
     arrange(x_num) %>%
     ungroup()
 
@@ -529,7 +529,7 @@ plot_segment_radar <- function(profile_result, max_attrs = 8,
   label_data <- radar_data %>%
     group_by(attr_label) %>%
     filter(abs(index - 100) == max(abs(index - 100))) %>%
-    slice_head(n = 1) %>%
+    dplyr::slice_head(n = 1) %>%
     ungroup()
 
   ggplot(radar_data, aes(x = x_num, y = index, group = cluster_label, color = cluster_label)) +
@@ -591,7 +591,7 @@ plot_segment_radar_facet <- function(profile_result, max_attrs = 8,
   closed <- radar_data %>%
     group_by(cluster_label) %>%
     arrange(x_num) %>%
-    bind_rows(slice_head(., n = 1) %>% mutate(x_num = x_num + n_attrs)) %>%
+    bind_rows(dplyr::slice_head(., n = 1) %>% mutate(x_num = x_num + n_attrs)) %>%
     arrange(x_num) %>%
     ungroup()
 
