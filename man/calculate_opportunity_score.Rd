@@ -19,6 +19,7 @@ When satisfaction > importance, opportunity equals importance (the floor).
 }
 \seealso{
 Other scoring: 
+\code{\link{add_score_cis}()},
 \code{\link{calculate_pop_pct_score}()},
 \code{\link{find_imp_sat_columns}()},
 \code{\link{get_jtbd_scores}()},

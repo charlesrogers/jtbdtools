@@ -10,7 +10,9 @@ plot_cleveland(
   group_1,
   group_2,
   title_string,
-  subtitle_string
+  subtitle_string,
+  n = NULL,
+  study = NULL
 )
 }
 \arguments{
@@ -25,16 +27,21 @@ plot_cleveland(
 \item{title_string}{Plot title}
 
 \item{subtitle_string}{Plot subtitle}
+
+\item{n, study}{Sample size and study label for the plot footer (see \code{\link[=jtbd_footer]{jtbd_footer()}}).}
 }
 \value{
 A ggplot object
 }
 \description{
 Compares two segments side-by-side using a Cleveland dot plot.
-Ported from the quantjtbd package.
+Ported from the quantjtbd package. If \code{data} carries \verb{<col>_lo}/\verb{<col>_hi}
+bounds for either group (matching the \code{group_1}/\code{group_2} column names),
+horizontal error bars are drawn on each dot.
 }
 \seealso{
 Other visualization: 
+\code{\link{jtbd_footer}()},
 \code{\link{plot.job_step}()},
 \code{\link{plot_opportunity_matrix}()},
 \code{\link{plot_this.graph.abs_score}()},

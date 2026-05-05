@@ -4,12 +4,14 @@
 \alias{plot_pca_biplot}
 \title{PCA biplot}
 \usage{
-plot_pca_biplot(pca_result, cluster_labels = NULL)
+plot_pca_biplot(pca_result, cluster_labels = NULL, n = NULL, study = NULL)
 }
 \arguments{
 \item{pca_result}{Result from \code{\link[=jtbd_pca]{jtbd_pca()}}}
 
 \item{cluster_labels}{Optional factor/integer vector of cluster assignments}
+
+\item{n, study}{Sample size and study label for the plot footer (see \code{\link[=jtbd_footer]{jtbd_footer()}}).}
 }
 \value{
 A ggplot object

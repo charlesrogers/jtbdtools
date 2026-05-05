@@ -9,7 +9,9 @@ plot_opportunity_matrix(
   title = "Opportunity Score Matrix",
   subtitle = NULL,
   highlight_threshold = 10,
-  show_zones = FALSE
+  show_zones = FALSE,
+  n = NULL,
+  study = NULL
 )
 }
 \arguments{
@@ -22,6 +24,10 @@ plot_opportunity_matrix(
 \item{highlight_threshold}{Opportunity score threshold for highlighting (default: 10)}
 
 \item{show_zones}{Show diagonal reference lines and zone labels (default: FALSE)}
+
+\item{n, study}{Sample size and study label for the plot footer (see \code{\link[=jtbd_footer]{jtbd_footer()}}).
+When \code{n} is provided and the input has no \code{imp_lo}/\code{imp_hi} columns, Wilson CIs
+are auto-computed and error crossbars are drawn.}
 }
 \value{
 A ggplot object
@@ -37,9 +43,11 @@ data(jtbd_sample)
 scores <- get_jtbd_scores(jtbd_sample)
 # plot_opportunity_matrix(scores)
 # plot_opportunity_matrix(scores, show_zones = TRUE)
+# plot_opportunity_matrix(scores, n = get_sample_size(jtbd_sample), study = "Pilot")
 }
 \seealso{
 Other visualization: 
+\code{\link{jtbd_footer}()},
 \code{\link{plot.job_step}()},
 \code{\link{plot_cleveland}()},
 \code{\link{plot_this.graph.abs_score}()},

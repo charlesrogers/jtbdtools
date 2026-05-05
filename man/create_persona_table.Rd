@@ -4,13 +4,20 @@
 \alias{create_persona_table}
 \title{Create segment persona cards as a gt table}
 \usage{
-create_persona_table(profile_result, cluster_profile = NULL)
+create_persona_table(
+  profile_result,
+  cluster_profile = NULL,
+  n = NULL,
+  study = NULL
+)
 }
 \arguments{
 \item{profile_result}{Result from \code{\link[=jtbd_profile_segments]{jtbd_profile_segments()}}}
 
 \item{cluster_profile}{Optional result from \code{\link[=jtbd_cluster_profile]{jtbd_cluster_profile()}} to include
 top opportunity scores in the persona}
+
+\item{n, study}{Sample size and study label rendered as a footer (see \code{\link[=jtbd_footer]{jtbd_footer()}}).}
 }
 \value{
 A gt table object

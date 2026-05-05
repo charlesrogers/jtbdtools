@@ -4,12 +4,14 @@
 \alias{plot_pca_loadings}
 \title{PCA loadings bar chart}
 \usage{
-plot_pca_loadings(pca_result, component = 1)
+plot_pca_loadings(pca_result, component = 1, n = NULL, study = NULL)
 }
 \arguments{
 \item{pca_result}{Result from \code{\link[=jtbd_pca]{jtbd_pca()}}}
 
 \item{component}{Which component to plot (default: 1)}
+
+\item{n, study}{Sample size and study label for the plot footer (see \code{\link[=jtbd_footer]{jtbd_footer()}}).}
 }
 \value{
 A ggplot object

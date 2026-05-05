@@ -7,7 +7,9 @@
 plot_segment_dna(
   profile_result,
   max_attrs = 8,
-  title = "Segment DNA: What Makes Each Group Unique"
+  title = "Segment DNA: What Makes Each Group Unique",
+  n = NULL,
+  study = NULL
 )
 }
 \arguments{
@@ -16,6 +18,8 @@ plot_segment_dna(
 \item{max_attrs}{Maximum number of attributes (default: 8)}
 
 \item{title}{Plot title}
+
+\item{n, study}{Sample size and study label for the plot footer (see \code{\link[=jtbd_footer]{jtbd_footer()}}).}
 }
 \value{
 A ggplot object

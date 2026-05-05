@@ -161,10 +161,12 @@ plot_this.group.plotable <- function(your_data_frame) {
 #'
 #' @param your_data_frame A data frame containing JTBD scores
 #' @param save_path Directory to save plots (default: [tempdir()])
+#' @param n,study Sample size and study label for the plot footer (see [jtbd_footer()]).
 #'
 #' @return NULL (called for side effects)
 #' @export
-get_jtbd_segment.comp_and_plot <- function(your_data_frame, save_path = tempdir()) {
+get_jtbd_segment.comp_and_plot <- function(your_data_frame, save_path = tempdir(),
+                                           n = NULL, study = NULL) {
   plot_title <- deparse(substitute(your_data_frame)) %>%
     str_replace_all(., "output.scores.", "")
   cli::cli_inform("Plotting: {plot_title}")
@@ -193,7 +195,9 @@ get_jtbd_segment.comp_and_plot <- function(your_data_frame, save_path = tempdir(
     mutate(objective = fct_reorder(objective, score, .fun = 'max')) %>%
     remove_weird_text_formatting.jtbd() %>%
     ggplot(aes(x = reorder(objective, score), y = score, shape = measure, color = segment)) +
-    labs(title = paste0("Opportunities: ", plot_title), x = "Objective", y = "Score", color = "Segment", shape = "Measure") +
+    labs(title = paste0("Opportunities: ", plot_title), x = "Objective", y = "Score",
+         color = "Segment", shape = "Measure",
+         caption = jtbd_footer(n = n, study = study)) +
     geom_point(size = 4, alpha = .8) +
     scale_x_discrete(labels = scales::wrap_format(10)) +
     coord_cartesian(ylim = c(0, 11)) +

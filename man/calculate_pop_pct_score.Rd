@@ -18,6 +18,7 @@ calculating the percentage of respondents who rated 4 or 5 (top-2 box).
 }
 \seealso{
 Other scoring: 
+\code{\link{add_score_cis}()},
 \code{\link{calculate_opportunity_score}()},
 \code{\link{find_imp_sat_columns}()},
 \code{\link{get_jtbd_scores}()},

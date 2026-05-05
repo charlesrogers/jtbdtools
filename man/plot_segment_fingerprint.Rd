@@ -7,7 +7,9 @@
 plot_segment_fingerprint(
   profile_result,
   max_attrs = 8,
-  title = "Segment Fingerprints"
+  title = "Segment Fingerprints",
+  n = NULL,
+  study = NULL
 )
 }
 \arguments{
@@ -16,6 +18,8 @@ plot_segment_fingerprint(
 \item{max_attrs}{Maximum number of attributes (default: 8)}
 
 \item{title}{Plot title}
+
+\item{n, study}{Sample size and study label for the plot footer (see \code{\link[=jtbd_footer]{jtbd_footer()}}).}
 }
 \value{
 A ggplot object

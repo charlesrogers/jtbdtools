@@ -9,7 +9,9 @@ create.pct.table(
   job.string,
   var_name.string,
   job_step.string,
-  path.table = tempdir()
+  path.table = tempdir(),
+  n = NULL,
+  study = NULL
 )
 }
 \arguments{
@@ -22,6 +24,9 @@ create.pct.table(
 \item{job_step.string}{Job step label for the header}
 
 \item{path.table}{Directory to save the PNG (default: \code{\link[=tempdir]{tempdir()}})}
+
+\item{n, study}{Sample size and study label rendered as a footer
+(see \code{\link[=jtbd_footer]{jtbd_footer()}}).}
 }
 \value{
 The gt table object (also saved as PNG)

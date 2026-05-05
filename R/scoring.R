@@ -150,6 +150,94 @@ calculate_opportunity_score <- function(data_frame_split) {
   return(opportunity_scores)
 }
 
+#' Add Wilson confidence intervals to JTBD scores
+#'
+#' Augments a scores data frame from [get_jtbd_scores()] or
+#' [get_jtbd_scores.comparison()] with confidence-interval bounds for each
+#' importance, satisfaction, and opportunity column. Because raw scores are
+#' top-2-box proportions scaled to 0–10, the imp/sat bounds use the Wilson
+#' interval for binomial proportions. Opportunity bounds propagate via the
+#' delta method on `opp = imp + max(0, imp - sat)`.
+#'
+#' @param scores A scores data frame with `imp.<seg>`, `sat.<seg>`, `opp.<seg>` columns.
+#' @param n Sample size. Either a single integer applied to every segment, or a
+#'   named integer vector keyed by segment (e.g. `c(all = 200, casual = 80)`).
+#' @param conf_level Confidence level (default 0.95).
+#'
+#' @return The input data frame with new `<imp|sat|opp>_lo.<seg>`,
+#'   `<imp|sat|opp>_hi.<seg>`, and `<imp|sat|opp>_se.<seg>` columns.
+#' @export
+#'
+#' @family scoring
+#'
+#' @examples
+#' data(jtbd_sample)
+#' scores <- get_jtbd_scores(jtbd_sample)
+#' add_score_cis(scores, n = get_sample_size(jtbd_sample))
+add_score_cis <- function(scores, n, conf_level = 0.95) {
+  z <- stats::qnorm(1 - (1 - conf_level) / 2)
+
+  imp_cols <- grep("^imp\\.", names(scores), value = TRUE)
+  if (length(imp_cols) == 0) {
+    cli::cli_abort("No {.val imp.*} columns found. Run {.fn get_jtbd_scores} first.")
+  }
+
+  segments <- sub("^imp\\.", "", imp_cols)
+
+  resolve_n <- function(seg) {
+    if (length(n) == 1 && (is.null(names(n)) || identical(names(n), ""))) {
+      return(as.numeric(n))
+    }
+    if (seg %in% names(n)) return(as.numeric(n[[seg]]))
+    if ("all" %in% names(n)) return(as.numeric(n[["all"]]))
+    cli::cli_abort("No sample size for segment {.val {seg}}; pass {.code n = c({seg} = ...)} or a single integer.")
+  }
+
+  wilson_bounds <- function(p, n_seg) {
+    # p is on a 0-10 scale (top-2-box proportion * 10)
+    p01 <- pmin(pmax(p / 10, 0), 1)
+    denom <- 1 + z^2 / n_seg
+    centre <- (p01 + z^2 / (2 * n_seg)) / denom
+    half <- (z * sqrt(p01 * (1 - p01) / n_seg + z^2 / (4 * n_seg^2))) / denom
+    list(lo = pmax(0, (centre - half) * 10),
+         hi = pmin(10, (centre + half) * 10),
+         se = sqrt(p01 * (1 - p01) / n_seg) * 10)
+  }
+
+  for (seg in segments) {
+    n_seg <- resolve_n(seg)
+    imp <- scores[[paste0("imp.", seg)]]
+    sat <- scores[[paste0("sat.", seg)]]
+    opp_col <- paste0("opp.", seg)
+
+    imp_ci <- wilson_bounds(imp, n_seg)
+    sat_ci <- wilson_bounds(sat, n_seg)
+
+    scores[[paste0("imp_lo.", seg)]] <- round(imp_ci$lo, 2)
+    scores[[paste0("imp_hi.", seg)]] <- round(imp_ci$hi, 2)
+    scores[[paste0("imp_se.", seg)]] <- round(imp_ci$se, 2)
+    scores[[paste0("sat_lo.", seg)]] <- round(sat_ci$lo, 2)
+    scores[[paste0("sat_hi.", seg)]] <- round(sat_ci$hi, 2)
+    scores[[paste0("sat_se.", seg)]] <- round(sat_ci$se, 2)
+
+    if (opp_col %in% names(scores)) {
+      # Delta method on opp = imp + max(0, imp - sat).
+      # When imp >= sat: opp = 2*imp - sat   -> Var(opp) ~ 4*Var(imp) + Var(sat)
+      # When imp <  sat: opp = imp           -> Var(opp) ~ Var(imp)
+      var_opp <- ifelse(imp >= sat,
+                        4 * imp_ci$se^2 + sat_ci$se^2,
+                        imp_ci$se^2)
+      se_opp <- sqrt(var_opp)
+      opp <- scores[[opp_col]]
+      scores[[paste0("opp_lo.", seg)]] <- round(pmax(0, opp - z * se_opp), 2)
+      scores[[paste0("opp_hi.", seg)]] <- round(pmin(20, opp + z * se_opp), 2)
+      scores[[paste0("opp_se.", seg)]] <- round(se_opp, 2)
+    }
+  }
+
+  return(scores)
+}
+
 #' Get sample size
 #'
 #' Returns the number of non-NA respondents based on the last importance column.

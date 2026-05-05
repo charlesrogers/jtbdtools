@@ -4,10 +4,12 @@
 \alias{plot_elbow}
 \title{Elbow plot for cluster evaluation}
 \usage{
-plot_elbow(k_results)
+plot_elbow(k_results, n = NULL, study = NULL)
 }
 \arguments{
 \item{k_results}{Result from \code{\link[=jtbd_find_k]{jtbd_find_k()}}}
+
+\item{n, study}{Sample size and study label for the plot footer (see \code{\link[=jtbd_footer]{jtbd_footer()}}).}
 }
 \value{
 A ggplot object

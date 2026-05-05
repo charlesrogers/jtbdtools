@@ -6,13 +6,17 @@
 \usage{
 plot_cluster_heatmap(
   profile,
-  title = "Opportunity Heatmap by Discovered Segment"
+  title = "Opportunity Heatmap by Discovered Segment",
+  n = NULL,
+  study = NULL
 )
 }
 \arguments{
 \item{profile}{Result from \code{\link[=jtbd_cluster_profile]{jtbd_cluster_profile()}} or \code{\link[=jtbd_segment]{jtbd_segment()}}$profile}
 
 \item{title}{Plot title}
+
+\item{n, study}{Sample size and study label for the plot footer (see \code{\link[=jtbd_footer]{jtbd_footer()}}).}
 }
 \value{
 A ggplot object

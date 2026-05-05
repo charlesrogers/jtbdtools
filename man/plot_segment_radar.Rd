@@ -7,7 +7,9 @@
 plot_segment_radar(
   profile_result,
   max_attrs = 8,
-  title = "Segment Radar: Who Are They?"
+  title = "Segment Radar: Who Are They?",
+  n = NULL,
+  study = NULL
 )
 }
 \arguments{
@@ -16,6 +18,8 @@ plot_segment_radar(
 \item{max_attrs}{Maximum number of attributes on the radar (default: 8)}
 
 \item{title}{Plot title}
+
+\item{n, study}{Sample size and study label for the plot footer (see \code{\link[=jtbd_footer]{jtbd_footer()}}).}
 }
 \value{
 A ggplot object
