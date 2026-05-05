@@ -7,7 +7,7 @@ quantjtbd `gt_theme.yellow` but using the jtbdtools color palette.
 ## Usage
 
 ``` r
-gt_theme_jtbd(gt_object, ...)
+gt_theme_jtbd(gt_object, n = NULL, study = NULL, ...)
 ```
 
 ## Arguments
@@ -15,6 +15,13 @@ gt_theme_jtbd(gt_object, ...)
 - gt_object:
 
   A gt table object
+
+- n, study:
+
+  Sample size and study label rendered as a
+  [`tab_source_note()`](https://gt.rstudio.com/reference/tab_source_note.html)
+  footer (see
+  [`jtbd_footer()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_footer.md)).
 
 - ...:
 
@@ -39,68 +46,10 @@ data(jtbd_sample)
 scores <- get_jtbd_scores(jtbd_sample)
 scores[1:5, c("job_step", "objective", "imp.all", "sat.all", "opp.all")] |>
   gt() |>
-  gt_theme_jtbd()
+  gt_theme_jtbd(n = 250, study = "Pilot")
 
 
   
 
 job_step
 ```
-
-objective
-
-imp.all
-
-sat.all
-
-opp.all
-
-researching
-
-minimize_time_to_find_options
-
-7.75
-
-2.60
-
-12.90
-
-purchasing
-
-minimize_likelihood_of_errors_in_order
-
-8.65
-
-6.10
-
-11.20
-
-purchasing
-
-minimize_likelihood_of_unexpected_costs
-
-7.40
-
-4.55
-
-10.25
-
-onboarding
-
-minimize_likelihood_of_needing_support
-
-6.25
-
-2.30
-
-10.20
-
-researching
-
-minimize_likelihood_of_missing_relevant_options
-
-7.70
-
-6.00
-
-9.40

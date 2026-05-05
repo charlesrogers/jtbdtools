@@ -20,6 +20,7 @@ high-opportunity outcome.
 ## Quick Start
 
 ``` r
+
 library(jtbdtools)
 data(jtbd_sample)
 ```
@@ -28,6 +29,7 @@ The sample dataset contains 200 survey respondents rating 12 objectives
 across 3 job steps:
 
 ``` r
+
 # See the column structure
 names(jtbd_sample)[1:8]
 #> [1] "caseid"                                        
@@ -43,6 +45,7 @@ names(jtbd_sample)[1:8]
 ### Calculate Scores
 
 ``` r
+
 scores <- get_jtbd_scores(jtbd_sample)
 scores[, c("job_step", "objective", "imp.all", "sat.all", "opp.all")]
 #> # A tibble: 12 × 5
@@ -68,6 +71,7 @@ satisfaction.
 ### Compare Segments
 
 ``` r
+
 comparison <- get_jtbd_scores.comparison(jtbd_sample, "segment")
 #> Found 3 segments with n > 30.
 # Show opportunity scores by segment
@@ -93,6 +97,7 @@ comparison[, c("job_step", "objective", opp_cols)]
 ### Opportunity Matrix
 
 ``` r
+
 plot_opportunity_matrix(scores, subtitle = "Sample JTBD Survey (N=200)")
 ```
 

@@ -40,7 +40,12 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_jtbd_segment.comp_and_plot</span><span class="op">(</span><span class="va">your_data_frame</span>, save_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_jtbd_segment.comp_and_plot</span><span class="op">(</span></span>
+<span>  <span class="va">your_data_frame</span>,</span>
+<span>  save_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  n <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  study <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -53,6 +58,10 @@
 
 <dt id="arg-save-path">save_path<a class="anchor" aria-label="anchor" href="#arg-save-path"></a></dt>
 <dd><p>Directory to save plots (default: <code><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir()</a></code>)</p></dd>
+
+
+<dt id="arg-n-study">n, study<a class="anchor" aria-label="anchor" href="#arg-n-study"></a></dt>
+<dd><p>Sample size and study label for the plot footer (see <code><a href="jtbd_footer.html">jtbd_footer()</a></code>).</p></dd>
 
 </dl></div>
     <div class="section level2">

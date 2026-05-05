@@ -24,6 +24,7 @@ A data frame with `imp`, `sat`, and `opp` columns per objective
 ## See also
 
 Other scoring:
+[`add_score_cis()`](https://charlesrogers.github.io/jtbdtools/reference/add_score_cis.md),
 [`calculate_pop_pct_score()`](https://charlesrogers.github.io/jtbdtools/reference/calculate_pop_pct_score.md),
 [`find_imp_sat_columns()`](https://charlesrogers.github.io/jtbdtools/reference/find_imp_sat_columns.md),
 [`get_jtbd_scores()`](https://charlesrogers.github.io/jtbdtools/reference/get_jtbd_scores.md),

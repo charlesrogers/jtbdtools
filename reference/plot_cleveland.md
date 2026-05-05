@@ -1,7 +1,9 @@
 # Cleveland (lollipop) comparison plot
 
 Compares two segments side-by-side using a Cleveland dot plot. Ported
-from the quantjtbd package.
+from the quantjtbd package. If `data` carries `<col>_lo`/`<col>_hi`
+bounds for either group (matching the `group_1`/`group_2` column names),
+horizontal error bars are drawn on each dot.
 
 ## Usage
 
@@ -12,7 +14,9 @@ plot_cleveland(
   group_1,
   group_2,
   title_string,
-  subtitle_string
+  subtitle_string,
+  n = NULL,
+  study = NULL
 )
 ```
 
@@ -42,6 +46,11 @@ plot_cleveland(
 
   Plot subtitle
 
+- n, study:
+
+  Sample size and study label for the plot footer (see
+  [`jtbd_footer()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_footer.md)).
+
 ## Value
 
 A ggplot object
@@ -49,6 +58,7 @@ A ggplot object
 ## See also
 
 Other visualization:
+[`jtbd_footer()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_footer.md),
 [`plot.job_step()`](https://charlesrogers.github.io/jtbdtools/reference/plot.job_step.md),
 [`plot_opportunity_matrix()`](https://charlesrogers.github.io/jtbdtools/reference/plot_opportunity_matrix.md),
 [`plot_this.graph.abs_score()`](https://charlesrogers.github.io/jtbdtools/reference/plot_this.graph.abs_score.md),

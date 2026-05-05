@@ -6,7 +6,7 @@ determine how many components to retain.
 ## Usage
 
 ``` r
-plot_pca_scree(pca_result)
+plot_pca_scree(pca_result, n = NULL, study = NULL)
 ```
 
 ## Arguments
@@ -15,6 +15,11 @@ plot_pca_scree(pca_result)
 
   Result from
   [`jtbd_pca()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_pca.md)
+
+- n, study:
+
+  Sample size and study label for the plot footer (see
+  [`jtbd_footer()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_footer.md)).
 
 ## Value
 

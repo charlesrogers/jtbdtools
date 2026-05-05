@@ -49,7 +49,9 @@ attributes with meaningful divergence (index &gt; 115 or &lt; 85).</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">plot_segment_profiles</span><span class="op">(</span></span>
 <span>  <span class="va">profile_result</span>,</span>
 <span>  max_vars <span class="op">=</span> <span class="fl">6</span>,</span>
-<span>  title <span class="op">=</span> <span class="st">"Segment DNA: Who's In Each Group?"</span></span>
+<span>  title <span class="op">=</span> <span class="st">"Segment DNA: Who's In Each Group?"</span>,</span>
+<span>  n <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  study <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -67,6 +69,10 @@ attributes with meaningful divergence (index &gt; 115 or &lt; 85).</p>
 
 <dt id="arg-title">title<a class="anchor" aria-label="anchor" href="#arg-title"></a></dt>
 <dd><p>Plot title</p></dd>
+
+
+<dt id="arg-n-study">n, study<a class="anchor" aria-label="anchor" href="#arg-n-study"></a></dt>
+<dd><p>Sample size and study label for the plot footer (see <code><a href="jtbd_footer.html">jtbd_footer()</a></code>).</p></dd>
 
 </dl></div>
     <div class="section level2">

@@ -6,7 +6,7 @@ for different numbers of clusters.
 ## Usage
 
 ``` r
-plot_elbow(k_results)
+plot_elbow(k_results, n = NULL, study = NULL)
 ```
 
 ## Arguments
@@ -15,6 +15,11 @@ plot_elbow(k_results)
 
   Result from
   [`jtbd_find_k()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_find_k.md)
+
+- n, study:
+
+  Sample size and study label for the plot footer (see
+  [`jtbd_footer()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_footer.md)).
 
 ## Value
 

@@ -10,7 +10,9 @@ line.
 plot_segment_dna(
   profile_result,
   max_attrs = 8,
-  title = "Segment DNA: What Makes Each Group Unique"
+  title = "Segment DNA: What Makes Each Group Unique",
+  n = NULL,
+  study = NULL
 )
 ```
 
@@ -28,6 +30,11 @@ plot_segment_dna(
 - title:
 
   Plot title
+
+- n, study:
+
+  Sample size and study label for the plot footer (see
+  [`jtbd_footer()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_footer.md)).
 
 ## Value
 

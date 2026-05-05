@@ -6,7 +6,7 @@ High-loading objectives define the "theme" of that component.
 ## Usage
 
 ``` r
-plot_pca_loadings(pca_result, component = 1)
+plot_pca_loadings(pca_result, component = 1, n = NULL, study = NULL)
 ```
 
 ## Arguments
@@ -19,6 +19,11 @@ plot_pca_loadings(pca_result, component = 1)
 - component:
 
   Which component to plot (default: 1)
+
+- n, study:
+
+  Sample size and study label for the plot footer (see
+  [`jtbd_footer()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_footer.md)).
 
 ## Value
 

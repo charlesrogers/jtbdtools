@@ -1,7 +1,8 @@
 # Plot absolute score bump chart
 
 Shows absolute opportunity scores across segments with linear
-significance labeling.
+significance labeling. If `score_lo`/`score_hi` columns are present in
+`your_data_frame`, error bars are drawn around each point.
 
 ## Usage
 
@@ -10,7 +11,9 @@ plot_this.graph.abs_score(
   your_data_frame,
   seg_value_title,
   last_value,
-  save_path = tempdir()
+  save_path = tempdir(),
+  n = NULL,
+  study = NULL
 )
 ```
 
@@ -34,6 +37,11 @@ plot_this.graph.abs_score(
   Directory to save the plot (default:
   [`tempdir()`](https://rdrr.io/r/base/tempfile.html))
 
+- n, study:
+
+  Sample size and study label for the plot footer (see
+  [`jtbd_footer()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_footer.md)).
+
 ## Value
 
 A ggplot object (also saved as PNG)
@@ -41,6 +49,7 @@ A ggplot object (also saved as PNG)
 ## See also
 
 Other visualization:
+[`jtbd_footer()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_footer.md),
 [`plot.job_step()`](https://charlesrogers.github.io/jtbdtools/reference/plot.job_step.md),
 [`plot_cleveland()`](https://charlesrogers.github.io/jtbdtools/reference/plot_cleveland.md),
 [`plot_opportunity_matrix()`](https://charlesrogers.github.io/jtbdtools/reference/plot_opportunity_matrix.md),

@@ -6,7 +6,7 @@ Creates an importance vs satisfaction scatter plot for a job step.
 
 ``` r
 # S3 method for class 'job_step'
-plot(x, step_title = "", ...)
+plot(x, step_title = "", n = NULL, study = NULL, ...)
 ```
 
 ## Arguments
@@ -19,6 +19,11 @@ plot(x, step_title = "", ...)
 
   The title for the plot
 
+- n, study:
+
+  Sample size and study label for the plot footer (see
+  [`jtbd_footer()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_footer.md)).
+
 - ...:
 
   Additional arguments (unused)
@@ -30,6 +35,7 @@ A ggplot object
 ## See also
 
 Other visualization:
+[`jtbd_footer()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_footer.md),
 [`plot_cleveland()`](https://charlesrogers.github.io/jtbdtools/reference/plot_cleveland.md),
 [`plot_opportunity_matrix()`](https://charlesrogers.github.io/jtbdtools/reference/plot_opportunity_matrix.md),
 [`plot_this.graph.abs_score()`](https://charlesrogers.github.io/jtbdtools/reference/plot_this.graph.abs_score.md),

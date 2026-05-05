@@ -7,7 +7,14 @@ and saves as PNG.
 ## Usage
 
 ``` r
-create.job_step.table(df, job.string, job_step.string, path.table = tempdir())
+create.job_step.table(
+  df,
+  job.string,
+  job_step.string,
+  path.table = tempdir(),
+  n = NULL,
+  study = NULL
+)
 ```
 
 ## Arguments
@@ -29,6 +36,12 @@ create.job_step.table(df, job.string, job_step.string, path.table = tempdir())
 
   Directory to save the PNG (default:
   [`tempdir()`](https://rdrr.io/r/base/tempfile.html))
+
+- n, study:
+
+  Forwarded to
+  [`theme.job_step()`](https://charlesrogers.github.io/jtbdtools/reference/theme.job_step.md)
+  — used for `± SE` columns and footer.
 
 ## Value
 

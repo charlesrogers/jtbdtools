@@ -11,7 +11,9 @@ create.pct.table(
   job.string,
   var_name.string,
   job_step.string,
-  path.table = tempdir()
+  path.table = tempdir(),
+  n = NULL,
+  study = NULL
 )
 ```
 
@@ -37,6 +39,11 @@ create.pct.table(
 
   Directory to save the PNG (default:
   [`tempdir()`](https://rdrr.io/r/base/tempfile.html))
+
+- n, study:
+
+  Sample size and study label rendered as a footer (see
+  [`jtbd_footer()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_footer.md)).
 
 ## Value
 

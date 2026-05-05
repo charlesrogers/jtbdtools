@@ -43,7 +43,14 @@ theme.job_step(), and saves as PNG."></head><body>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">create.job_step.table</span><span class="op">(</span><span class="va">df</span>, <span class="va">job.string</span>, <span class="va">job_step.string</span>, path.table <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">create.job_step.table</span><span class="op">(</span></span>
+<span>  <span class="va">df</span>,</span>
+<span>  <span class="va">job.string</span>,</span>
+<span>  <span class="va">job_step.string</span>,</span>
+<span>  path.table <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  n <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  study <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -64,6 +71,10 @@ theme.job_step(), and saves as PNG."></head><body>
 
 <dt id="arg-path-table">path.table<a class="anchor" aria-label="anchor" href="#arg-path-table"></a></dt>
 <dd><p>Directory to save the PNG (default: <code><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir()</a></code>)</p></dd>
+
+
+<dt id="arg-n-study">n, study<a class="anchor" aria-label="anchor" href="#arg-n-study"></a></dt>
+<dd><p>Forwarded to <code><a href="theme.job_step.html">theme.job_step()</a></code> — used for <code>± SE</code> columns and footer.</p></dd>
 
 </dl></div>
     <div class="section level2">

@@ -10,7 +10,9 @@ attributes with meaningful divergence (index \> 115 or \< 85).
 plot_segment_profiles(
   profile_result,
   max_vars = 6,
-  title = "Segment DNA: Who's In Each Group?"
+  title = "Segment DNA: Who's In Each Group?",
+  n = NULL,
+  study = NULL
 )
 ```
 
@@ -28,6 +30,11 @@ plot_segment_profiles(
 - title:
 
   Plot title
+
+- n, study:
+
+  Sample size and study label for the plot footer (see
+  [`jtbd_footer()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_footer.md)).
 
 ## Value
 

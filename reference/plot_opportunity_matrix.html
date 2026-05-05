@@ -54,7 +54,9 @@ Over-Served, and Table Stakes regions (from quantjtbd).</p>
 <span>  title <span class="op">=</span> <span class="st">"Opportunity Score Matrix"</span>,</span>
 <span>  subtitle <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  highlight_threshold <span class="op">=</span> <span class="fl">10</span>,</span>
-<span>  show_zones <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  show_zones <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  n <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  study <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -81,6 +83,12 @@ Over-Served, and Table Stakes regions (from quantjtbd).</p>
 <dt id="arg-show-zones">show_zones<a class="anchor" aria-label="anchor" href="#arg-show-zones"></a></dt>
 <dd><p>Show diagonal reference lines and zone labels (default: FALSE)</p></dd>
 
+
+<dt id="arg-n-study">n, study<a class="anchor" aria-label="anchor" href="#arg-n-study"></a></dt>
+<dd><p>Sample size and study label for the plot footer (see <code><a href="jtbd_footer.html">jtbd_footer()</a></code>).
+When <code>n</code> is provided and the input has no <code>imp_lo</code>/<code>imp_hi</code> columns, Wilson CIs
+are auto-computed and error crossbars are drawn.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -89,6 +97,7 @@ Over-Served, and Table Stakes regions (from quantjtbd).</p>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other visualization:
+<code><a href="jtbd_footer.html">jtbd_footer()</a></code>,
 <code><a href="plot.job_step.html">plot.job_step()</a></code>,
 <code><a href="plot_cleveland.html">plot_cleveland()</a></code>,
 <code><a href="plot_this.graph.abs_score.html">plot_this.graph.abs_score()</a></code>,
@@ -103,6 +112,7 @@ Over-Served, and Table Stakes regions (from quantjtbd).</p>
 <span class="r-in"><span><span class="va">scores</span> <span class="op">&lt;-</span> <span class="fu"><a href="get_jtbd_scores.html">get_jtbd_scores</a></span><span class="op">(</span><span class="va">jtbd_sample</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># plot_opportunity_matrix(scores)</span></span></span>
 <span class="r-in"><span><span class="co"># plot_opportunity_matrix(scores, show_zones = TRUE)</span></span></span>
+<span class="r-in"><span><span class="co"># plot_opportunity_matrix(scores, n = get_sample_size(jtbd_sample), study = "Pilot")</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

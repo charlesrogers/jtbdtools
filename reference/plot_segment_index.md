@@ -9,7 +9,9 @@ relative to the overall population. Index of 100 = same as population.
 plot_segment_index(
   profile_result,
   max_vars = 6,
-  title = "Segment Index: Over & Under-Represented Traits"
+  title = "Segment Index: Over & Under-Represented Traits",
+  n = NULL,
+  study = NULL
 )
 ```
 
@@ -27,6 +29,11 @@ plot_segment_index(
 - title:
 
   Plot title
+
+- n, study:
+
+  Sample size and study label for the plot footer (see
+  [`jtbd_footer()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_footer.md)).
 
 ## Value
 

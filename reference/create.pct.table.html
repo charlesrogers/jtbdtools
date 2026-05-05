@@ -48,7 +48,9 @@ categorical data (e.g., tool usage, channel preference).</p>
 <span>  <span class="va">job.string</span>,</span>
 <span>  <span class="va">var_name.string</span>,</span>
 <span>  <span class="va">job_step.string</span>,</span>
-<span>  path.table <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  path.table <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  n <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  study <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -74,6 +76,11 @@ categorical data (e.g., tool usage, channel preference).</p>
 
 <dt id="arg-path-table">path.table<a class="anchor" aria-label="anchor" href="#arg-path-table"></a></dt>
 <dd><p>Directory to save the PNG (default: <code><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir()</a></code>)</p></dd>
+
+
+<dt id="arg-n-study">n, study<a class="anchor" aria-label="anchor" href="#arg-n-study"></a></dt>
+<dd><p>Sample size and study label rendered as a footer
+(see <code><a href="jtbd_footer.html">jtbd_footer()</a></code>).</p></dd>
 
 </dl></div>
     <div class="section level2">

@@ -9,7 +9,9 @@ easy to read without overlap.
 plot_segment_radar_facet(
   profile_result,
   max_attrs = 8,
-  title = "Segment Profiles: Individual Radar Views"
+  title = "Segment Profiles: Individual Radar Views",
+  n = NULL,
+  study = NULL
 )
 ```
 
@@ -27,6 +29,11 @@ plot_segment_radar_facet(
 - title:
 
   Plot title
+
+- n, study:
+
+  Sample size and study label for the plot footer (see
+  [`jtbd_footer()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_footer.md)).
 
 ## Value
 
@@ -68,5 +75,4 @@ prof <- jtbd_profile_segments(cl$data)
 #> ℹ 2 variables significantly distinguish segments (p < 0.05).
 #> ℹ Top distinguisher: segment, income
 plot_segment_radar_facet(prof)
-#> Error in slice_head(., n = 1): could not find function "slice_head"
 ```

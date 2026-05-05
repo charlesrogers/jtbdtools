@@ -22,6 +22,7 @@ A data frame with objective names and their calculated scores
 ## See also
 
 Other scoring:
+[`add_score_cis()`](https://charlesrogers.github.io/jtbdtools/reference/add_score_cis.md),
 [`calculate_opportunity_score()`](https://charlesrogers.github.io/jtbdtools/reference/calculate_opportunity_score.md),
 [`find_imp_sat_columns()`](https://charlesrogers.github.io/jtbdtools/reference/find_imp_sat_columns.md),
 [`get_jtbd_scores()`](https://charlesrogers.github.io/jtbdtools/reference/get_jtbd_scores.md),

@@ -13,7 +13,9 @@ plot_this.graph.rel.abs_score(
   your_data_frame,
   seg_value_title,
   last_value,
-  save_path = tempdir()
+  save_path = tempdir(),
+  n = NULL,
+  study = NULL
 )
 ```
 
@@ -37,6 +39,11 @@ plot_this.graph.rel.abs_score(
   Directory to save plots (default:
   [`tempdir()`](https://rdrr.io/r/base/tempfile.html))
 
+- n, study:
+
+  Sample size and study label for the plot footer (see
+  [`jtbd_footer()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_footer.md)).
+
 ## Value
 
 NULL (called for side effects: generates and saves plots)
@@ -44,6 +51,7 @@ NULL (called for side effects: generates and saves plots)
 ## See also
 
 Other visualization:
+[`jtbd_footer()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_footer.md),
 [`plot.job_step()`](https://charlesrogers.github.io/jtbdtools/reference/plot.job_step.md),
 [`plot_cleveland()`](https://charlesrogers.github.io/jtbdtools/reference/plot_cleveland.md),
 [`plot_opportunity_matrix()`](https://charlesrogers.github.io/jtbdtools/reference/plot_opportunity_matrix.md),

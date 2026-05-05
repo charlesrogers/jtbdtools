@@ -8,7 +8,12 @@ attributes (index= 120) are listed as "More Likely", under-indexed
 ## Usage
 
 ``` r
-create_persona_table(profile_result, cluster_profile = NULL)
+create_persona_table(
+  profile_result,
+  cluster_profile = NULL,
+  n = NULL,
+  study = NULL
+)
 ```
 
 ## Arguments
@@ -23,6 +28,11 @@ create_persona_table(profile_result, cluster_profile = NULL)
   Optional result from
   [`jtbd_cluster_profile()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_cluster_profile.md)
   to include top opportunity scores in the persona
+
+- n, study:
+
+  Sample size and study label rendered as a footer (see
+  [`jtbd_footer()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_footer.md)).
 
 ## Value
 
@@ -79,41 +89,3 @@ create_persona_table(prof, opp_profile)
 
 Outcome-Based Segment Personas
 ```
-
-"This, Not That" -- who they are, what they need
-
-More Likely (over-indexed)
-
-Less Likely (under-indexed)
-
-Top Unmet Needs
-
-Segment 1
-
-Education: Graduate (122) Income: \$30-50k (116)
-
-Education: High School (44) Age Group: 45-54 (57) Gender: Non-binary
-(71) Income: \$100k+ (79) Income: \<\$30k (80)
-
-Find Options (16.7) Understand Pricing (13.7) Complete Transaction (12)
-
-Segment 2
-
-Segment: casual (149) Tenure: 6-12 months (129) Tenure: \< 6 months
-(128) Income: \$30-50k (126) Age Group: 25-34 (121)
-
-Income: \$100k+ (15) Segment: power_user (31) Education: Graduate (59)
-Tenure: 2+ years (73) Tenure: 1-2 years (76)
-
-Avoid Errors in Order (13.2) Find Options (11.8) Get Started (11.6)
-
-Segment 3
-
-Income: \$100k+ (221) Segment: power_user (182) Age Group: 45-54 (152)
-Education: High School (145) Gender: Non-binary (134)
-
-Segment: casual (42) Income: \$30-50k (54) Age Group: 25-34 (62) Tenure:
-\< 6 months (69) Tenure: 6-12 months (71)
-
-Avoid Unexpected Costs (16.2) Evaluate Options (14.4) Avoid Needing
-Support (11.7)

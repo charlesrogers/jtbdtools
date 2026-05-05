@@ -28,6 +28,7 @@ Rules:
 If your data is in SPSS format (.sav):
 
 ``` r
+
 library(haven)
 library(labelled)
 
@@ -60,6 +61,7 @@ They will:
 6.  Convert labelled data to factors
 
 ``` r
+
 library(jtbdtools)
 
 # Separate importance and satisfaction columns first
@@ -79,6 +81,7 @@ df_ready <- cbind(df_imp_renamed, df_sat_renamed)
 If your data isn’t in SPSS format, rename columns manually:
 
 ``` r
+
 library(dplyr)
 
 df <- your_data %>%

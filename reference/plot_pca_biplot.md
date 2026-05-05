@@ -5,7 +5,7 @@
 ## Usage
 
 ``` r
-plot_pca_biplot(pca_result, cluster_labels = NULL)
+plot_pca_biplot(pca_result, cluster_labels = NULL, n = NULL, study = NULL)
 ```
 
 ## Arguments
@@ -18,6 +18,11 @@ plot_pca_biplot(pca_result, cluster_labels = NULL)
 - cluster_labels:
 
   Optional factor/integer vector of cluster assignments
+
+- n, study:
+
+  Sample size and study label for the plot footer (see
+  [`jtbd_footer()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_footer.md)).
 
 ## Value
 

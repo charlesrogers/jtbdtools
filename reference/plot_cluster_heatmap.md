@@ -8,7 +8,9 @@ objectives are most underserved in each segment.
 ``` r
 plot_cluster_heatmap(
   profile,
-  title = "Opportunity Heatmap by Discovered Segment"
+  title = "Opportunity Heatmap by Discovered Segment",
+  n = NULL,
+  study = NULL
 )
 ```
 
@@ -24,6 +26,11 @@ plot_cluster_heatmap(
 - title:
 
   Plot title
+
+- n, study:
+
+  Sample size and study label for the plot footer (see
+  [`jtbd_footer()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_footer.md)).
 
 ## Value
 

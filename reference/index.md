@@ -24,6 +24,8 @@ Calculate opportunity scores from survey data
   : Split importance and satisfaction columns
 - [`get_sample_size()`](https://charlesrogers.github.io/jtbdtools/reference/get_sample_size.md)
   : Get sample size
+- [`add_score_cis()`](https://charlesrogers.github.io/jtbdtools/reference/add_score_cis.md)
+  : Add Wilson confidence intervals to JTBD scores
 
 ## Visualization
 
@@ -45,6 +47,8 @@ Plot opportunity data
   : jtbdtools ggplot2 theme
 - [`jtbd_colors()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_colors.md)
   : JTBD color palette
+- [`jtbd_footer()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_footer.md)
+  : Build a standardized JTBD footer caption
 
 ## Tables
 

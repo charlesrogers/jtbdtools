@@ -14,7 +14,9 @@ plot_opportunity_matrix(
   title = "Opportunity Score Matrix",
   subtitle = NULL,
   highlight_threshold = 10,
-  show_zones = FALSE
+  show_zones = FALSE,
+  n = NULL,
+  study = NULL
 )
 ```
 
@@ -42,6 +44,13 @@ plot_opportunity_matrix(
 
   Show diagonal reference lines and zone labels (default: FALSE)
 
+- n, study:
+
+  Sample size and study label for the plot footer (see
+  [`jtbd_footer()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_footer.md)).
+  When `n` is provided and the input has no `imp_lo`/`imp_hi` columns,
+  Wilson CIs are auto-computed and error crossbars are drawn.
+
 ## Value
 
 A ggplot object
@@ -49,6 +58,7 @@ A ggplot object
 ## See also
 
 Other visualization:
+[`jtbd_footer()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_footer.md),
 [`plot.job_step()`](https://charlesrogers.github.io/jtbdtools/reference/plot.job_step.md),
 [`plot_cleveland()`](https://charlesrogers.github.io/jtbdtools/reference/plot_cleveland.md),
 [`plot_this.graph.abs_score()`](https://charlesrogers.github.io/jtbdtools/reference/plot_this.graph.abs_score.md),
@@ -63,4 +73,5 @@ data(jtbd_sample)
 scores <- get_jtbd_scores(jtbd_sample)
 # plot_opportunity_matrix(scores)
 # plot_opportunity_matrix(scores, show_zones = TRUE)
+# plot_opportunity_matrix(scores, n = get_sample_size(jtbd_sample), study = "Pilot")
 ```

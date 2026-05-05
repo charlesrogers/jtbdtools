@@ -10,7 +10,9 @@ rankings flip.
 plot_segment_fingerprint(
   profile_result,
   max_attrs = 8,
-  title = "Segment Fingerprints"
+  title = "Segment Fingerprints",
+  n = NULL,
+  study = NULL
 )
 ```
 
@@ -28,6 +30,11 @@ plot_segment_fingerprint(
 - title:
 
   Plot title
+
+- n, study:
+
+  Sample size and study label for the plot footer (see
+  [`jtbd_footer()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_footer.md)).
 
 ## Value
 

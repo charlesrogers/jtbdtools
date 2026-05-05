@@ -10,7 +10,9 @@ under-representation.
 plot_segment_radar(
   profile_result,
   max_attrs = 8,
-  title = "Segment Radar: Who Are They?"
+  title = "Segment Radar: Who Are They?",
+  n = NULL,
+  study = NULL
 )
 ```
 
@@ -28,6 +30,11 @@ plot_segment_radar(
 - title:
 
   Plot title
+
+- n, study:
+
+  Sample size and study label for the plot footer (see
+  [`jtbd_footer()`](https://charlesrogers.github.io/jtbdtools/reference/jtbd_footer.md)).
 
 ## Value
 
@@ -69,5 +76,4 @@ prof <- jtbd_profile_segments(cl$data)
 #> ℹ 2 variables significantly distinguish segments (p < 0.05).
 #> ℹ Top distinguisher: segment, income
 plot_segment_radar(prof)
-#> Error in slice_head(., n = 1): could not find function "slice_head"
 ```
