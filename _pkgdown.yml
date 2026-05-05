@@ -17,6 +17,7 @@ reference:
       - find_imp_sat_columns
       - split_imp_sat_columns
       - get_sample_size
+      - add_score_cis
 
   - title: Visualization
     desc: Plot opportunity data
@@ -29,6 +30,7 @@ reference:
       - plot.job_step
       - theme_jtbd
       - jtbd_colors
+      - jtbd_footer
 
   - title: Tables
     desc: Publication-ready gt tables
